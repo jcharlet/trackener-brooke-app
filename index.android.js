@@ -22,7 +22,9 @@ export default class TrackenerBrookeApp extends Component {
             initialPosition: 'unknown',
             lastPosition: 'unknown',
             watchID: null,
-            enableHighAccuracy: true
+            enableHighAccuracy: true,
+            distance: 0,
+            duration:0,
         };
         this.startTracking = this.startTracking.bind(this);
         this.stopTracking = this.stopTracking.bind(this);
@@ -30,7 +32,7 @@ export default class TrackenerBrookeApp extends Component {
 
     startTracking() {
         this.watchGPS(this.state.enableHighAccuracy);
-        this.setState({started: true});
+        this.setState({started: true, distance:0});
     }
 
     stopTracking() {
@@ -40,27 +42,57 @@ export default class TrackenerBrookeApp extends Component {
 
     watchGPS(enableHighAccuracy) {
         navigator.geolocation.getCurrentPosition((position) => {
-            this.setState({initialPosition:position});
-        }, (error) => alert(JSON.stringify(error)), {enableHighAccuracy: enableHighAccuracy, timeout: 20000, maximumAge: 1000});
+            this.setState({
+                initialPosition: {
+                    longitude: position.coords.longitude,
+                    latitude: position.coords.latitude,
+                    speed: position.coords.speed,
+                    timestamp: position.timestamp
+                }
+            });
+        }, (error) => alert(JSON.stringify(error)), {
+            enableHighAccuracy: enableHighAccuracy,
+            timeout: 20000,
+            maximumAge: 1000
+        });
         this.watchID = navigator.geolocation.watchPosition((position) => {
-            this.setState({lastPosition:position});
+            var previousPosition = null;
+            if(this.state.lastPosition=='unknown'){
+                previousPosition=this.state.initialPosition;
+            }else{
+                previousPosition=this.state.lastPosition;
+
+            }
+            var from = {lat: previousPosition.latitude, lon: previousPosition.longitude};
+            var to = {lat: position.coords.latitude, lon: position.coords.longitude};
+            this.state.distance += this.calculateDistance(from, to);
+            this.state.duration = position.timestamp - this.state.initialPosition.timestamp;
+            this.setState({
+                lastPosition: {
+                    longitude: position.coords.longitude,
+                    latitude: position.coords.latitude,
+                    speed: position.coords.speed,
+                    timestamp: position.timestamp
+                },
+                distance:this.state.distance
+            });
         });
     }
 
     clearWatchGps() {
         navigator.geolocation.clearWatch(this.watchID);
     }
-    renderGPSPosition(position){
-        if(position=='unknown'){
+
+    renderGPSPosition(position) {
+        if (position == 'unknown') {
             return (
                 <Text>Position unknown</Text>
             );
-        }else{
+        } else {
             return (
                 <View>
-                    <Text>Location: long:{position.coords.longitude}, lat:{position.coords.latitude}</Text>
-                    <Text>Speed: {position.coords.speed}</Text>
-                    <Text>Distance: </Text>
+                    <Text>Location: long:{position.longitude}, lat:{position.latitude}</Text>
+                    <Text>Speed: {position.speed}</Text>
                 </View>
             );
         }
@@ -69,6 +101,8 @@ export default class TrackenerBrookeApp extends Component {
     renderGPS() {
         return (
             <View>
+                <Text style={styles.title}>Total Distance: {this.state.distance}</Text>
+                <Text style={styles.title}>Total Duration: {this.state.duration}</Text>
                 <Text style={styles.title}>Initial position: </Text>
                 {this.renderGPSPosition(this.state.initialPosition)}
                 <Text style={styles.title}>Current position: </Text>
@@ -159,6 +193,32 @@ export default class TrackenerBrookeApp extends Component {
             </View>
         );
     }
+
+    // (mean) radius of Earth (meters)
+    R = 6378137;
+    PI_360 = Math.PI / 360;
+
+    /**
+     *
+     var from = {lat: this.lastPosition.latitude, lon: this.lastPosition.longitude};
+     var to = {lat: latitude, lon: longitude};
+     this.distance += this.calculateDistance(from, to);
+     * @param a
+     * @param b
+     */
+    calculateDistance(a, b) {
+
+        const cLat = Math.cos((a.lat + b.lat) * this.PI_360);
+        const dLat = (b.lat - a.lat) * this.PI_360;
+        const dLon = (b.lon - a.lon) * this.PI_360;
+
+        const f = dLat * dLat + cLat * cLat * dLon * dLon;
+        const c = 2 * Math.atan2(Math.sqrt(f), Math.sqrt(1 - f));
+
+        return this.R * c;
+    }
+
+
 }
 
 const styles = StyleSheet.create({
