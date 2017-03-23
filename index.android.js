@@ -15,11 +15,98 @@ import {
 } from 'react-native';
 
 export default class TrackenerBrookeApp extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            started: false,
+            initialPosition: 'unknown',
+            lastPosition: 'unknown',
+            watchID: null,
+            enableHighAccuracy: true
+        };
+        this.startTracking = this.startTracking.bind(this);
+        this.stopTracking = this.stopTracking.bind(this);
+    }
+
+    startTracking() {
+        this.watchGPS(this.state.enableHighAccuracy);
+        this.setState({started: true});
+    }
+
+    stopTracking() {
+        this.clearWatchGps();
+        this.setState({started: false});
+    }
+
+    watchGPS(enableHighAccuracy) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            this.setState({initialPosition:position});
+        }, (error) => alert(JSON.stringify(error)), {enableHighAccuracy: enableHighAccuracy, timeout: 20000, maximumAge: 1000});
+        this.watchID = navigator.geolocation.watchPosition((position) => {
+            this.setState({lastPosition:position});
+        });
+    }
+
+    clearWatchGps() {
+        navigator.geolocation.clearWatch(this.watchID);
+    }
+    renderGPSPosition(position){
+        if(position=='unknown'){
+            return (
+                <Text>Position unknown</Text>
+            );
+        }else{
+            return (
+                <View>
+                    <Text>Location: long:{position.coords.longitude}, lat:{position.coords.latitude}</Text>
+                    <Text>Speed: {position.coords.speed}</Text>
+                    <Text>Distance: </Text>
+                </View>
+            );
+        }
+    }
+
+    renderGPS() {
+        return (
+            <View>
+                <Text style={styles.title}>Initial position: </Text>
+                {this.renderGPSPosition(this.state.initialPosition)}
+                <Text style={styles.title}>Current position: </Text>
+                {this.renderGPSPosition(this.state.lastPosition)}
+            </View> );
+    }
+
+    renderContainer() {
+        if (!this.state.started) {
+            return (
+                <View>
+                    <TouchableOpacity style={styles.headerImageView}
+                                      onPress={this.startTracking}
+                    >
+                        <Text>Start Ride</Text>
+                    </TouchableOpacity>
+                    {/*<Text>Total Distance</Text>*/}
+                </View>
+            );
+        }
+        return (
+            <View>
+                <TouchableOpacity style={styles.headerImageView}
+                                  onPress={this.stopTracking}
+                >
+                    <Text>Stop</Text>
+                </TouchableOpacity>
+                {/*<Text>Pause</Text>*/}
+                {this.renderGPS()}
+            </View>
+        );
+
+    }
+
     render() {
         return (
             <View style={styles.global}>
                 <View style={styles.header}>
-                    {/*<Image source={require('./images/pizza.jpg')} />*/}
                     <TouchableOpacity style={[styles.headerImageView]}>
                         <View style={[styles.verticallyAligned]}>
                             <Image
@@ -42,25 +129,13 @@ export default class TrackenerBrookeApp extends Component {
                 </View>
 
                 <View style={styles.container}>
-                    <View>
-                        <Text>Start Ride</Text>
-                        <Text>Total Distance</Text>
-                    </View>
-
-                    <View>
-                        <Text>Stop</Text>
-                        <Text>Pause</Text>
-                        <Text>Location: </Text>
-                        <Text>Speed: </Text>
-                        <Text>Distance: </Text>
-                    </View>
-
+                    {this.renderContainer()}
                 </View>
 
 
                 <View style={[styles.footer]}>
                     <TouchableOpacity style={[styles.footerView, styles.tabSelected]}
-                                      //onPress={() => console.log('Press complete')}
+                        //onPress={() => console.log('Press complete')}
                     >
                         <Image
                             source={require('./img/tab-dashboard.png')}
@@ -160,12 +235,12 @@ const styles = StyleSheet.create({
     footerImage: {
         width: 32, height: 32, backgroundColor: '#619b64',
     },
-    tabSelected:{
+    tabSelected: {
         height: 55,
         borderStyle: 'solid',
         borderColor: 'white',
         // borderWidth: 1,
-        borderBottomWidth:8
+        borderBottomWidth: 8
     },
 
     border: {
