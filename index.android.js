@@ -10,7 +10,8 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
 
 export default class TrackenerBrookeApp extends Component {
@@ -19,25 +20,25 @@ export default class TrackenerBrookeApp extends Component {
             <View style={styles.global}>
                 <View style={styles.header}>
                     {/*<Image source={require('./images/pizza.jpg')} />*/}
-                    <View style={[styles.headerImageView]}>
+                    <TouchableOpacity style={[styles.headerImageView]}>
                         <View style={[styles.verticallyAligned]}>
                             <Image
                                 source={require('./img/header-horse.png')}
                                 style={styles.headerImage}
                             />
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <View style={styles.headerView}>
                         <Text style={styles.headerText}>My Hackathon</Text>
                     </View>
-                    <View style={styles.headerImageView}>
+                    <TouchableOpacity style={styles.headerImageView}>
                         <View style={[styles.verticallyAligned]}>
                             <Image
                                 source={require('./img/header-settings.png')}
                                 style={styles.headerImage}
                             />
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.container}>
@@ -58,24 +59,26 @@ export default class TrackenerBrookeApp extends Component {
 
 
                 <View style={[styles.footer]}>
-                    <View style={[styles.footerView, styles.tabSelected]}>
+                    <TouchableOpacity style={[styles.footerView, styles.tabSelected]}
+                                      //onPress={() => console.log('Press complete')}
+                    >
                         <Image
                             source={require('./img/tab-dashboard.png')}
                             style={styles.footerImage}
                         />
-                    </View>
-                    <View style={[styles.footerView]}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.footerView]}>
                         <Image
                             source={require('./img/tab-exercising.png')}
-                            style={styles.footerImage}
+                            style={[styles.footerImage,{width: 34}]}
                         />
-                    </View>
-                    <View style={[styles.footerView]}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.footerView]}>
                         <Image
                             source={require('./img/tab-calendar.png')}
-                            style={styles.footerImage}
+                            style={[styles.footerImage,{width: 28}]}
                         />
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
             </View>
