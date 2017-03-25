@@ -13,6 +13,7 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native';
+import * as console from "react-native";
 
 export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 
@@ -31,6 +32,7 @@ export default class TrackenerBrookeApp extends Component {
             distance: 0,
             totalDistance: 0,
             duration: 0,
+            error:null
         };
         this.startTracking = this.startTracking.bind(this);
         this.stopTracking = this.stopTracking.bind(this);
@@ -40,7 +42,7 @@ export default class TrackenerBrookeApp extends Component {
 
     startTracking() {
         this.watchGPS(this.state.enableHighAccuracy);
-        this.setState({status: STATUS.START, distance: 0, duration:0, initialPosition:undefined, lastPosition:undefined});
+        this.setState({status: STATUS.START, distance: 0, duration:0, initialPosition:undefined, lastPosition:undefined, error:null});
     }
 
     stopTracking() {
@@ -69,11 +71,17 @@ export default class TrackenerBrookeApp extends Component {
                     }
                 });
             }
-            // , (error) => alert(JSON.stringify(error)), {
-            //     enableHighAccuracy: enableHighAccuracy,
-            //     timeout: 20000,
-            //     maximumAge: 1000
-            // }
+            , (error) => this.setState(
+                {error:{
+                    message:error.message,
+                    source:'getCurrentPosition',
+                }}
+                )
+            , {
+                enableHighAccuracy: enableHighAccuracy,
+                timeout: 60000,
+                maximumAge: 0
+            }
         );
 
         this.watchID = navigator.geolocation.watchPosition((position) => {
@@ -90,10 +98,10 @@ export default class TrackenerBrookeApp extends Component {
                 }
                 var from = {lat: previousPosition.latitude, lon: previousPosition.longitude};
                 var to = {lat: position.coords.latitude, lon: position.coords.longitude};
-                let distanceRidden = this.calculateDistance(from, to);
+                let distanceRidden = Math.round(this.calculateDistance(from, to));
                 this.state.distance += distanceRidden;
                 this.state.totalDistance += distanceRidden;
-                this.state.duration = position.timestamp - this.state.initialPosition.timestamp;
+                this.state.duration = Math.round(position.timestamp - this.state.initialPosition.timestamp)/1000;
                 this.setState({
                     lastPosition: {
                         longitude: position.coords.longitude,
@@ -103,7 +111,19 @@ export default class TrackenerBrookeApp extends Component {
                     },
                     distance: this.state.distance
                 });
-        });
+            }, (error) => this.setState(
+            {error:{
+                message:error.message,
+                source:'watchPosition',
+            }}
+            )
+
+            , {
+                enableHighAccuracy: enableHighAccuracy,
+                timeout: 20000,
+                maximumAge: 0,
+                distanceFilter:3
+            });
     }
 
     clearWatchGps() {
@@ -197,12 +217,22 @@ export default class TrackenerBrookeApp extends Component {
                 }
 
                 let speed = "0 m/s"
-                if(this.state.speed!=0 && this.state.speed!=undefined){
-                    speed = this.state.speed + " m/s"
+                if(this.state.lastPosition!=undefined
+                        && this.state.lastPosition.coords!=undefined
+                        && this.state.lastPosition.coords.speed!=undefined
+                    && this.state.lastPosition.coords.speed!=0){
+                    speed = this.state.lastPosition.coords.speed + " m/s"
                 }
 
                 return (
                     <View style={styles.container}>
+                        {/*<Text>totalDistance {((this.state.totalDistance))}{"\n"}*/}
+                            {/*duration {(this.state.duration)} {duration}{"\n"}*/}
+                            {/*distance {((this.state.distance))}{"\n"}*/}
+                            {/*lastPosition {JSON.stringify(this.state.lastPosition)}{"\n"}*/}
+                            {/*initialPosition {JSON.stringify(this.state.initialPosition)}{"\n"}*/}
+                            {/*error {JSON.stringify(this.state.error)}{"\n"}*/}
+                        {/*</Text>*/}
                         <View style={styles.infoBox}>
                             <Text style={[styles.infoBoxText,styles.infoBoxBorderRight]}>TIME {"\n"} {duration}</Text>
                             <Text style={styles.infoBoxText}>DISTANCE {"\n"} {distanceRidden}</Text>
@@ -437,7 +467,7 @@ const styles = StyleSheet.create({
         height:200,
         width:200,
 
-        backgroundColor: GREEN,
+        // backgroundColor: GREEN,
 
         alignSelf: 'center',
 
@@ -448,7 +478,8 @@ const styles = StyleSheet.create({
         height:180,
         width:180,
         padding:20,
-        color:WHITE,
+        // color:WHITE,
+        color: GREEN,
         textAlign:'center',
         textAlignVertical: 'center'
     },
@@ -480,7 +511,7 @@ const styles = StyleSheet.create({
         height:140,
         width:140,
 
-        backgroundColor: GREEN,
+        // backgroundColor: GREEN,
 
         alignSelf: 'center',
 
@@ -491,7 +522,8 @@ const styles = StyleSheet.create({
         height:120,
         width:120,
         padding:20,
-        color:WHITE,
+        // color:WHITE,
+        color: GREEN,
         textAlign:'center',
         textAlignVertical: 'center'
     },
