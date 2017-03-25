@@ -14,68 +14,95 @@ import {
     TouchableOpacity
 } from 'react-native';
 
+export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
+
 export default class TrackenerBrookeApp extends Component {
+
+
+
     constructor(props) {
         super(props);
         this.state = {
-            started: false,
-            initialPosition: 'unknown',
-            lastPosition: 'unknown',
+            status: STATUS.STOP,
+            initialPosition: undefined,
+            lastPosition: undefined,
             watchID: null,
             enableHighAccuracy: true,
             distance: 0,
-            duration:0,
+            totalDistance: 0,
+            duration: 0,
         };
         this.startTracking = this.startTracking.bind(this);
         this.stopTracking = this.stopTracking.bind(this);
+        this.pauseTracking = this.pauseTracking.bind(this);
+        this.restartTracking = this.restartTracking.bind(this);
     }
 
     startTracking() {
         this.watchGPS(this.state.enableHighAccuracy);
-        this.setState({started: true, distance:0});
+        this.setState({status: STATUS.START, distance: 0, duration:0, initialPosition:undefined, lastPosition:undefined});
     }
 
     stopTracking() {
         this.clearWatchGps();
-        this.setState({started: false});
+        this.setState({status: STATUS.STOP});
+    }
+
+    pauseTracking() {
+        this.clearWatchGps();
+        this.setState({status: STATUS.PAUSE});
+    }
+
+    restartTracking() {
+        this.watchGPS(this.state.enableHighAccuracy);
+        this.setState({status: STATUS.START});
     }
 
     watchGPS(enableHighAccuracy) {
         navigator.geolocation.getCurrentPosition((position) => {
-            this.setState({
-                initialPosition: {
-                    longitude: position.coords.longitude,
-                    latitude: position.coords.latitude,
-                    speed: position.coords.speed,
-                    timestamp: position.timestamp
-                }
-            });
-        }, (error) => alert(JSON.stringify(error)), {
-            enableHighAccuracy: enableHighAccuracy,
-            timeout: 20000,
-            maximumAge: 1000
-        });
-        this.watchID = navigator.geolocation.watchPosition((position) => {
-            var previousPosition = null;
-            if(this.state.lastPosition=='unknown'){
-                previousPosition=this.state.initialPosition;
-            }else{
-                previousPosition=this.state.lastPosition;
-
+                this.setState({
+                    initialPosition: {
+                        longitude: position.coords.longitude,
+                        latitude: position.coords.latitude,
+                        speed: position.coords.speed,
+                        timestamp: position.timestamp
+                    }
+                });
             }
-            var from = {lat: previousPosition.latitude, lon: previousPosition.longitude};
-            var to = {lat: position.coords.latitude, lon: position.coords.longitude};
-            this.state.distance += this.calculateDistance(from, to);
-            this.state.duration = position.timestamp - this.state.initialPosition.timestamp;
-            this.setState({
-                lastPosition: {
-                    longitude: position.coords.longitude,
-                    latitude: position.coords.latitude,
-                    speed: position.coords.speed,
-                    timestamp: position.timestamp
-                },
-                distance:this.state.distance
-            });
+            // , (error) => alert(JSON.stringify(error)), {
+            //     enableHighAccuracy: enableHighAccuracy,
+            //     timeout: 20000,
+            //     maximumAge: 1000
+            // }
+        );
+
+        this.watchID = navigator.geolocation.watchPosition((position) => {
+                if (this.state.initialPosition==undefined){
+                    return;
+                }
+
+                var previousPosition = null;
+                if (this.state.lastPosition == undefined) {
+                    previousPosition = this.state.initialPosition;
+                } else {
+                    previousPosition = this.state.lastPosition;
+
+                }
+                var from = {lat: previousPosition.latitude, lon: previousPosition.longitude};
+                var to = {lat: position.coords.latitude, lon: position.coords.longitude};
+                let distanceRidden = this.calculateDistance(from, to);
+                this.state.distance += distanceRidden;
+                this.state.totalDistance += distanceRidden;
+                this.state.duration = position.timestamp - this.state.initialPosition.timestamp;
+                this.setState({
+                    lastPosition: {
+                        longitude: position.coords.longitude,
+                        latitude: position.coords.latitude,
+                        speed: position.coords.speed,
+                        timestamp: position.timestamp
+                    },
+                    distance: this.state.distance
+                });
         });
     }
 
@@ -84,7 +111,7 @@ export default class TrackenerBrookeApp extends Component {
     }
 
     renderGPSPosition(position) {
-        if (position == 'unknown') {
+        if (position == undefined) {
             return (
                 <Text>Position unknown</Text>
             );
@@ -98,42 +125,105 @@ export default class TrackenerBrookeApp extends Component {
         }
     }
 
-    renderGPS() {
-        return (
-            <View>
-                <Text style={styles.title}>Total Distance: {this.state.distance}</Text>
-                <Text style={styles.title}>Total Duration: {this.state.duration}</Text>
-                <Text style={styles.title}>Initial position: </Text>
-                {this.renderGPSPosition(this.state.initialPosition)}
-                <Text style={styles.title}>Current position: </Text>
-                {this.renderGPSPosition(this.state.lastPosition)}
-            </View> );
+    renderSecondButton() {
+        switch(this.state.status){
+            default:
+            case STATUS.START:
+                return (
+                <TouchableOpacity style={[styles.secondRideButton]}
+                                  onPress={this.pauseTracking}>
+                    <Text style={styles.secondRideButtonText}>Pause</Text>
+                </TouchableOpacity>
+            );
+            case STATUS.PAUSE:
+                return (
+                <TouchableOpacity style={[styles.secondRideButton,styles.withSecondRideButton]}
+                                  onPress={this.restartTracking}>
+                    <Text style={styles.secondRideButtonText}>Start</Text>
+                </TouchableOpacity>
+            );
+        }
+
+
     }
 
     renderContainer() {
-        if (!this.state.started) {
-            return (
-                <View>
-                    <TouchableOpacity style={styles.headerImageView}
-                                      onPress={this.startTracking}
-                    >
-                        <Text>Start Ride</Text>
-                    </TouchableOpacity>
-                    {/*<Text>Total Distance</Text>*/}
-                </View>
-            );
+
+        switch (this.state.status) {
+            default:
+            case STATUS.STOP:
+                let distanceRidden = "";
+                if (this.state.totalDistance==0 || this.state.totalDistance==undefined){
+                    distanceRidden = "0 mile ridden";
+                }else{
+                    distanceRidden = this.state.totalDistance + " meters ridden";
+                }
+                return (
+                    <View style={[styles.container]}>
+                        <TouchableOpacity style={styles.infoBox}>
+                            <Text style={styles.infoBoxStartText}>{distanceRidden}</Text>
+                            <Image source={require('./img/ic_navigate_next_green.png')} style={styles.infoBoxArrow}/>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.startRideButton}
+                                          onPress={this.startTracking}>
+                            <Text style={styles.startRideButtonText}>Start Ride</Text>
+                        </TouchableOpacity>
+
+
+                        <View style={[styles.social]}>
+                            <TouchableOpacity >
+                                <Text>Donate</Text>
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity >
+                                <Text >Share</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
+                );
+            case STATUS.PAUSE:
+            case STATUS.START:
+                distanceRidden = "0 mile";
+                if (this.state.distance!=0 && this.state.distance!=undefined){
+                    distanceRidden = this.state.distance + " meters";
+                }
+
+                let duration = "00:00:00";
+                if (this.state.duration!=0 && this.state.duration!=undefined){
+                    duration = this.secondsToHourMinSec(this.state.duration);
+                }
+
+                let speed = "0 m/s"
+                if(this.state.speed!=0 && this.state.speed!=undefined){
+                    speed = this.state.speed + " m/s"
+                }
+
+                return (
+                    <View style={styles.container}>
+                        <View style={styles.infoBox}>
+                            <Text style={[styles.infoBoxText,styles.infoBoxBorderRight]}>TIME {"\n"} {duration}</Text>
+                            <Text style={styles.infoBoxText}>DISTANCE {"\n"} {distanceRidden}</Text>
+                        </View>
+
+                        <View style={[styles.rideButtonsView]}>
+                            {this.renderSecondButton()}
+                            <TouchableOpacity style={[styles.startRideButton,styles.withSecondRideButton]}
+                                              onPress={this.stopTracking}>
+                                <Text style={styles.startRideButtonText}>Stop</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.infoBox}>
+                            <Text style={[styles.infoBoxText,styles.infoBoxBorderRight]}>SPEED {"\n"} {speed}</Text>
+                        </View>
+                    </View>
+                );
+                return null;
+
         }
-        return (
-            <View>
-                <TouchableOpacity style={styles.headerImageView}
-                                  onPress={this.stopTracking}
-                >
-                    <Text>Stop</Text>
-                </TouchableOpacity>
-                {/*<Text>Pause</Text>*/}
-                {this.renderGPS()}
-            </View>
-        );
 
     }
 
@@ -162,9 +252,7 @@ export default class TrackenerBrookeApp extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.container}>
-                    {this.renderContainer()}
-                </View>
+                {this.renderContainer()}
 
 
                 <View style={[styles.footer]}>
@@ -194,6 +282,27 @@ export default class TrackenerBrookeApp extends Component {
         );
     }
 
+
+    // public getDuration() {
+    //     var seconds = (this.lastDate.getTime() - this.firstDate.getTime()) / 1000;
+    //     return this.secondsToHourMinSec(seconds, ":");
+    // }
+
+    // public secondsToHourMinSec(input, separator) {
+    secondsToHourMinSec(input) {
+        let separator = ":";
+        let pad = function (input) {
+            return input < 10 ? "0" + input : input;
+        };
+        return [
+            pad(Math.floor(input / 3600)),
+            pad(Math.floor(input % 3600 / 60)),
+            pad(Math.floor(input % 60)),
+        ].join(typeof separator !== 'undefined' ? separator : ':');
+    }
+
+
+
     // (mean) radius of Earth (meters)
     R = 6378137;
     PI_360 = Math.PI / 360;
@@ -221,21 +330,24 @@ export default class TrackenerBrookeApp extends Component {
 
 }
 
+let GREEN = '#619b64';
+let WHITE = 'white';
+let GRAY = '#d9d9d9';
 const styles = StyleSheet.create({
     global: {
         flex: 1,
         // justifyContent: 'center',
         // alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: WHITE,
         flexDirection: 'column',
     },
 
     header: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'flex-start',
-        backgroundColor: '#619b64',
+        backgroundColor: GREEN,
         flexBasis: 50,
         flexGrow: 0
     },
@@ -250,7 +362,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     headerImage: {
-        width: 32, height: 32, backgroundColor: '#619b64',
+        width: 32, height: 32, backgroundColor: GREEN,
     },
 
     headerView: {
@@ -260,17 +372,140 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     headerText: {
-        color: '#F5FCFF',
+        color: WHITE,
         fontSize: 25,
         flex: 1,
         textAlignVertical: 'center'
     },
 
+
+
+
     container: {
         flex: 1,
         justifyContent: 'space-around',
-        alignItems: 'center',
+        // alignItems: 'center',
+        flexDirection: 'column',
+        // justifyContent: 'flex-start',
+        alignItems: 'flex-start'
     },
+
+    infoBox: {
+        borderStyle: 'solid',
+        borderColor: GREEN,
+        borderWidth: 2,
+
+        flexDirection: 'row',
+        alignSelf: 'stretch',
+        width: undefined,
+        margin:20,
+    },
+    infoBoxStartText: {
+        fontSize: 30,
+        padding:20,
+        color:GREEN,
+        alignItems: 'center',
+        flexGrow: 3,
+        textAlign:'center',
+        paddingLeft:70
+    },
+    infoBoxText: {
+        fontSize: 20,
+        padding:20,
+        color:GREEN,
+        alignItems: 'center',
+        flexGrow: 1,
+        textAlign:'center',
+    },
+    infoBoxBorderRight:{
+        borderRightColor:GREEN,
+        borderStyle:'solid',
+        borderRightWidth:1,
+    },
+    infoBoxArrow: {
+        alignSelf: 'center',
+        flexGrow: 1,
+        width:30,
+        height:30
+    },
+
+    startRideButton:{
+        borderStyle: 'solid',
+        borderColor: GRAY,
+        borderWidth: 10,
+        borderRadius:200,
+        height:200,
+        width:200,
+
+        backgroundColor: GREEN,
+
+        alignSelf: 'center',
+
+    },
+    startRideButtonText:{
+        fontSize: 40,
+        borderRadius:180,
+        height:180,
+        width:180,
+        padding:20,
+        color:WHITE,
+        textAlign:'center',
+        textAlignVertical: 'center'
+    },
+
+    rideButtonsView:{
+        flex: 1,
+        justifyContent: 'space-around',
+        // alignItems: 'center',
+        flexDirection: 'column',
+        // justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        alignSelf: 'stretch',
+    },
+
+    withSecondRideButton:{
+        position:'relative',
+        bottom:80,
+        right:40,
+    },
+
+    secondRideButton:{
+        position:'relative',
+        top:140,
+        left:80,
+        borderStyle: 'solid',
+        borderColor: GRAY,
+        borderWidth: 8,
+        borderRadius:140,
+        height:140,
+        width:140,
+
+        backgroundColor: GREEN,
+
+        alignSelf: 'center',
+
+    },
+    secondRideButtonText:{
+        fontSize: 25,
+        borderRadius:120,
+        height:120,
+        width:120,
+        padding:20,
+        color:WHITE,
+        textAlign:'center',
+        textAlignVertical: 'center'
+    },
+
+
+    social:{
+        justifyContent: 'space-around',
+        flexDirection: 'row',
+        alignSelf: 'stretch',
+        width: undefined,
+        margin:20,
+    },
+
+
 
 
     footer: {
@@ -278,7 +513,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        backgroundColor: '#619b64',
+        backgroundColor: GREEN,
     },
     footerView: {
         height: 47,
@@ -293,12 +528,12 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center'
     },
     footerImage: {
-        width: 32, height: 32, backgroundColor: '#619b64',
+        width: 32, height: 32, backgroundColor: GREEN,
     },
     tabSelected: {
         height: 55,
         borderStyle: 'solid',
-        borderColor: 'white',
+        borderColor: WHITE,
         // borderWidth: 1,
         borderBottomWidth: 8
     },
