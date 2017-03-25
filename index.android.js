@@ -83,7 +83,7 @@ export default class TrackenerBrookeApp extends Component {
                 maximumAge: 0
             }
         );
-
+        //FIXME should restart when unpausing (from new initial position, but keep duration + distance)
         this.watchID = navigator.geolocation.watchPosition((position) => {
                 if (this.state.initialPosition==undefined){
                     return;
@@ -174,7 +174,8 @@ export default class TrackenerBrookeApp extends Component {
             case STATUS.STOP:
                 let distanceRidden = "";
                 if (this.state.totalDistance==0 || this.state.totalDistance==undefined){
-                    distanceRidden = "0 mile ridden";
+                    //TODO show distances in miles
+                    distanceRidden = "0 meter ridden";
                 }else{
                     distanceRidden = this.state.totalDistance + " meters ridden";
                 }
@@ -218,10 +219,9 @@ export default class TrackenerBrookeApp extends Component {
 
                 let speed = "0 m/s"
                 if(this.state.lastPosition!=undefined
-                        && this.state.lastPosition.coords!=undefined
-                        && this.state.lastPosition.coords.speed!=undefined
-                    && this.state.lastPosition.coords.speed!=0){
-                    speed = this.state.lastPosition.coords.speed + " m/s"
+                        && this.state.lastPosition.speed!=undefined
+                    && this.state.lastPosition.speed!=0){
+                    speed = this.state.lastPosition.speed + " m/s"
                 }
 
                 return (
