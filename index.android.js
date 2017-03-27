@@ -16,6 +16,7 @@ import {
 import * as console from "react-native";
 
 export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
+export const ACTIVE_OPACITY = 0.6;
 
 export default class TrackenerBrookeApp extends Component {
 
@@ -150,16 +151,16 @@ export default class TrackenerBrookeApp extends Component {
             default:
             case STATUS.START:
                 return (
-                <TouchableOpacity style={[styles.secondRideButton]}
+                <TouchableOpacity style={[styles.secondRideButton]} activeOpacity={ACTIVE_OPACITY}
                                   onPress={this.pauseTracking}>
                     <Text style={styles.secondRideButtonText}>Pause</Text>
                 </TouchableOpacity>
             );
             case STATUS.PAUSE:
                 return (
-                <TouchableOpacity style={[styles.secondRideButton,styles.withSecondRideButton]}
+                <TouchableOpacity style={[styles.secondRideButton]} activeOpacity={ACTIVE_OPACITY}
                                   onPress={this.restartTracking}>
-                    <Text style={styles.secondRideButtonText}>Start</Text>
+                    <Text style={[styles.secondRideButtonText]}>Start</Text>
                 </TouchableOpacity>
             );
         }
@@ -181,24 +182,24 @@ export default class TrackenerBrookeApp extends Component {
                 }
                 return (
                     <View style={[styles.container]}>
-                        <TouchableOpacity style={styles.infoBox}>
+                        <TouchableOpacity style={styles.infoBox} activeOpacity={ACTIVE_OPACITY}>
                             <Text style={styles.infoBoxStartText}>{distanceRidden}</Text>
                             <Image source={require('./img/ic_navigate_next_green.png')} style={styles.infoBoxArrow}/>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.startRideButton}
+                        <TouchableOpacity style={styles.startRideButton} activeOpacity={ACTIVE_OPACITY}
                                           onPress={this.startTracking}>
                             <Text style={styles.startRideButtonText}>Start Ride</Text>
                         </TouchableOpacity>
 
 
                         <View style={[styles.social]}>
-                            <TouchableOpacity >
+                            <TouchableOpacity activeOpacity={ACTIVE_OPACITY}>
                                 <Text>Donate</Text>
                             </TouchableOpacity>
 
 
-                            <TouchableOpacity >
+                            <TouchableOpacity activeOpacity={ACTIVE_OPACITY}>
                                 <Text >Share</Text>
                             </TouchableOpacity>
                         </View>
@@ -240,9 +241,9 @@ export default class TrackenerBrookeApp extends Component {
 
                         <View style={[styles.rideButtonsView]}>
                             {this.renderSecondButton()}
-                            <TouchableOpacity style={[styles.startRideButton,styles.withSecondRideButton]}
+                            <TouchableOpacity style={[styles.startRideButton,styles.withSecondRideButton]} activeOpacity={ACTIVE_OPACITY}
                                               onPress={this.stopTracking}>
-                                <Text style={styles.startRideButtonText}>Stop</Text>
+                                <Text style={[styles.startRideButtonText, styles.withSecondRideButtonText]}>Stop</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -261,7 +262,7 @@ export default class TrackenerBrookeApp extends Component {
         return (
             <View style={styles.global}>
                 <View style={styles.header}>
-                    <TouchableOpacity style={[styles.headerImageView]}>
+                    <TouchableOpacity style={[styles.headerImageView]} activeOpacity={ACTIVE_OPACITY}>
                         <View style={[styles.verticallyAligned]}>
                             <Image
                                 source={require('./img/header-horse.png')}
@@ -272,7 +273,7 @@ export default class TrackenerBrookeApp extends Component {
                     <View style={styles.headerView}>
                         <Text style={styles.headerText}>My Hackathon</Text>
                     </View>
-                    <TouchableOpacity style={styles.headerImageView}>
+                    <TouchableOpacity style={styles.headerImageView} activeOpacity={ACTIVE_OPACITY}>
                         <View style={[styles.verticallyAligned]}>
                             <Image
                                 source={require('./img/header-settings.png')}
@@ -286,7 +287,7 @@ export default class TrackenerBrookeApp extends Component {
 
 
                 <View style={[styles.footer]}>
-                    <TouchableOpacity style={[styles.footerView, styles.tabSelected]}
+                    <TouchableOpacity style={[styles.footerView, styles.tabSelected]} activeOpacity={ACTIVE_OPACITY}
                         //onPress={() => console.log('Press complete')}
                     >
                         <Image
@@ -294,13 +295,13 @@ export default class TrackenerBrookeApp extends Component {
                             style={styles.footerImage}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.footerView]}>
+                    <TouchableOpacity style={[styles.footerView]} activeOpacity={ACTIVE_OPACITY}>
                         <Image
                             source={require('./img/tab-exercising.png')}
                             style={[styles.footerImage,{width: 34}]}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.footerView]}>
+                    <TouchableOpacity style={[styles.footerView]} activeOpacity={ACTIVE_OPACITY}>
                         <Image
                             source={require('./img/tab-calendar.png')}
                             style={[styles.footerImage,{width: 28}]}
@@ -467,21 +468,42 @@ const styles = StyleSheet.create({
         height:200,
         width:200,
 
-        // backgroundColor: GREEN,
+        backgroundColor: GREEN,
 
         alignSelf: 'center',
 
     },
+
+    withSecondRideButton:{
+        borderWidth: 8,
+        borderRadius:160,
+        height:160,
+        width:160,
+        position:'relative',
+        // bottom:80,
+        // right:40,
+        bottom:'30%',
+        right:'10%',
+    },
+
     startRideButtonText:{
-        fontSize: 40,
         borderRadius:180,
         height:180,
         width:180,
-        padding:20,
-        // color:WHITE,
-        color: GREEN,
+        padding:0,
+        fontSize: 35,
+        color:WHITE,
+        // color: GREEN,
         textAlign:'center',
         textAlignVertical: 'center'
+    },
+
+
+    withSecondRideButtonText: {
+        borderRadius:160,
+        height:140,
+        width:140,
+        padding:0,
     },
 
     rideButtonsView:{
@@ -494,36 +516,32 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
     },
 
-    withSecondRideButton:{
-        position:'relative',
-        bottom:80,
-        right:40,
-    },
-
     secondRideButton:{
         position:'relative',
-        top:140,
-        left:80,
+        // top:140,
+        // left:80,
+        top:'55%',
+        left:'18%',
         borderStyle: 'solid',
         borderColor: GRAY,
-        borderWidth: 8,
+        borderWidth: 6,
         borderRadius:140,
-        height:140,
-        width:140,
+        height:120,
+        width:120,
 
-        // backgroundColor: GREEN,
+        backgroundColor: GREEN,
 
         alignSelf: 'center',
 
     },
     secondRideButtonText:{
-        fontSize: 25,
+        fontSize: 21,
         borderRadius:120,
-        height:120,
-        width:120,
+        height:100,
+        width:100,
         padding:20,
-        // color:WHITE,
-        color: GREEN,
+        color:WHITE,
+        // color: GREEN,
         textAlign:'center',
         textAlignVertical: 'center'
     },
