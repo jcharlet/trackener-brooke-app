@@ -17,6 +17,13 @@ import * as console from "react-native";
 
 export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 export const ACTIVE_OPACITY = 0.6;
+export const ONE_METER_IN_MILES = 0.000621;
+
+
+export const DISTANCE_FILTER = 5;
+export const TIMEOUT_WATCH = 20000;
+export const TIMEOUT_GET = 60000;
+export const MAX_AGE = 0;
 
 export default class TrackenerBrookeApp extends Component {
 
@@ -58,13 +65,20 @@ export default class TrackenerBrookeApp extends Component {
 
     restartTracking() {
         this.watchGPS(this.state.enableHighAccuracy);
-        this.setState({status: STATUS.START});
+        this.setState({status: STATUS.START, initialPosition:undefined, lastPosition:undefined});
     }
+
 
     watchGPS(enableHighAccuracy) {
         navigator.geolocation.getCurrentPosition((position) => {
                 this.setState({
                     initialPosition: {
+                        longitude: position.coords.longitude,
+                        latitude: position.coords.latitude,
+                        speed: position.coords.speed,
+                        timestamp: position.timestamp
+                    },
+                    lastPosition: {
                         longitude: position.coords.longitude,
                         latitude: position.coords.latitude,
                         speed: position.coords.speed,
@@ -80,29 +94,21 @@ export default class TrackenerBrookeApp extends Component {
                 )
             , {
                 enableHighAccuracy: enableHighAccuracy,
-                timeout: 60000,
-                maximumAge: 0
+                timeout: TIMEOUT_GET,
+                maximumAge: MAX_AGE
             }
         );
-        //FIXME should restart when unpausing (from new initial position, but keep duration + distance)
         this.watchID = navigator.geolocation.watchPosition((position) => {
-                if (this.state.initialPosition==undefined){
+                if (this.state.lastPosition==undefined){
                     return;
                 }
 
-                var previousPosition = null;
-                if (this.state.lastPosition == undefined) {
-                    previousPosition = this.state.initialPosition;
-                } else {
-                    previousPosition = this.state.lastPosition;
-
-                }
-                var from = {lat: previousPosition.latitude, lon: previousPosition.longitude};
+                var from = {lat: this.state.lastPosition.latitude, lon: this.state.lastPosition.longitude};
                 var to = {lat: position.coords.latitude, lon: position.coords.longitude};
-                let distanceRidden = Math.round(this.calculateDistance(from, to));
+                let distanceRidden = this.calculateDistance(from, to);
                 this.state.distance += distanceRidden;
                 this.state.totalDistance += distanceRidden;
-                this.state.duration = Math.round(position.timestamp - this.state.initialPosition.timestamp)/1000;
+                this.state.duration += (position.timestamp - this.state.lastPosition.timestamp)/1000;
                 this.setState({
                     lastPosition: {
                         longitude: position.coords.longitude,
@@ -121,9 +127,9 @@ export default class TrackenerBrookeApp extends Component {
 
             , {
                 enableHighAccuracy: enableHighAccuracy,
-                timeout: 20000,
-                maximumAge: 0,
-                distanceFilter:3
+                timeout: TIMEOUT_WATCH,
+                maximumAge: MAX_AGE,
+                distanceFilter: DISTANCE_FILTER
             });
     }
 
@@ -175,10 +181,9 @@ export default class TrackenerBrookeApp extends Component {
             case STATUS.STOP:
                 let distanceRidden = "";
                 if (this.state.totalDistance==0 || this.state.totalDistance==undefined){
-                    //TODO show distances in miles
-                    distanceRidden = "0 meter ridden";
+                    distanceRidden = "0 mi ridden";
                 }else{
-                    distanceRidden = this.state.totalDistance + " meters ridden";
+                    distanceRidden = this.roundWithThreeDecimals(this.state.totalDistance * ONE_METER_IN_MILES) + " mi ridden";
                 }
                 return (
                     <View style={[styles.container]}>
@@ -208,21 +213,21 @@ export default class TrackenerBrookeApp extends Component {
                 );
             case STATUS.PAUSE:
             case STATUS.START:
-                distanceRidden = "0 mile";
+                distanceRidden = "0 mi";
                 if (this.state.distance!=0 && this.state.distance!=undefined){
-                    distanceRidden = this.state.distance + " meters";
+                    distanceRidden = this.roundWithThreeDecimals(this.state.distance * ONE_METER_IN_MILES) + " mi";
                 }
 
                 let duration = "00:00:00";
                 if (this.state.duration!=0 && this.state.duration!=undefined){
-                    duration = this.secondsToHourMinSec(this.state.duration);
+                    duration = this.secondsToHourMinSec(Math.round(this.state.duration));
                 }
 
-                let speed = "0 m/s"
+                let speed = "0 mi/h"
                 if(this.state.lastPosition!=undefined
                         && this.state.lastPosition.speed!=undefined
                     && this.state.lastPosition.speed!=0){
-                    speed = this.state.lastPosition.speed + " m/s"
+                    speed = this.roundWithOneDecimals(this.state.lastPosition.speed * ONE_METER_IN_MILES * 3600 ) + " mi/h"
                 }
 
                 return (
@@ -256,6 +261,14 @@ export default class TrackenerBrookeApp extends Component {
 
         }
 
+    }
+
+    roundWithOneDecimals(number) {
+        return Math.round(number * 100) / 100;
+    }
+
+    roundWithThreeDecimals(number) {
+        return Math.round(number * 1000) / 1000;
     }
 
     render() {
