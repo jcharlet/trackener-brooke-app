@@ -17,18 +17,6 @@ export default class LiveTrackerPage extends Component{
 
     constructor(props) {
         super(props);
-        // this.state = {
-        //     status: STATUS.STOP,
-        //     initialPosition: undefined,
-        //     lastPosition: undefined,
-        //     watchID: null,
-        //     enableHighAccuracy: true,
-        //     distance: 0,
-        //     totalDistance: 0,
-        //     duration: 0,
-        //     error: null,
-        //     speed: 0
-        // };
     }
 
 

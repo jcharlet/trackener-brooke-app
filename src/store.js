@@ -1,8 +1,9 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 // import createLogger from 'redux-logger';
-import promiseMiddleware from 'redux-promise';
+import thunkMiddleware from 'redux-thunk'
 import liveTrackerReducer from "./reducers/liveTrackerReducer";
 
+//FIXME logger to enable (throws error currently)
 // const logger = createLogger();
 
 // export default (initialState = {}) => (
@@ -12,6 +13,6 @@ export default () => (
             liveTracker: liveTrackerReducer,
         }),
         // initialState,
-        // applyMiddleware(promiseMiddleware)
+        applyMiddleware(thunkMiddleware)
     )
 );

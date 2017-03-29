@@ -9,8 +9,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import LiveTrackerPage from "../components/LiveTrackerPage";
-import {START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE} from "../actions/actionTypes";
+import {START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, START_GPS_WATCH, TEST} from "../actions/actionTypes";
 import {connect} from "react-redux";
+import {stopAfterFiveSeconds, watchGPS} from "../reducers/liveTrackerReducer";
 
 
 const mapStateToProps = (state) => {
@@ -22,7 +23,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         startTracking: () => {
-            dispatch({type:START_RIDE})
+            //FIXME thunk had to be called directly for some reason
+            // dispatch({type:START_GPS_WATCH});
+            dispatch(watchGPS());
+            dispatch({type:START_RIDE});
+            // dispatch(stopAfterFiveSeconds());
         },
         stopTracking: () => {
             dispatch({type:STOP_RIDE})
@@ -31,6 +36,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({type:PAUSE_RIDE})
         },
         restartTracking: () => {
+            dispatch(watchGPS());
             dispatch({type:RESTART_RIDE})
         },
     }

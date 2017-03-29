@@ -1,14 +1,14 @@
-import { createStore } from 'redux';
-import { START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE } from '../actions/actionTypes';
-import {STATUS} from "../util/utils";
-
+import {
+    START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_LOC,
+    GPS_INIT_WATCH
+} from '../actions/actionTypes';
+import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER} from "../util/utils";
 
 const initialState = {
     status: STATUS.STOP,
     initialPosition: undefined,
     lastPosition: undefined,
-    watchID: null,
-    enableHighAccuracy: true,
+    watchId: null,
     distance: 0,
     totalDistance: 0,
     duration: 0,
@@ -18,6 +18,7 @@ const initialState = {
 
 export default (state = initialState, action = {}) => {
     switch (action.type) {
+
         case START_RIDE:
             return startTracking(state);
         case STOP_RIDE:
@@ -26,14 +27,22 @@ export default (state = initialState, action = {}) => {
             return pauseTracking(state);
         case RESTART_RIDE:
             return restartTracking(state);
+
+        // case START_GPS_WATCH:
+        //     return startGpsWatch(state);
+        case GPS_INIT_WATCH:
+            return initWatch(state, action.payload);
+        case GPS_INIT_LOC:
+            return initLocation(state, action.payload);
+        case GPS_UPDATE_LOC:
+            return updateLocation(state, action.payload);
         default:
             return state;
     }
 };
-// export default createStore(liveTrackerReducer);
+
 
 const startTracking = (state) => {
-    watchGPS(state);
     return {
         ...state,
         status: STATUS.START,
@@ -41,12 +50,12 @@ const startTracking = (state) => {
         duration: 0,
         initialPosition: undefined,
         lastPosition: undefined,
-        error: null
+        error: null,
     };
 };
 
 const stopTracking = (state) => {
-    clearWatchGps(state.watchID);
+    clearWatchGps(state.watchId);
     return {
         ...state,
         status: STATUS.STOP
@@ -54,90 +63,133 @@ const stopTracking = (state) => {
 };
 
 const pauseTracking = (state) => {
-    clearWatchGps(state.watchID);
+    clearWatchGps(state.watchId);
     return {
         ...state,
-      status: STATUS.PAUSE
+        status: STATUS.PAUSE
     };
 };
 
 const restartTracking = (state) => {
-    watchGPS(state);
     return {
         ...state,
         status: STATUS.START,
         initialPosition: undefined,
-        lastPosition: undefined
+        lastPosition: undefined,
+    };
+};
+
+const initWatch = (state, watchId) => {
+    return {
+        ...state,
+        watchId: watchId
+    };
+};
+const initLocation = (state, position) => {
+    return {
+        ...state,
+        initialPosition: {
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+            timestamp: position.timestamp
+        },
+        lastPosition: {
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+            timestamp: position.timestamp
+        },
+        speed: position.coords.speed,
+    }
+};
+
+const updateLocation = (state, position) => {
+    if (state.lastPosition == undefined) {
+        return state;
+    }
+
+    let from = {lat: state.lastPosition.latitude, lon: state.lastPosition.longitude};
+    let to = {lat: position.coords.latitude, lon: position.coords.longitude};
+    let distanceRidden = calculateDistance(from, to);
+    let distance = state.distance + distanceRidden;
+    let totalDistance = state.totalDistance + distanceRidden;
+    let duration = state.duration + (position.timestamp - state.lastPosition.timestamp) / 1000;
+    return {
+        ...state,
+        lastPosition: {
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+            timestamp: position.timestamp
+        },
+        distance: distance,
+        totalDistance: totalDistance,
+        duration: duration,
+        speed: position.coords.speed,
     };
 };
 
 
-const watchGPS = (state) => {
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //         this.setState({
-    //             initialPosition: {
-    //                 longitude: position.coords.longitude,
-    //                 latitude: position.coords.latitude,
-    //                 timestamp: position.timestamp
-    //             },
-    //             lastPosition: {
-    //                 longitude: position.coords.longitude,
-    //                 latitude: position.coords.latitude,
-    //                 timestamp: position.timestamp
-    //             },
-    //             speed: position.coords.speed,
-    //         });
-    //     }
-    //     , (error) => this.setState(
-    //         {
-    //             error: {
-    //                 message: error.message,
-    //                 source: 'getCurrentPosition',
-    //             }
-    //         }
-    //     )
-    //     , {
-    //         enableHighAccuracy: state.enableHighAccuracy,
-    //         timeout: TIMEOUT_GET,
-    //         maximumAge: MAX_AGE
-    //     }
-    // );
+// export function stopAfterFiveSeconds() {
+//     return (dispatch) => {
+//         setTimeout(() => {
+//             dispatch({type: STOP_RIDE});
+//         }, 2000);
+//     };
+// }
 
-    // this.watchID = navigator.geolocation.watchPosition((position) => {
-    //         if (this.state.lastPosition == undefined) {
-    //             return;
-    //         }
-    //
-    //         let from = {lat: this.state.lastPosition.latitude, lon: this.state.lastPosition.longitude};
-    //         let to = {lat: position.coords.latitude, lon: position.coords.longitude};
-    //         let distanceRidden = calculateDistance(from, to);
-    //         this.state.distance += distanceRidden;
-    //         this.state.totalDistance += distanceRidden;
-    //         this.state.duration += (position.timestamp - this.state.lastPosition.timestamp) / 1000;
-    //         this.setState({
-    //             lastPosition: {
-    //                 longitude: position.coords.longitude,
-    //                 latitude: position.coords.latitude,
-    //                 timestamp: position.timestamp
-    //             },
-    //             distance: this.state.distance,
-    //             speed: position.coords.speed,
-    //         });
-    //     }, (error) => this.setState(
-    //     {
-    //         error: {
-    //             message: error.message,
-    //             source: 'watchPosition',
-    //         }
-    //     }
-    //     )
-    //
-    //     , {
-    //         enableHighAccuracy: state.enableHighAccuracy,
-    //         timeout: TIMEOUT_WATCH,
-    //         maximumAge: MAX_AGE,
-    //         distanceFilter: DISTANCE_FILTER
-    //     });
+// export function startGpsWatch(state) {
+//     return (dispatch) => {
+//         let watchId = watchGPS(state);
+//         dispatch({type: GPS_INIT_WATCH, payload: watchId});
+//         // return initWatch(state,watchId);
+//     }
+// }
+
+export const watchGPS = () => {
+    return (dispatch) => {
+        navigator.geolocation.getCurrentPosition((position) => {
+                // initLocation(state,position);
+                // return (dispatch) => {
+                dispatch({type: 'GPS_INIT_LOC', payload: position})
+                // };
+            }
+            , (error) => {
+            }
+            // , (error) => this.setState(
+            //     {
+            //         error: {
+            //             message: error.message,
+            //             source: 'getCurrentPosition',
+            //         }
+            //     }
+            // )
+            , {
+                enableHighAccuracy: true,
+                timeout: TIMEOUT_GET,
+                maximumAge: MAX_AGE
+            }
+        );
+
+        let watchId = navigator.geolocation.watchPosition((position) => {
+                dispatch({type: 'GPS_UPDATE_LOC', payload: position})
+            }, (error) => {
+            }
+            // }, (error) => this.setState(
+            // {
+            //     error: {
+            //         message: error.message,
+            //         source: 'watchPosition',
+            //     }
+            // }
+            // )
+            , {
+                enableHighAccuracy: true,
+                timeout: TIMEOUT_WATCH,
+                maximumAge: MAX_AGE,
+                distanceFilter: DISTANCE_FILTER
+            });
+
+        dispatch({type: GPS_INIT_WATCH, payload: watchId});
+    }
 };
 /**
  *
@@ -163,6 +215,6 @@ export const calculateDistance = (a, b) => {
     return R * c;
 };
 
-const clearWatchGps = (watchID) => {
-    // navigator.geolocation.clearWatch(watchID);
+const clearWatchGps = (watchId) => {
+    navigator.geolocation.clearWatch(watchId);
 };
