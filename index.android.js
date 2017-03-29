@@ -9,10 +9,14 @@ import {
     AppRegistry,
     View,
 } from 'react-native';
-import Header from './src/containers/Header'
-import Footer from './src/containers/Footer'
+import Header from './src/components/Header'
+import Footer from './src/components/Footer'
 import LiveTracker from './src/containers/LiveTracker'
 import * as globalStyles from './src/styles/global';
+import { Provider } from 'react-redux';
+import createStore from "./src/store";
+
+const store = createStore();
 
 export default class TrackenerBrookeApp extends Component {
     constructor(props) {
@@ -23,7 +27,9 @@ export default class TrackenerBrookeApp extends Component {
         return (
             <View style={[globalStyles.COMMON_STYLES.main]}>
                 <Header/>
-                <LiveTracker/>
+                <Provider store={store}>
+                    <LiveTracker/>
+                </Provider>
                 <Footer/>
             </View>
         );

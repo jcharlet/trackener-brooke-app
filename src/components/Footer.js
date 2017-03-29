@@ -52,4 +52,3 @@ export default class Footer extends Component {
 
 }
 
-AppRegistry.registerComponent('TrackenerBrookeApp', () => TrackenerBrookeApp);

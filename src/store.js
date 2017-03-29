@@ -1,26 +1,17 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+// import createLogger from 'redux-logger';
+import promiseMiddleware from 'redux-promise';
+import liveTrackerReducer from "./reducers/liveTrackerReducer";
 
-const initialState = {
-  count: 0
-};
+// const logger = createLogger();
 
-const countReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
-      return {
-        count: state.count + 1
-      };
-    case 'DECREMENT':
-      return {
-        count: state.count - 1
-      };
-    case 'ZERO':
-      return {
-        count: 0
-      };
-    default:
-      return state;
-  }
-};
-
-export default createStore(countReducer);
+// export default (initialState = {}) => (
+export default () => (
+    createStore(
+        combineReducers({
+            liveTracker: liveTrackerReducer,
+        }),
+        // initialState,
+        // applyMiddleware(promiseMiddleware)
+    )
+);
