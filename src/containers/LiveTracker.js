@@ -9,9 +9,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import LiveTrackerPage from "../components/LiveTrackerPage";
-import {START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, START_GPS_WATCH, TEST} from "../actions/actionTypes";
+import {START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE} from "../actions/actionTypes";
 import {connect} from "react-redux";
-import {stopAfterFiveSeconds, watchGPS} from "../reducers/liveTrackerReducer";
+import {watchGPS} from "../reducers/liveTrackerReducer";
 
 
 const mapStateToProps = (state) => {

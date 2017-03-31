@@ -1,18 +1,20 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
 // import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk'
 import liveTrackerReducer from "./reducers/liveTrackerReducer";
-
+import navReducer from "./reducers/navReducer";
 //FIXME logger to enable (throws error currently)
 // const logger = createLogger();
+
+
 
 // export default (initialState = {}) => (
 export default () => (
     createStore(
         combineReducers({
+            nav: navReducer,
             liveTracker: liveTrackerReducer,
         }),
-        // initialState,
         applyMiddleware(thunkMiddleware)
     )
 );
