@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {AppRegistry,View} from 'react-native';
 import Header from './components/Header'
-import Footer from './components/Footer'
 import * as globalStyles from './styles/global';
 import {
     addNavigationHelpers,
@@ -32,7 +31,6 @@ export default class App extends Component {
                 <Provider store={this.store}>
                     <AppWithNavigationState/>
                 </Provider>
-                <Footer/>
             </View>
         );
     }

@@ -5,10 +5,11 @@ import {
 } from 'react-navigation';
 
 const initialNavState = {
-    index: 1,
+    index: 0,
     routes: [
-        { key: 'InitA', routeName: 'DetailedSession' },
-        { key: 'InitB', routeName: 'LiveTracker' },
+        { key: 'InitA', routeName: 'LiveTracker' },
+        { key: 'InitB', routeName: 'HackDetails' },
+        { key: 'InitC', routeName: 'History' },
     ],
 };
 

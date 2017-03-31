@@ -13,7 +13,7 @@ import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../util/utils";
 
 
-export default class DetailedSessionScreen extends Component{
+export default class HackDetailsScreen extends Component{
 
     constructor(props) {
         super(props);
@@ -23,10 +23,6 @@ export default class DetailedSessionScreen extends Component{
         return (<View><Text>Detailed session</Text></View>);
     }
 }
-
-DetailedSessionScreen.navigationOptions = {
-    title: 'DetailedSession title',
-};
 //
 // LiveTrackerPage.propTypes = {
 //     liveTracker:PropTypes.any,

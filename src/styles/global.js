@@ -5,9 +5,9 @@ import {
 
 export const ACTIVE_OPACITY = 0.6;
 
-let GREEN = '#619b64';
-let WHITE = 'white';
-let GRAY = '#d9d9d9';
+export const GREEN = '#619b64';
+export const WHITE = 'white';
+export const GRAY = '#d9d9d9';
 
 export const COMMON_STYLES = StyleSheet.create({
     main: {
@@ -198,36 +198,6 @@ export const COMMON_STYLES = StyleSheet.create({
         margin: 20,
     },
 
-
-    footer: {
-        flexBasis: 55,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        backgroundColor: GREEN,
-    },
-    footerView: {
-        height: 47,
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    footerText: {
-        flex: 1,
-        color: '#F5FCFF',
-        textAlignVertical: 'center'
-    },
-    footerImage: {
-        width: 32, height: 32, backgroundColor: GREEN,
-    },
-    tabSelected: {
-        height: 55,
-        borderStyle: 'solid',
-        borderColor: WHITE,
-        // borderWidth: 1,
-        borderBottomWidth: 8
-    },
 
     border: {
         borderStyle: 'solid',

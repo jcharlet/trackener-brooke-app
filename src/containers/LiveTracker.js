@@ -12,6 +12,7 @@ import LiveTrackerPage from "../components/LiveTrackerPage";
 import {START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE} from "../actions/actionTypes";
 import {connect} from "react-redux";
 import {watchGPS} from "../reducers/liveTrackerReducer";
+import * as globalStyles from "../styles/global";
 
 
 const mapStateToProps = (state) => {
