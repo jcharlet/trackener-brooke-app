@@ -5,9 +5,9 @@ import {
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
 import LiveTracker from "./LiveTracker";
-import HackDetailsScreen from "../components/HackDetailsScreen";
 import HistoryScreen from "../components/HistoryScreen";
 import * as globalStyles from "../styles/global"
+import HackDetails from "./HackDetails";
 
 //FIXME calendar icon is cropped
 
@@ -23,7 +23,7 @@ LiveTracker.navigationOptions = {
     },
 };
 
-HackDetailsScreen.navigationOptions = {
+HackDetails.navigationOptions = {
     title: 'Hack details',
     tabBar: {
         icon: ({tintColor}) => (
@@ -49,7 +49,7 @@ HistoryScreen.navigationOptions = {
 
 export default AppNavigator = TabNavigator({
     LiveTracker: {screen: LiveTracker},
-    HackDetails: {screen: HackDetailsScreen},
+    HackDetails: {screen: HackDetails},
     History: {screen: HistoryScreen},
 }, {
     tabBarPosition: 'bottom',

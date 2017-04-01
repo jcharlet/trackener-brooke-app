@@ -98,7 +98,7 @@ export const COMMON_STYLES = StyleSheet.create({
     },
     infoBoxArrow: {
         alignSelf: 'center',
-        flexGrow: 1,
+        flexGrow: 2,
         width: 30,
         height: 30
     },

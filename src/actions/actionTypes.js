@@ -12,7 +12,8 @@ export const RESTART_RIDE = 'RESTART_RIDE';
 export const GPS_INIT_LOC = 'GPS_INIT_LOC';
 export const GPS_UPDATE_LOC = 'GPS_UPDATE_LOC';
 export const GPS_INIT_WATCH = 'GPS_INIT_WATCH';
-
 ///////////////////////
 // Hack details actions
 ///////////////////////
+
+export const ADD_RIDE = 'ADD_RIDE';

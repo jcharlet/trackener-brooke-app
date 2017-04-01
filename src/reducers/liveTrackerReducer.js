@@ -2,10 +2,11 @@ import {
     START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_LOC,
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
-import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER} from "../util/utils";
+import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER, formatDate} from "../util/utils";
 
 const initialState = {
     status: STATUS.STOP,
+    date:null,
     initialPosition: undefined,
     lastPosition: undefined,
     watchId: null,
@@ -13,20 +14,23 @@ const initialState = {
     totalDistance: 0,
     duration: 0,
     error: null,
-    speed: 0
+    speed: 0,
+    avgSpeed:0,
+    maxSpeed:0,
+    nbMeasures:0,
 };
 
 export default (state = initialState, action = {}) => {
     switch (action.type) {
 
         case START_RIDE:
-            return startTracking(state);
+            return startRide(state);
         case STOP_RIDE:
-            return stopTracking(state);
+            return stopRide(state);
         case PAUSE_RIDE:
-            return pauseTracking(state);
+            return pauseRide(state);
         case RESTART_RIDE:
-            return restartTracking(state);
+            return restartRide(state);
 
         // case START_GPS_WATCH:
         //     return startGpsWatch(state);
@@ -42,10 +46,11 @@ export default (state = initialState, action = {}) => {
 };
 
 
-const startTracking = (state) => {
+const startRide = (state) => {
     return {
         ...state,
         status: STATUS.START,
+        date:formatDate(new Date()),
         distance: 0,
         duration: 0,
         initialPosition: undefined,
@@ -54,7 +59,7 @@ const startTracking = (state) => {
     };
 };
 
-const stopTracking = (state) => {
+const stopRide = (state) => {
     clearWatchGps(state.watchId);
     return {
         ...state,
@@ -62,7 +67,7 @@ const stopTracking = (state) => {
     };
 };
 
-const pauseTracking = (state) => {
+const pauseRide = (state) => {
     clearWatchGps(state.watchId);
     return {
         ...state,
@@ -70,7 +75,7 @@ const pauseTracking = (state) => {
     };
 };
 
-const restartTracking = (state) => {
+const restartRide = (state) => {
     return {
         ...state,
         status: STATUS.START,
@@ -99,6 +104,7 @@ const initLocation = (state, position) => {
             timestamp: position.timestamp
         },
         speed: position.coords.speed,
+        nbMeasures:1,
     }
 };
 
@@ -113,6 +119,9 @@ const updateLocation = (state, position) => {
     let distance = state.distance + distanceRidden;
     let totalDistance = state.totalDistance + distanceRidden;
     let duration = state.duration + (position.timestamp - state.lastPosition.timestamp) / 1000;
+    let nbMeasures = state.nbMeasures+1;
+    let avgSpeed = (state.avgSpeed * (nbMeasures-1) + position.speed)/nbMeasures;
+    let maxSpeed = position.speed>state.maxSpeed?position.speed:state.maxSpeed;
     return {
         ...state,
         lastPosition: {
@@ -124,6 +133,9 @@ const updateLocation = (state, position) => {
         totalDistance: totalDistance,
         duration: duration,
         speed: position.coords.speed,
+        nbMeasures: nbMeasures,
+        avgSpeed: avgSpeed,
+        maxSpeed: maxSpeed,
     };
 };
 

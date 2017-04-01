@@ -81,7 +81,8 @@ export default class LiveTrackerPage extends Component{
     renderDefaultScreen() {
         return (
             <View style={[globalStyles.COMMON_STYLES.container]}>
-              <TouchableOpacity style={globalStyles.COMMON_STYLES.infoBox} activeOpacity={globalStyles.ACTIVE_OPACITY}>
+              <TouchableOpacity style={globalStyles.COMMON_STYLES.infoBox} activeOpacity={globalStyles.ACTIVE_OPACITY}
+              onPress={() => this.props.navigation.navigate('HackDetails')}>
                 <Text
                     style={globalStyles.COMMON_STYLES.infoBoxStartText}>{utils.roundWithThreeDecimals(this.props.liveTracker.totalDistance * utils.ONE_METER_IN_MILES)} mi ridden</Text>
                 <Image source={require('../../img/ic_navigate_next_green.png')} style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
