@@ -3,7 +3,7 @@ import {
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
 import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER, formatDateTime} from "../util/utils";
-
+//FIXME bug on maxSpeed: lower than what is measured
 const initialState = {
     status: STATUS.STOP,
     date:null,
@@ -17,7 +17,6 @@ const initialState = {
     speed: 0,
     avgSpeed:0,
     maxSpeed:0,
-    nbMeasures:0,
 };
 
 export default (state = initialState, action = {}) => {
@@ -56,6 +55,9 @@ const startRide = (state) => {
         initialPosition: undefined,
         lastPosition: undefined,
         error: null,
+        speed:0,
+        avgSpeed:0,
+        maxSpeed:0,
     };
 };
 
@@ -63,7 +65,7 @@ const stopRide = (state) => {
     clearWatchGps(state.watchId);
     return {
         ...state,
-        status: STATUS.STOP
+        status: STATUS.STOP,
     };
 };
 
@@ -91,6 +93,10 @@ const initWatch = (state, watchId) => {
     };
 };
 const initLocation = (state, position) => {
+    let speed = state.speed;
+    if (position.coords.speed && position.coords.speed!= undefined && position.coords.speed!="NaN"){
+        speed = position.coords.speed;
+    }
     return {
         ...state,
         initialPosition: {
@@ -103,8 +109,7 @@ const initLocation = (state, position) => {
             latitude: position.coords.latitude,
             timestamp: position.timestamp
         },
-        speed: position.coords.speed,
-        nbMeasures:1,
+        speed: speed,
     }
 };
 
@@ -119,9 +124,16 @@ const updateLocation = (state, position) => {
     let distance = state.distance + distanceRidden;
     let totalDistance = state.totalDistance + distanceRidden;
     let duration = state.duration + (position.timestamp - state.lastPosition.timestamp) / 1000;
-    let nbMeasures = state.nbMeasures+1;
-    let avgSpeed = (state.avgSpeed * (nbMeasures-1) + position.speed)/nbMeasures;
-    let maxSpeed = position.speed>state.maxSpeed?position.speed:state.maxSpeed;
+    let avgSpeed = distance/duration;
+
+
+    let speed = state.speed;
+    let maxSpeed = state.maxSpeed;
+    if (position.coords.speed && position.coords.speed!= undefined && position.coords.speed!="NaN"){
+        speed = position.coords.speed;
+        maxSpeed = position.coords.speed>state.maxSpeed?position.coords.speed:state.maxSpeed;
+    }
+
     return {
         ...state,
         lastPosition: {
@@ -132,8 +144,7 @@ const updateLocation = (state, position) => {
         distance: distance,
         totalDistance: totalDistance,
         duration: duration,
-        speed: position.coords.speed,
-        nbMeasures: nbMeasures,
+        speed: speed,
         avgSpeed: avgSpeed,
         maxSpeed: maxSpeed,
     };

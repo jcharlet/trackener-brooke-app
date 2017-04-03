@@ -53,8 +53,8 @@ function addRide(){
             startDate:0,
             distance: state.liveTracker.distance,
             duration: state.liveTracker.duration,
-            avgSpeed: 0,
-            maxSpeed: 0
+            avgSpeed: state.liveTracker.avgSpeed,
+            maxSpeed: state.liveTracker.maxSpeed
         }
         })
     }

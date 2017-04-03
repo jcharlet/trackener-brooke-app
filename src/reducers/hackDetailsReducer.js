@@ -4,24 +4,24 @@ import {
 import moment from "../../node_modules/moment/moment";
 
 const initialState = {
-    //FIXME initial state to empty
     rides:[
-        {
-            date:moment("20170330").valueOf(),
-            distance: 456.564987,
-            duration: 78,
-            avgSpeed: 11.5,
-            maxSpeed: 24.54
-        },
-        {
-            date:moment().valueOf(),
-            distance: 19856.564987,
-            duration: 265,
-            avgSpeed: 12.2132,
-            maxSpeed: 25.5648
-        },
+        // {
+        //     date:moment("20170330").valueOf(),
+        //     distance: 456.564987,
+        //     duration: 78,
+        //     avgSpeed: 11.5,
+        //     maxSpeed: 24.54
+        // },
+        // {
+        //     date:moment().valueOf(),
+        //     distance: 19856.564987,
+        //     duration: 265,
+        //     avgSpeed: 12.2132,
+        //     maxSpeed: 25.5648
+        // },
     ],
-    index:1,
+    // index:1,
+    index:0,
 };
 
 export default (state = initialState, action = {}) => {

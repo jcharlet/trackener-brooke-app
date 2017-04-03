@@ -11,7 +11,7 @@ import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../util/utils";
 
-
+//TODO force PORTRAIT mode only
 export default class LiveTrackerScreen extends Component{
 
     constructor(props) {
@@ -69,9 +69,15 @@ export default class LiveTrackerScreen extends Component{
               </View>
 
               <View style={globalStyles.COMMON_STYLES.infoBox}>
-                <Text
-                    style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>SPEED {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.speed))}
-                  mi/h</Text>
+                  <Text
+                      style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>SPEED {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.speed))}
+                      mi/h</Text>
+                  {/*<Text*/}
+                      {/*style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.maxSpeed))}*/}
+                      {/*mi/h</Text>*/}
+                  {/*<Text*/}
+                      {/*style={[globalStyles.COMMON_STYLES.infoBoxText]}>AVG {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.avgSpeed))}*/}
+                      {/*mi/h</Text>*/}
               </View>
             </View>
         );
