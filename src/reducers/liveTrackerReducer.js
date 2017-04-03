@@ -2,7 +2,7 @@ import {
     START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_LOC,
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
-import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER, formatDate} from "../util/utils";
+import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER, formatDateTime} from "../util/utils";
 
 const initialState = {
     status: STATUS.STOP,
@@ -50,7 +50,7 @@ const startRide = (state) => {
     return {
         ...state,
         status: STATUS.START,
-        date:formatDate(new Date()),
+        date:formatDateTime(new Date()),
         distance: 0,
         duration: 0,
         initialPosition: undefined,

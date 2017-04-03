@@ -28,7 +28,7 @@ HistoryScreen.navigationOptions = {
     title: 'History',
 };
 //
-// LiveTrackerPage.propTypes = {
+// LiveTrackerScreen.propTypes = {
 //     liveTracker:PropTypes.any,
 //     startTracking: PropTypes.func,
 //     stopTracking: PropTypes.func,

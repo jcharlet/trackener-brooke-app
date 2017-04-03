@@ -8,7 +8,7 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native';
-import LiveTrackerPage from "../components/LiveTrackerPage";
+import LiveTrackerPage from "../components/LiveTrackerScreen";
 import {START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, ADD_RIDE} from "../actions/actionTypes";
 import {connect} from "react-redux";
 import {watchGPS} from "../reducers/liveTrackerReducer";
@@ -20,22 +20,6 @@ const mapStateToProps = (state) => {
         liveTracker: state.liveTracker,
     }
 };
-
-function addRide(){
-    return(dispatch, getState)=>{
-        let state = getState();
-
-        dispatch({type:ADD_RIDE, payload:{
-            date:state.liveTracker.date,
-            startDate:0,
-            distance: state.liveTracker.distance,
-            duration: state.liveTracker.duration,
-            avgSpeed: 0,
-            maxSpeed: 0
-        }
-        })
-    }
-}
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -59,6 +43,22 @@ const mapDispatchToProps = (dispatch) => {
         },
     }
 };
+
+function addRide(){
+    return(dispatch, getState)=>{
+        let state = getState();
+
+        dispatch({type:ADD_RIDE, payload:{
+            date:state.liveTracker.date,
+            startDate:0,
+            distance: state.liveTracker.distance,
+            duration: state.liveTracker.duration,
+            avgSpeed: 0,
+            maxSpeed: 0
+        }
+        })
+    }
+}
 
 const LiveTracker = connect(
     mapStateToProps,

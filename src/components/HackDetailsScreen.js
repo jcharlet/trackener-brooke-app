@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {
     AppRegistry,
@@ -11,38 +10,142 @@ import {
 import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../util/utils";
+import moment from "moment";
 
 
-export default class HackDetailsScreen extends Component{
+export default class HackDetailsScreen extends Component {
 
     constructor(props) {
         super(props);
     }
 
-    render(){
-        if(this.props.hackDetails.rides && this.props.hackDetails.rides.length>0){
-            let ride = this.props.hackDetails.rides[this.props.hackDetails.rides.length-1];
+    formatDateToDisplay(dateTime) {
+        if (moment(dateTime).format("YYYY MM DD") == moment().format("YYYY MM DD")) {
+            return "TODAY"
+        }
+        return moment(dateTime).format("MMMM Do");
+    }
+
+    renderBrowsingButton(side){
+        switch (side){
+            case "LEFT":
+                if (this.props.hasPreviousHack(this.props.hackDetails.index, this.props.hackDetails.rides.length)){
+                    return (
+                        <TouchableOpacity activeOpacity={globalStyles.ACTIVE_OPACITY}
+                            onPress={this.props.showPreviousHack}
+
+                                          style={{
+                                  width:50
+                        /*
+                        borderStyle: 'solid',
+                        borderColor: 'red',
+                        borderWidth: 1,
+                        height:50,
+
+                        */
+                     }}>
+                        <Image source={require('../../img/ic_navigate_prev_green.png')}
+                        //    {/*style={globalStyles.COMMON_STYLES.infoBoxArrow}*/}
+                    />
+                        </TouchableOpacity>);
+                }
+                break;
+            case "RIGHT":
+                if (this.props.hasNextHack(this.props.hackDetails.index, this.props.hackDetails.rides.length)){
+                    return (
+                        <TouchableOpacity activeOpacity={globalStyles.ACTIVE_OPACITY}
+                                          onPress={this.props.showNextHack}
+
+                                          style={{
+                                  width:50
+                        /*
+                        borderStyle: 'solid',
+                        borderColor: 'red',
+                        borderWidth: 1,
+                        height:50,
+
+                        */
+                     }}>
+                            <Image source={require('../../img/ic_navigate_next_green.png')}
+                                //    {/*style={globalStyles.COMMON_STYLES.infoBoxArrow}*/}
+                            />
+                        </TouchableOpacity>);
+                }
+        }
+        return  <View style={{width:50}}><Text> </Text></View>;
+    }
+
+    renderHackBrowserTopBar() {
+        let ride = this.props.hackDetails.rides[this.props.hackDetails.index];
+        let date = this.formatDateToDisplay(ride.date);
+        let time = moment(ride.date).format("HH:mm");
+        return (
+            <View style={{
+                flex:0,
+                flexDirection:"row",
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+            }}>
+                {this.renderBrowsingButton("LEFT")}
+                <View style={{
+                    flexGrow:2,
+                    flex:1,
+                flexDirection:"column",
+                        height:50,
+                        margin:5
+                }}>
+                    <Text style={{
+                        textAlign: 'center',
+                        textAlignVertical: 'center',
+        fontSize: 22,
+        fontWeight:'500',
+        fontVariant: ['small-caps'],
+        color: globalStyles.GREEN,
+                     }}>
+                        {date}
+                    </Text>
+                    <Text style={{
+                        textAlign: 'center',
+                        textAlignVertical: 'center',
+        fontSize: 16,
+        color: globalStyles.GREEN,
+                     }}>
+                        {time}
+                    </Text>
+                </View>
+                {this.renderBrowsingButton("RIGHT")}
+            </View>
+        )
+    }
+
+    render() {
+        if (this.props.hackDetails.rides && this.props.hackDetails.rides.length > 0) {
+            let ride = this.props.hackDetails.rides[this.props.hackDetails.index];
             return (
-                <View>
-                    <View><Text>{ride.date}</Text></View>
-                    <View>
-                        <View>
-                            <View><Text>TIME</Text></View>
-                            <View><Text>{ride.duration}</Text></View>
+
+                <View
+                    style={{
+
+        flex: 1,
+        alignItems: 'flex-start'
+                    }}
+                >
+                    {this.renderHackBrowserTopBar()}
+                    <View style={globalStyles.COMMON_STYLES.container}>
+                        <View style={globalStyles.COMMON_STYLES.infoBox}>
+                            <Text
+                                style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(ride.duration))}</Text>
+                            <Text
+                                style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(ride.distance * utils.ONE_METER_IN_MILES)}
+                                mi</Text>
                         </View>
-                        <View>
-                            <View><Text>DISTANCE</Text></View>
-                            <View><Text>{ride.distance}</Text></View>
-                        </View>
-                    </View>
-                    <View>
-                        <View>
-                            <View><Text>Max Speed</Text></View>
-                            <View><Text>{ride.maxSpeed}</Text></View>
-                        </View>
-                        <View>
-                            <View><Text>Avg Speed</Text></View>
-                            <View><Text>{ride.avgSpeed}</Text></View>
+                        <View style={globalStyles.COMMON_STYLES.infoBox}>
+                            <Text
+                                style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX SPEED {"\n"} {utils.roundWithOneDecimals(ride.maxSpeed)}
+                                mi/h</Text>
+                            <Text
+                                style={globalStyles.COMMON_STYLES.infoBoxText}>AVG SPEED {"\n"} {utils.roundWithOneDecimals(ride.avgSpeed)}
+                                mi/h</Text>
                         </View>
                     </View>
                 </View>
@@ -56,6 +159,53 @@ export default class HackDetailsScreen extends Component{
 }
 
 HackDetailsScreen.propTypes = {
-    hackDetails:PropTypes.any,
+    hackDetails: PropTypes.any,
+    showPreviousHack: PropTypes.func,
+    showNextHack: PropTypes.func,
+    hasPreviousHack: PropTypes.func,
+    hasNextHack: PropTypes.func,
 };
+
+
+// export const COMMON_STYLES = StyleSheet.create(
+//     {
+//         infoBox: {
+//             borderStyle: 'solid',
+//             borderColor: globalStyles.GREEN,
+//             borderWidth: 2,
+//
+//             flexDirection: 'row',
+//             alignSelf: 'stretch',
+//             width: undefined,
+//             margin: 20,
+//         },
+//         infoBoxStartText: {
+//             fontSize: 30,
+//             padding: 20,
+//             color: globalStyles.GREEN,
+//             alignItems: 'center',
+//             flexGrow: 3,
+//             textAlign: 'center',
+//             paddingLeft: 70
+//         },
+//         infoBoxText: {
+//             fontSize: 20,
+//             padding: 20,
+//             color: globalStyles.GREEN,
+//             alignItems: 'center',
+//             flexGrow: 1,
+//             textAlign: 'center',
+//         },
+//         infoBoxBorderRight: {
+//             borderRightColor: globalStyles.GREEN,
+//             borderStyle: 'solid',
+//             borderRightWidth: 1,
+//         },
+//         infoBoxArrow: {
+//             alignSelf: 'center',
+//             flexGrow: 2,
+//             width: 30,
+//             height: 30
+//         },
+//     });
 

@@ -1,4 +1,3 @@
-
 export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 export const ONE_METER_IN_MILES = 0.000621;
 
@@ -31,16 +30,25 @@ export const secondsToHourMinSec = (input) => {
     ].join(typeof separator !== 'undefined' ? separator : ':');
 };
 
-export function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-        hour = d.getHours();
-        minutes = d.getMinutes();
+export function formatDateTime(date) {
+    var month = '' + (date.getMonth() + 1),
+        day = '' + date.getDate(),
+        year = date.getFullYear(),
+        hour = date.getHours(),
+        minutes = date.getMinutes();
 
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-    return [year, month, day].join('-') + " " + [hour,minutes].join(':');
+    return [year, month, day].join('-') + " " + [hour, minutes].join(':');
+}
+export function formatDate(date) {
+    var month = '' + (date.getMonth() + 1),
+        day = '' + date.getDate(),
+        year = date.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }

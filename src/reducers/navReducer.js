@@ -5,7 +5,8 @@ import {
 } from 'react-navigation';
 
 const initialNavState = {
-    index: 0,
+    //FIXME put back index to 0
+    index: 1,
     routes: [
         { key: 'InitA', routeName: 'LiveTracker' },
         { key: 'InitB', routeName: 'HackDetails' },

@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {
     AppRegistry,
@@ -13,7 +12,7 @@ import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../util/utils";
 
 
-export default class LiveTrackerPage extends Component{
+export default class LiveTrackerScreen extends Component{
 
     constructor(props) {
         super(props);
@@ -79,6 +78,7 @@ export default class LiveTrackerPage extends Component{
     }
 
     renderDefaultScreen() {
+        //FIXME navigation weirdly behaves + crash to hack Details from total distance button
         return (
             <View style={[globalStyles.COMMON_STYLES.container]}>
               <TouchableOpacity style={globalStyles.COMMON_STYLES.infoBox} activeOpacity={globalStyles.ACTIVE_OPACITY}
@@ -125,7 +125,7 @@ export default class LiveTrackerPage extends Component{
 }
 
 
-LiveTrackerPage.propTypes = {
+LiveTrackerScreen.propTypes = {
     liveTracker:PropTypes.any,
     startTracking: PropTypes.func,
     stopTracking: PropTypes.func,
