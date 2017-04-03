@@ -155,7 +155,26 @@ export default class HackDetailsScreen extends Component {
             );
         }
         return (
-            <View><Text>No session recorded</Text></View>
+                <View style={[globalStyles.COMMON_STYLES.container,{
+
+                    flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+
+            }]}>
+                    <Text
+                        style={{
+                    textAlign:"center",
+        fontSize: 20,
+        padding: 20,
+        color: globalStyles.GREEN,
+        //borderStyle: 'solid',
+        //borderColor: 'red',
+        //borderWidth: 1
+                }}
+                    >No hack recorded</Text>
+                </View>
         );
     }
 }

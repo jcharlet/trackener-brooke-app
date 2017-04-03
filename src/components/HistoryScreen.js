@@ -20,7 +20,25 @@ export default class HistoryScreen extends Component{
     }
 
     render(){
-        return (<View><Text>History</Text></View>);
+        return (
+            <View style={[globalStyles.COMMON_STYLES.container,{
+                    flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+            }]}>
+                <Text
+                style={{
+                    textAlign:"center",
+        fontSize: 20,
+        padding: 20,
+        color: globalStyles.GREEN,
+        //borderStyle: 'solid',
+        //borderColor: 'red',
+        //borderWidth: 1
+                }}
+                >Not available yet</Text>
+            </View>);
     }
 }
 

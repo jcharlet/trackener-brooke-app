@@ -50,7 +50,7 @@ HistoryScreen.navigationOptions = {
 export default AppNavigator = TabNavigator({
     LiveTracker: {screen: LiveTracker},
     HackDetails: {screen: HackDetails},
-    History: {screen: HistoryScreen},
+    // History: {screen: HistoryScreen},
 }, {
     tabBarPosition: 'bottom',
     tabBarOptions: {
