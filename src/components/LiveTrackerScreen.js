@@ -11,7 +11,6 @@ import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../util/utils";
 
-//TODO force PORTRAIT mode only
 export default class LiveTrackerScreen extends Component{
 
     constructor(props) {
@@ -90,7 +89,7 @@ export default class LiveTrackerScreen extends Component{
               <TouchableOpacity style={globalStyles.COMMON_STYLES.infoBox} activeOpacity={globalStyles.ACTIVE_OPACITY}
               onPress={() => this.props.navigation.navigate('HackDetails')}>
                 <Text
-                    style={globalStyles.COMMON_STYLES.infoBoxStartText}>{utils.roundWithThreeDecimals(this.props.liveTracker.totalDistance * utils.ONE_METER_IN_MILES)} mi ridden</Text>
+                    style={globalStyles.COMMON_STYLES.infoBoxStartText}>{utils.roundWithOneDecimals(this.props.liveTracker.totalDistance * utils.ONE_METER_IN_MILES)} mi ridden</Text>
                 <Image source={require('../../img/ic_navigate_next_green.png')} style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
               </TouchableOpacity>
 

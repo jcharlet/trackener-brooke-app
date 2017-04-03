@@ -3,7 +3,6 @@ import {
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
 import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER, formatDateTime} from "../util/utils";
-//FIXME bug on maxSpeed: lower than what is measured
 const initialState = {
     status: STATUS.STOP,
     date:null,

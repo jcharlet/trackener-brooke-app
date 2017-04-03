@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         startTracking: () => {
-            //FIXME thunk had to be called directly for some reason
+            //FIXME LOW thunk had to be called directly for some reason
             // dispatch({type:START_GPS_WATCH});
             dispatch(watchGPS());
             dispatch({type:START_RIDE});
