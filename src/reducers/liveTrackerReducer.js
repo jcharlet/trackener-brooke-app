@@ -3,20 +3,40 @@ import {
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
 import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER, formatDateTime} from "../util/utils";
+
+const SPEED_THRESHOLD_STOP = 1;
+const SPEED_THRESHOLD_WALK = 7;
+const SPEED_THRESHOLD_TROT = 13;
+const GAIT_STOP = "STOP";
+const GAIT_WALK = "WALK";
+const GAIT_TROT = "TROT";
+const GAIT_CANTER = "CANTER";
+
 const initialState = {
     status: STATUS.STOP,
-    date:null,
-    initialPosition: undefined,
-    lastPosition: undefined,
-    watchId: null,
-    distance: 0,
     totalDistance: 0,
-    duration: 0,
-    error: null,
-    speed: 0,
-    avgSpeed:0,
-    maxSpeed:0,
+    // ride:{
+    //     date:null,
+    //     watchId: null,
+    //     positions:[
+    //         {
+    //             longitude:0,
+    //             latitude:0,
+    //             timestamp:0,
+    //             speed:0,
+    //             gait:"",
+    //         }
+    //     ],
+    //     analytics:{
+    //         distance: 0,
+    //         duration: 0,
+    //         lastSpeed:0,
+    //         avgSpeed:0,
+    //         maxSpeed:0,
+    //     },
+    // },
 };
+
 
 export default (state = initialState, action = {}) => {
     switch (action.type) {
@@ -48,20 +68,32 @@ const startRide = (state) => {
     return {
         ...state,
         status: STATUS.START,
-        date:formatDateTime(new Date()),
-        distance: 0,
-        duration: 0,
-        initialPosition: undefined,
-        lastPosition: undefined,
-        error: null,
-        speed:0,
-        avgSpeed:0,
-        maxSpeed:0,
+        ride: {
+            date: formatDateTime(new Date()),
+            watchId: null,
+            positions: [
+                // {
+                //     longitude:0,
+                //     latitude:0,
+                //     timestamp:0,
+                //     speed:0,
+                //     gait:"",
+                // }
+            ],
+            analytics: {
+                distance: 0,
+                duration: 0,
+                lastSpeed: 0,
+                avgSpeed: 0,
+                maxSpeed: 0,
+            },
+        },
     };
 };
 
 const stopRide = (state) => {
-    clearWatchGps(state.watchId);
+
+    clearWatchGps(state.ride.watchId);
     return {
         ...state,
         status: STATUS.STOP,
@@ -69,7 +101,7 @@ const stopRide = (state) => {
 };
 
 const pauseRide = (state) => {
-    clearWatchGps(state.watchId);
+    clearWatchGps(state.ride.watchId);
     return {
         ...state,
         status: STATUS.PAUSE
@@ -80,110 +112,102 @@ const restartRide = (state) => {
     return {
         ...state,
         status: STATUS.START,
-        initialPosition: undefined,
-        lastPosition: undefined,
     };
 };
 
 const initWatch = (state, watchId) => {
+    let ride = state.ride;
+    ride.watchId = watchId;
     return {
         ...state,
-        watchId: watchId
+        ride: ride,
+    };
+};
+let createPositionObjectFromGeoPosition = function (state, position) {
+    let speed = undefined;
+    let gait = undefined;
+    if (position.coords.speed != undefined && position.coords.speed != "NaN") {
+        speed = position.coords.speed;
+        gait = getGaitFromSpeed(speed);
+    }
+    return {
+        longitude: position.coords.longitude,
+        latitude: position.coords.latitude,
+        timestamp: position.timestamp,
+        speed: speed,
+        gait: gait,
     };
 };
 const initLocation = (state, position) => {
-    let speed = state.speed;
-    if (position.coords.speed && position.coords.speed!= undefined && position.coords.speed!="NaN"){
-        speed = position.coords.speed;
-    }
+    let newPosition = createPositionObjectFromGeoPosition(state, position);
+
+    let positions = state.ride.positions;
+    positions.push(newPosition);
+    let ride = state.ride;
+    ride.positions = positions;
     return {
         ...state,
-        initialPosition: {
-            longitude: position.coords.longitude,
-            latitude: position.coords.latitude,
-            timestamp: position.timestamp
-        },
-        lastPosition: {
-            longitude: position.coords.longitude,
-            latitude: position.coords.latitude,
-            timestamp: position.timestamp
-        },
-        speed: speed,
+        ride: ride,
     }
 };
 
 const updateLocation = (state, position) => {
-    if (state.lastPosition == undefined) {
+    let newPosition = createPositionObjectFromGeoPosition(state, position);
+
+    if (!state.ride.positions || state.ride.positions.length == 0) {
+        return state;
+    }
+    let lastPosition = state.ride.positions[state.ride.positions.length - 1];
+    if (lastPosition.timestamp - newPosition.timestamp > 10 * 1000) {
         return state;
     }
 
-    let from = {lat: state.lastPosition.latitude, lon: state.lastPosition.longitude};
-    let to = {lat: position.coords.latitude, lon: position.coords.longitude};
+    let from = {lat: lastPosition.latitude, lon: lastPosition.longitude};
+    let to = {lat: newPosition.latitude, lon: newPosition.longitude};
     let distanceRidden = calculateDistance(from, to);
-    let distance = state.distance + distanceRidden;
+    let distance = state.ride.analytics.distance + distanceRidden;
     let totalDistance = state.totalDistance + distanceRidden;
-    let duration = state.duration + (position.timestamp - state.lastPosition.timestamp) / 1000;
-    let avgSpeed = distance/duration;
+    let duration = state.ride.analytics.duration + (position.timestamp - lastPosition.timestamp) / 1000;
+    let avgSpeed = distance / duration;
 
 
-    let speed = state.speed;
-    let maxSpeed = state.maxSpeed;
-    if (position.coords.speed && position.coords.speed!= undefined && position.coords.speed!="NaN"){
-        speed = position.coords.speed;
-        maxSpeed = position.coords.speed>state.maxSpeed?position.coords.speed:state.maxSpeed;
+    let speed = state.ride.analytics.lastSpeed;
+    let maxSpeed = state.ride.analytics.maxSpeed;
+    if (newPosition.speed != undefined && newPosition.speed != "NaN") {
+        speed = newPosition.speed;
+        maxSpeed = speed > maxSpeed ? speed : maxSpeed
+        ;
     }
 
-    return {
-        ...state,
-        lastPosition: {
-            longitude: position.coords.longitude,
-            latitude: position.coords.latitude,
-            timestamp: position.timestamp
-        },
+    let analytics = {
         distance: distance,
-        totalDistance: totalDistance,
         duration: duration,
-        speed: speed,
+        lastSpeed: speed,
         avgSpeed: avgSpeed,
         maxSpeed: maxSpeed,
     };
+
+    let positions = state.ride.positions;
+    positions.push(newPosition);
+
+    let ride = state.ride;
+    ride.positions = positions;
+    ride.analytics = analytics;
+
+    return {
+        ...state,
+        ride: ride,
+        totalDistance: totalDistance,
+    };
 };
-
-
-// export function stopAfterFiveSeconds() {
-//     return (dispatch) => {
-//         setTimeout(() => {
-//             dispatch({type: STOP_RIDE});
-//         }, 2000);
-//     };
-// }
-
-// export function startGpsWatch(state) {
-//     return (dispatch) => {
-//         let watchId = watchGPS(state);
-//         dispatch({type: GPS_INIT_WATCH, payload: watchId});
-//         // return initWatch(state,watchId);
-//     }
-// }
 
 export const watchGPS = () => {
     return (dispatch) => {
         navigator.geolocation.getCurrentPosition((position) => {
-                // initLocation(state,position);
-                // return (dispatch) => {
                 dispatch({type: 'GPS_INIT_LOC', payload: position})
-                // };
             }
             , (error) => {
             }
-            // , (error) => this.setState(
-            //     {
-            //         error: {
-            //             message: error.message,
-            //             source: 'getCurrentPosition',
-            //         }
-            //     }
-            // )
             , {
                 enableHighAccuracy: true,
                 timeout: TIMEOUT_GET,
@@ -195,14 +219,6 @@ export const watchGPS = () => {
                 dispatch({type: 'GPS_UPDATE_LOC', payload: position})
             }, (error) => {
             }
-            // }, (error) => this.setState(
-            // {
-            //     error: {
-            //         message: error.message,
-            //         source: 'watchPosition',
-            //     }
-            // }
-            // )
             , {
                 enableHighAccuracy: true,
                 timeout: TIMEOUT_WATCH,
@@ -240,3 +256,17 @@ export const calculateDistance = (a, b) => {
 const clearWatchGps = (watchId) => {
     navigator.geolocation.clearWatch(watchId);
 };
+
+function getGaitFromSpeed(speed) {
+    let gaitType;
+    if (speed < SPEED_THRESHOLD_STOP) {
+        gaitType = GAIT_STOP;
+    } else if (speed < SPEED_THRESHOLD_WALK) {
+        gaitType = GAIT_WALK;
+    } else if (speed < SPEED_THRESHOLD_TROT) {
+        gaitType = GAIT_TROT;
+    } else {
+        gaitType = GAIT_CANTER;
+    }
+    return gaitType;
+}

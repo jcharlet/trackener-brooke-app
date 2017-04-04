@@ -26,8 +26,8 @@ const mapDispatchToProps = (dispatch) => {
         startTracking: () => {
             //FIXME LOW thunk had to be called directly for some reason
             // dispatch({type:START_GPS_WATCH});
-            dispatch(watchGPS());
             dispatch({type:START_RIDE});
+            dispatch(watchGPS());
             // dispatch(stopAfterFiveSeconds());
         },
         stopTracking: () => {
@@ -48,14 +48,7 @@ function addRide(){
     return(dispatch, getState)=>{
         let state = getState();
 
-        dispatch({type:ADD_RIDE, payload:{
-            date:state.liveTracker.date,
-            startDate:0,
-            distance: state.liveTracker.distance,
-            duration: state.liveTracker.duration,
-            avgSpeed: state.liveTracker.avgSpeed,
-            maxSpeed: state.liveTracker.maxSpeed
-        }
+        dispatch({type:ADD_RIDE, payload:state.liveTracker.ride
         })
     }
 }

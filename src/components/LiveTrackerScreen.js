@@ -52,9 +52,9 @@ export default class LiveTrackerScreen extends Component{
                 {/*</Text>*/}
               <View style={globalStyles.COMMON_STYLES.infoBox}>
                 <Text
-                    style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(this.props.liveTracker.duration))}</Text>
+                    style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(this.props.liveTracker.ride.analytics.duration))}</Text>
                 <Text
-                    style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(this.props.liveTracker.distance * utils.ONE_METER_IN_MILES)}
+                    style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(this.props.liveTracker.ride.analytics.distance * utils.ONE_METER_IN_MILES)}
                   mi</Text>
               </View>
 
@@ -69,13 +69,13 @@ export default class LiveTrackerScreen extends Component{
 
               <View style={globalStyles.COMMON_STYLES.infoBox}>
                   <Text
-                      style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>SPEED {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.speed))}
+                      style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>SPEED {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.lastSpeed))}
                       mi/h</Text>
                   {/*<Text*/}
-                      {/*style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.maxSpeed))}*/}
+                      {/*style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.maxSpeed))}*/}
                       {/*mi/h</Text>*/}
                   {/*<Text*/}
-                      {/*style={[globalStyles.COMMON_STYLES.infoBoxText]}>AVG {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.avgSpeed))}*/}
+                      {/*style={[globalStyles.COMMON_STYLES.infoBoxText]}>AVG {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.avgSpeed))}*/}
                       {/*mi/h</Text>*/}
               </View>
             </View>

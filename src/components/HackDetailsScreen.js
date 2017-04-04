@@ -134,19 +134,19 @@ export default class HackDetailsScreen extends Component {
                     <View style={globalStyles.COMMON_STYLES.container}>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
                             <Text
-                                style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(ride.duration))}</Text>
+                                style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(ride.analytics.duration))}</Text>
                             <Text
-                                style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(ride.distance * utils.ONE_METER_IN_MILES)}
+                                style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES)}
                                 mi</Text>
                         </View>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
                             <Text
                                 style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX SPEED {"\n"}
-                                {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.maxSpeed))}
+                                {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.maxSpeed))}
                                 mi/h</Text>
                             <Text
                                 style={globalStyles.COMMON_STYLES.infoBoxText}>AVG SPEED {"\n"}
-                                {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.avgSpeed))}
+                                {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.avgSpeed))}
                                 mi/h</Text>
                         </View>
                     </View>
