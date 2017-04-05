@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     Image,
-    View, StyleSheet
+    View, StyleSheet, Platform
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
 import LiveTracker from "./LiveTracker";
@@ -55,12 +55,17 @@ export default AppNavigator = TabNavigator({
     tabBarPosition: 'bottom',
     tabBarOptions: {
         activeTintColor: globalStyles.WHITE,
+        inactiveTintColor: globalStyles.GRAY,
         showIcon: true,
-        // showLabel:false,
+        // showLabel:true,
         style: {
             backgroundColor: globalStyles.GREEN,
+            paddingBottom: Platform.OS === 'ios' ? 2 : 0,
         },
-        tabStyle: {},
+        tabStyle: {
+          tabBarButtonColor: '#ffff00', // change the color of the tab icons and text (also unselected)
+  tabBarSelectedButtonColor: '#ff9900',
+      },
         indicatorStyle: {
             backgroundColor: globalStyles.WHITE,
             height: 4,
