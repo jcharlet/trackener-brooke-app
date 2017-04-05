@@ -51,11 +51,15 @@ export default class LiveTrackerScreen extends Component{
                 {/*error {JSON.stringify(this.state.error)}{"\n"}*/}
                 {/*</Text>*/}
               <View style={globalStyles.COMMON_STYLES.infoBox}>
-                <Text
-                    style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(this.props.liveTracker.ride.analytics.duration))}</Text>
-                <Text
-                    style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(this.props.liveTracker.ride.analytics.distance * utils.ONE_METER_IN_MILES)}
+              <View style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
+              <Text
+                  style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(this.props.liveTracker.ride.analytics.duration))}</Text>
+              </View>
+                  <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
+                  <Text
+                      style={[globalStyles.COMMON_STYLES.infoBoxText]}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(this.props.liveTracker.ride.analytics.distance * utils.ONE_METER_IN_MILES)}
                   mi</Text>
+              </View>
               </View>
 
               <View style={[globalStyles.COMMON_STYLES.rideButtonsView]}>
@@ -68,9 +72,11 @@ export default class LiveTrackerScreen extends Component{
               </View>
 
               <View style={globalStyles.COMMON_STYLES.infoBox}>
-                  <Text
-                      style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>SPEED {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.lastSpeed))}
+              <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
+              <Text
+                  style={[globalStyles.COMMON_STYLES.infoBoxText]}>SPEED {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.lastSpeed))}
                       mi/h</Text>
+                  </View>
                   {/*<Text*/}
                       {/*style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.maxSpeed))}*/}
                       {/*mi/h</Text>*/}
@@ -100,7 +106,6 @@ export default class LiveTrackerScreen extends Component{
 
 
               <View style={[globalStyles.COMMON_STYLES.social]}>
-
               </View>
 
             </View>

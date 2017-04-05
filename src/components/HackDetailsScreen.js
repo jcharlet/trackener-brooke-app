@@ -133,21 +133,31 @@ export default class HackDetailsScreen extends Component {
                     {this.renderHackBrowserTopBar()}
                     <View style={globalStyles.COMMON_STYLES.container}>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
-                            <Text
-                                style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(ride.analytics.duration))}</Text>
-                            <Text
-                                style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES)}
-                                mi</Text>
+                        <View style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
+                        <Text
+                            style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(ride.analytics.duration))}</Text>
+                        </View>
+                        <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
+                        <Text
+                            style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES)}
+                            mi</Text>
+                        </View>
+
+
                         </View>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
-                            <Text
-                                style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX SPEED {"\n"}
+                        <View style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
+                        <Text
+                            style={[globalStyles.COMMON_STYLES.infoBoxText]}>MAX SPEED {"\n"}
                                 {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.maxSpeed))}
                                 mi/h</Text>
-                            <Text
-                                style={globalStyles.COMMON_STYLES.infoBoxText}>AVG SPEED {"\n"}
+                            </View>
+                                <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
+                                <Text
+                                    style={[globalStyles.COMMON_STYLES.infoBoxText]}>AVG SPEED {"\n"}
                                 {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.avgSpeed))}
                                 mi/h</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -229,4 +239,3 @@ HackDetailsScreen.propTypes = {
 //             height: 30
 //         },
 //     });
-

@@ -13,8 +13,6 @@ export const GRAY = '#d9d9d9';
 export const COMMON_STYLES = StyleSheet.create({
     main: {
         flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center',
         backgroundColor: WHITE,
         flexDirection: 'column',
     },
@@ -60,9 +58,7 @@ export const COMMON_STYLES = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-around',
-        // alignItems: 'center',
         flexDirection: 'column',
-        // justifyContent: 'flex-start',
         alignItems: 'flex-start'
     },
 
@@ -71,10 +67,10 @@ export const COMMON_STYLES = StyleSheet.create({
         borderColor: GREEN,
         borderWidth: 2,
 
+        // will throw error: flex:0 so use flexGrow instead,
+        flexGrow:0,
         flexDirection: 'row',
-        alignSelf: 'stretch',
-        width: undefined,
-        margin: 20,
+        margin: 10,
     },
     infoBoxStartText: {
         fontSize: 30,
@@ -85,12 +81,17 @@ export const COMMON_STYLES = StyleSheet.create({
         textAlign: 'center',
         paddingLeft: 70
     },
+    infoBoxView: {
+        padding: 10,
+        alignItems: 'center',
+        // flexGrow: 1,
+        flex:1,
+        overflow:'hidden',
+        alignSelf: 'center',
+    },
     infoBoxText: {
         fontSize: 20,
-        padding: 20,
         color: GREEN,
-        alignItems: 'center',
-        flexGrow: 1,
         textAlign: 'center',
     },
     infoBoxBorderRight: {
@@ -150,9 +151,7 @@ export const COMMON_STYLES = StyleSheet.create({
     rideButtonsView: {
         flex: 1,
         justifyContent: 'space-around',
-        // alignItems: 'center',
         flexDirection: 'column',
-        // justifyContent: 'flex-start',
         alignItems: 'flex-start',
         alignSelf: 'stretch',
     },
@@ -182,23 +181,14 @@ export const COMMON_STYLES = StyleSheet.create({
     },
     secondRideButtonText: {
         fontSize: 21,
-        // borderRadius: 120,
-        // height: 100,
         width: 100,
-        // padding: 20,
         color: WHITE,
-        // color: GREEN,
         textAlign: 'center',
-        // textAlignVertical: 'center'
     },
 
 
     social: {
-        justifyContent: 'space-around',
-        flexDirection: 'row',
-        alignSelf: 'stretch',
-        width: undefined,
-        margin: 20,
+        flexGrow:0,
     },
 
 
