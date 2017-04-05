@@ -100,14 +100,7 @@ export default class LiveTrackerScreen extends Component{
 
 
               <View style={[globalStyles.COMMON_STYLES.social]}>
-                <TouchableOpacity activeOpacity={globalStyles.ACTIVE_OPACITY}>
-                  <Text>Donate</Text>
-                </TouchableOpacity>
 
-
-                <TouchableOpacity activeOpacity={globalStyles.ACTIVE_OPACITY}>
-                  <Text >Share</Text>
-                </TouchableOpacity>
               </View>
 
             </View>
@@ -137,4 +130,3 @@ LiveTrackerScreen.propTypes = {
     pauseTracking: PropTypes.func,
     restartTracking: PropTypes.func,
 };
-
