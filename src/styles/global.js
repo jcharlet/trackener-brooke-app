@@ -113,7 +113,11 @@ export const COMMON_STYLES = StyleSheet.create({
 
         backgroundColor: GREEN,
 
+        overflow: 'hidden',
         alignSelf: 'center',
+        flex:0,
+        flexDirection:'row',
+        alignItems: 'center',
 
     },
 
@@ -130,23 +134,15 @@ export const COMMON_STYLES = StyleSheet.create({
     },
 
     startRideButtonText: {
-        borderRadius: 180,
-        height: 180,
         width: 180,
-        padding: 0,
         fontSize: 35,
         color: WHITE,
-        // color: GREEN,
         textAlign: 'center',
-        textAlignVertical: 'center'
     },
 
 
     withSecondRideButtonText: {
-        borderRadius: 160,
-        height: 140,
         width: 140,
-        padding: 0,
     },
 
     rideButtonsView: {
@@ -163,8 +159,8 @@ export const COMMON_STYLES = StyleSheet.create({
         position: 'relative',
         // top:140,
         // left:80,
-        top: '55%',
-        left: '18%',
+        top: '35%',
+        left: '25%',
         borderStyle: 'solid',
         borderColor: GRAY,
         borderWidth: 6,
@@ -173,20 +169,25 @@ export const COMMON_STYLES = StyleSheet.create({
         width: 120,
 
         backgroundColor: GREEN,
+        overflow: 'hidden',
 
         alignSelf: 'center',
+
+        flex:0,
+        flexDirection:'row',
+        alignItems: 'center',
 
     },
     secondRideButtonText: {
         fontSize: 21,
-        borderRadius: 120,
-        height: 100,
+        // borderRadius: 120,
+        // height: 100,
         width: 100,
-        padding: 20,
+        // padding: 20,
         color: WHITE,
         // color: GREEN,
         textAlign: 'center',
-        textAlignVertical: 'center'
+        // textAlignVertical: 'center'
     },
 
 
