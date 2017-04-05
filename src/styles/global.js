@@ -1,6 +1,7 @@
 
 import {
     StyleSheet,
+    Platform,
 } from 'react-native';
 
 export const ACTIVE_OPACITY = 0.6;
@@ -24,8 +25,9 @@ export const COMMON_STYLES = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'flex-start',
         backgroundColor: GREEN,
-        flexBasis: 50,
-        flexGrow: 0
+        flexBasis: Platform.OS === 'ios' ? 70 : 50,
+        flexGrow: 0,
+        paddingTop: Platform.OS === 'ios' ? 20 : 0,
     },
     headerImageView: {
         height: 50,
