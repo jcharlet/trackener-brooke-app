@@ -63,8 +63,6 @@ export default AppNavigator = TabNavigator({
             paddingBottom: Platform.OS === 'ios' ? 2 : 0,
         },
         tabStyle: {
-          tabBarButtonColor: '#ffff00', // change the color of the tab icons and text (also unselected)
-  tabBarSelectedButtonColor: '#ff9900',
       },
         indicatorStyle: {
             backgroundColor: globalStyles.WHITE,
