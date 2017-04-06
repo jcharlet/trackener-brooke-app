@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import HackDetailsScreen from "../components/HackDetailsScreen";
 import {connect} from "react-redux";
-import {SHOW_NEXT_HACK, SHOW_PREVIOUS_HACK} from "../actions/actionTypes";
-
+import {loadRides, showPreviousHack, showNextHack} from "../actions/hackDetailsActions";
 
 const mapStateToProps = (state) => {
     return {
@@ -21,11 +20,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        load: () => {
+            dispatch(loadRides());
+        },
         showPreviousHack: () => {
-            dispatch({type:SHOW_PREVIOUS_HACK});
+            dispatch(showPreviousHack());
         },
         showNextHack: () => {
-            dispatch({type:SHOW_NEXT_HACK})
+            dispatch(showNextHack())
         },
         hasPreviousHack: (index:number,length:number) => {
             return hasPreviousHack(index,length)

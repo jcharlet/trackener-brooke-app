@@ -66,7 +66,7 @@ export default class LiveTrackerScreen extends Component{
                   {this.renderSecondButton()}
                 <TouchableOpacity style={[globalStyles.COMMON_STYLES.startRideButton,globalStyles.COMMON_STYLES.withSecondRideButton]}
                                   activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                  onPress={this.props.stopTracking}>
+                                  onPress={() => this.props.stopTracking(this.props.liveTracker.ride)}>
                   <Text style={[globalStyles.COMMON_STYLES.startRideButtonText, globalStyles.COMMON_STYLES.withSecondRideButtonText]}>Stop</Text>
                 </TouchableOpacity>
               </View>

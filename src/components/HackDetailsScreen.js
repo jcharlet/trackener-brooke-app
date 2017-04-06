@@ -5,7 +5,8 @@ import {
     Text,
     View,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    AsyncStorage
 } from 'react-native';
 import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
@@ -17,6 +18,8 @@ export default class HackDetailsScreen extends Component {
 
     constructor(props) {
         super(props);
+        // AsyncStorage.setItem('rides', JSON.stringify([]));
+        this.props.load();
     }
 
     formatDateToDisplay(dateTime) {
@@ -191,6 +194,7 @@ export default class HackDetailsScreen extends Component {
 
 HackDetailsScreen.propTypes = {
     hackDetails: PropTypes.any,
+    load: PropTypes.func,
     showPreviousHack: PropTypes.func,
     showNextHack: PropTypes.func,
     hasPreviousHack: PropTypes.func,
