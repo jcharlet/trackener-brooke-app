@@ -116,11 +116,12 @@ const restartRide = (state) => {
 };
 
 const initWatch = (state, watchId) => {
-    let ride = state.ride;
-    ride.watchId = watchId;
     return {
         ...state,
-        ride: ride,
+        ride: {
+            ...state.ride,
+            watchId
+        },
     };
 };
 let createPositionObjectFromGeoPosition = function (state, position) {
@@ -141,13 +142,15 @@ let createPositionObjectFromGeoPosition = function (state, position) {
 const initLocation = (state, position) => {
     let newPosition = createPositionObjectFromGeoPosition(state, position);
 
-    let positions = state.ride.positions;
-    positions.push(newPosition);
-    let ride = state.ride;
-    ride.positions = positions;
     return {
         ...state,
-        ride: ride,
+        ride: {
+            ...state.ride,
+            positions:[
+                ...state.ride.positions,
+                newPosition,
+            ],
+        },
     }
 };
 
@@ -179,24 +182,22 @@ const updateLocation = (state, position) => {
         ;
     }
 
-    let analytics = {
-        distance: distance,
-        duration: duration,
-        lastSpeed: speed,
-        avgSpeed: avgSpeed,
-        maxSpeed: maxSpeed,
-    };
-
-    let positions = state.ride.positions;
-    positions.push(newPosition);
-
-    let ride = state.ride;
-    ride.positions = positions;
-    ride.analytics = analytics;
-
     return {
         ...state,
-        ride: ride,
+        ride: {
+            ...state.ride,
+            analytics:{
+                distance: distance,
+                duration: duration,
+                lastSpeed: speed,
+                avgSpeed: avgSpeed,
+                maxSpeed: maxSpeed,
+            },
+            positions:[
+                ...state.ride.positions,
+                newPosition,
+            ]
+        },
         totalDistance: totalDistance,
     };
 };

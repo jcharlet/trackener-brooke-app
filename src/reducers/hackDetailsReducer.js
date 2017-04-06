@@ -6,7 +6,7 @@ import moment from "../../node_modules/moment/moment";
 const initialState = {
     rides:[],
     // index:1,
-    index:0,
+    index:undefined,
 };
 
 export default (state = initialState, action = {}) => {
@@ -26,28 +26,33 @@ export default (state = initialState, action = {}) => {
 
 
 const addRide = (state, ride) => {
-    let rides =state.rides;
-    rides.push(ride);
-    let index = rides.length-1;
+    let index = state.index;
+    if(index==undefined){
+        index=0;
+    }else{
+        index +=1;
+    }
+
     return {
         ...state,
-        rides,
-        index
+        rides:[
+            ...state.rides,
+            ride
+        ],
+        index:index
     };
 };
 
 const showPreviousHack = (state) =>{
-    let index = state.index -1;
     return {
         ...state,
-        index
+        index:state.index -1
     };
 };
 
 const showNextHack = (state) =>{
-    let index = state.index +1;
     return {
         ...state,
-        index
+        index:state.index +1
     };
 };
