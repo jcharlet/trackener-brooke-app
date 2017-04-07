@@ -2,7 +2,8 @@ import {
     START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_LOC,
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
-import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER, formatDateTime} from "../util/utils";
+import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER} from "../util/utils";
+import moment from "moment";
 
 const SPEED_THRESHOLD_STOP = 1;
 const SPEED_THRESHOLD_WALK = 7;
@@ -69,7 +70,7 @@ const startRide = (state) => {
         ...state,
         status: STATUS.START,
         ride: {
-            date: formatDateTime(new Date()),
+            date: moment().format(),
             watchId: null,
             positions: [
                 // {

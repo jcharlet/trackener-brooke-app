@@ -29,28 +29,3 @@ export const secondsToHourMinSec = (input) => {
         pad(Math.floor(input % 60)),
     ].join(typeof separator !== 'undefined' ? separator : ':');
 };
-
-export function formatDateTime(date) {
-    var month = '' + (date.getMonth() + 1),
-        day = '' + date.getDate(),
-        year = date.getFullYear(),
-        hour = date.getHours(),
-        minutes = date.getMinutes();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-    if (hour.length < 2) hour = '0' + hour;
-    if (minutes.length < 2) minutes = '0' + minutes;
-
-    return [year, month, day].join('-') + " " + [hour, minutes].join(':');
-}
-export function formatDate(date) {
-    var month = '' + (date.getMonth() + 1),
-        day = '' + date.getDate(),
-        year = date.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}

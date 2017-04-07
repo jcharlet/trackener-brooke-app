@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import {LOAD_RIDES, ADD_RIDE, SHOW_PREVIOUS_HACK, SHOW_NEXT_HACK} from "./actionTypes";
 
+//TODO update totalDistance as well on liveTracker screen!
 export const loadRides = () => ({
     type: LOAD_RIDES,
     payload: AsyncStorage.getItem('rides').then((rides) => {
