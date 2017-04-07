@@ -135,7 +135,7 @@ let createPositionObjectFromGeoPosition = function (state, position) {
     return {
         longitude: position.coords.longitude,
         latitude: position.coords.latitude,
-        timestamp: position.timestamp,
+        timestamp: moment().valueOf(),
         speed: speed,
         gait: gait,
     };
@@ -156,10 +156,23 @@ const initLocation = (state, position) => {
 };
 
 const updateLocation = (state, position) => {
+    if (position.coords.accuracy>12){
+      return state;
+    }
+
     let newPosition = createPositionObjectFromGeoPosition(state, position);
 
     if (!state.ride.positions || state.ride.positions.length == 0) {
-        return state;
+        return {
+            ...state,
+            ride: {
+                ...state.ride,
+                positions:[
+                    ...state.ride.positions,
+                    newPosition,
+                ],
+            },
+        }
     }
     let lastPosition = state.ride.positions[state.ride.positions.length - 1];
     if (lastPosition.timestamp - newPosition.timestamp > 10 * 1000) {
@@ -206,7 +219,7 @@ const updateLocation = (state, position) => {
 export const watchGPS = () => {
     return (dispatch) => {
         navigator.geolocation.getCurrentPosition((position) => {
-                dispatch({type: 'GPS_INIT_LOC', payload: position})
+                dispatch({type: GPS_INIT_LOC, payload: position})
             }
             , (error) => {
             }
@@ -218,7 +231,7 @@ export const watchGPS = () => {
         );
 
         let watchId = navigator.geolocation.watchPosition((position) => {
-                dispatch({type: 'GPS_UPDATE_LOC', payload: position})
+                dispatch({type: GPS_UPDATE_LOC, payload: position})
             }, (error) => {
             }
             , {

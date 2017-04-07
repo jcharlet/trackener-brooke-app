@@ -35,20 +35,13 @@ const loadRides = (state, payload) =>{
 }
 
 const addRide = (state, ride) => {
-    let index = state.index;
-    if(index==undefined){
-        index=0;
-    }else{
-        index +=1;
-    }
-
     return {
         ...state,
         rides:[
             ...state.rides,
             ride
         ],
-        index:index
+        index:state.rides.length
     };
 };
 
