@@ -1,14 +1,15 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux';
-// import createLogger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk'
 import liveTrackerReducer from "./reducers/liveTrackerReducer";
 import hackDetailsReducer from "./reducers/hackDetailsReducer";
 import navReducer from "./reducers/navReducer";
 import promiseMiddleware from 'redux-promise';
-//FIXME LOW logger to enable (throws error currently)
-// const logger = createLogger();
+import {createLogger} from "redux-logger";
 
 
+const logger = createLogger();
+const middleWare = global.__DEV__ ? [logger, thunkMiddleware, promiseMiddleware] :
+    [thunkMiddleware, promiseMiddleware];
 
 // export default (initialState = {}) => (
 export default () => (
@@ -18,6 +19,6 @@ export default () => (
             liveTracker: liveTrackerReducer,
             hackDetails: hackDetailsReducer,
         }),
-        applyMiddleware(thunkMiddleware, promiseMiddleware)
+        applyMiddleware(...middleWare)
     )
 );
