@@ -18,6 +18,7 @@ export default class HackDetailsScreen extends Component {
 
     constructor(props) {
         super(props);
+        console.log("constructor HackDetailsScreen");
         // AsyncStorage.setItem('rides', JSON.stringify([]));
         this.props.load();
     }
