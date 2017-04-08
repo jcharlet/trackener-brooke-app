@@ -9,9 +9,8 @@ export const RESTART_RIDE = 'tracker/RESTART_RIDE';
 
 // export const START_GPS_WATCH ='START_GPS_WATCH';
 
-export const GPS_INIT_LOC = 'gps/GPS_INIT_LOC';
-export const GPS_UPDATE_LOC = 'gps/GPS_UPDATE_LOC';
 export const GPS_INIT_WATCH = 'gps/GPS_INIT_WATCH';
+export const GPS_UPDATE_LOC = 'gps/GPS_UPDATE_LOC';
 
 ///////////////////////
 // Hack details actions

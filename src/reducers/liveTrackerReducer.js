@@ -1,5 +1,5 @@
 import {
-    START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_LOC,
+    START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC,
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
 import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER} from "../util/utils";
@@ -55,8 +55,6 @@ export default (state = initialState, action = {}) => {
         //     return startGpsWatch(state);
         case GPS_INIT_WATCH:
             return initWatch(state, action.payload);
-        case GPS_INIT_LOC:
-            return initLocation(state, action.payload);
         case GPS_UPDATE_LOC:
             return updateLocation(state, action.payload);
         default:
@@ -140,27 +138,13 @@ let createPositionObjectFromGeoPosition = function (state, position) {
         gait: gait,
     };
 };
-const initLocation = (state, position) => {
-    let newPosition = createPositionObjectFromGeoPosition(state, position);
 
-    return {
-        ...state,
-        ride: {
-            ...state.ride,
-            positions:[
-                ...state.ride.positions,
-                newPosition,
-            ],
-        },
-    }
-};
-
-const updateLocation = (state, position) => {
-    if (position.coords.accuracy>12){
+const updateLocation = (state, geoPosition) => {
+    if (geoPosition.coords.accuracy>12){
       return state;
     }
 
-    let newPosition = createPositionObjectFromGeoPosition(state, position);
+    let newPosition = createPositionObjectFromGeoPosition(state, geoPosition);
 
     if (!state.ride.positions || state.ride.positions.length == 0) {
         return {
@@ -184,7 +168,7 @@ const updateLocation = (state, position) => {
     let distanceRidden = calculateDistance(from, to);
     let distance = state.ride.analytics.distance + distanceRidden;
     let totalDistance = state.totalDistance + distanceRidden;
-    let duration = state.ride.analytics.duration + (position.timestamp - lastPosition.timestamp) / 1000;
+    let duration = state.ride.analytics.duration + (newPosition.timestamp - lastPosition.timestamp) / 1000;
     let avgSpeed = distance / duration;
 
 
@@ -218,18 +202,6 @@ const updateLocation = (state, position) => {
 
 export const watchGPS = () => {
     return (dispatch) => {
-        navigator.geolocation.getCurrentPosition((position) => {
-                dispatch({type: GPS_INIT_LOC, payload: position})
-            }
-            , (error) => {
-            }
-            , {
-                enableHighAccuracy: true,
-                timeout: TIMEOUT_GET,
-                maximumAge: MAX_AGE
-            }
-        );
-
         let watchId = navigator.geolocation.watchPosition((position) => {
                 dispatch({type: GPS_UPDATE_LOC, payload: position})
             }, (error) => {
