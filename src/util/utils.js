@@ -1,10 +1,4 @@
-export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 export const ONE_METER_IN_MILES = 0.000621;
-
-export const DISTANCE_FILTER = 5;
-export const TIMEOUT_WATCH = 20000;
-export const TIMEOUT_GET = 60000;
-export const MAX_AGE = 30000;
 
 export const convertMeterPerSecondToMilesPerHour = (number) => {
     return number * ONE_METER_IN_MILES * 3600;

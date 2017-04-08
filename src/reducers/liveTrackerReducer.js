@@ -2,16 +2,12 @@ import {
     START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC,
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
-import {STATUS, TIMEOUT_GET, MAX_AGE, TIMEOUT_WATCH, DISTANCE_FILTER} from "../util/utils";
 import moment from "moment";
+import {GPS_TIMEOUT_GET, GPS_MAX_AGE, GPS_TIME_INTERVAL} from "../config/config";
 
-const SPEED_THRESHOLD_STOP = 1;
-const SPEED_THRESHOLD_WALK = 7;
-const SPEED_THRESHOLD_TROT = 13;
-const GAIT_STOP = "STOP";
-const GAIT_WALK = "WALK";
-const GAIT_TROT = "TROT";
-const GAIT_CANTER = "CANTER";
+export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
+export const GAIT = {STOP:"STOP",WALK:"WALK",TROT:"TROT",CANTER:"CANTER"}
+export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 
 const initialState = {
     status: STATUS.STOP,
@@ -140,9 +136,6 @@ let createPositionObjectFromGeoPosition = function (state, position) {
 };
 
 const updateLocation = (state, geoPosition) => {
-    if (geoPosition.coords.accuracy>12){
-      return state;
-    }
 
     let newPosition = createPositionObjectFromGeoPosition(state, geoPosition);
 
@@ -151,7 +144,7 @@ const updateLocation = (state, geoPosition) => {
             ...state,
             ride: {
                 ...state.ride,
-                positions:[
+                positions: [
                     ...state.ride.positions,
                     newPosition,
                 ],
@@ -184,14 +177,14 @@ const updateLocation = (state, geoPosition) => {
         ...state,
         ride: {
             ...state.ride,
-            analytics:{
+            analytics: {
                 distance: distance,
                 duration: duration,
                 lastSpeed: speed,
                 avgSpeed: avgSpeed,
                 maxSpeed: maxSpeed,
             },
-            positions:[
+            positions: [
                 ...state.ride.positions,
                 newPosition,
             ]
@@ -200,22 +193,30 @@ const updateLocation = (state, geoPosition) => {
     };
 };
 
-export const watchGPS = () => {
+export const watchGPS = (time = GPS_TIME_INTERVAL) => {
     return (dispatch) => {
-        let watchId = navigator.geolocation.watchPosition((position) => {
-                dispatch({type: GPS_UPDATE_LOC, payload: position})
-            }, (error) => {
-            }
-            , {
-                enableHighAccuracy: true,
-                timeout: TIMEOUT_WATCH,
-                maximumAge: MAX_AGE,
-                distanceFilter: DISTANCE_FILTER
-            });
+        let watchId = setInterval(() => {
+            navigator.geolocation.getCurrentPosition((position) => {
+                    if (position.coords.accuracy < 21) {
+                        dispatch({type: GPS_UPDATE_LOC, payload: position})
+                    }
+                }
+                , (error) => {
+                console.log(error);
+                }
+                , {
+                    enableHighAccuracy: true,
+                    timeout: GPS_TIMEOUT_GET,
+                    maximumAge: GPS_MAX_AGE
+                });
+        }, time);
 
         dispatch({type: GPS_INIT_WATCH, payload: watchId});
     }
 };
+
+
+
 /**
  *
  var from = {lat: this.lastPosition.latitude, lon: this.lastPosition.longitude};
@@ -241,19 +242,20 @@ export const calculateDistance = (a, b) => {
 };
 
 const clearWatchGps = (watchId) => {
-    navigator.geolocation.clearWatch(watchId);
+    // navigator.geolocation.clearWatch(watchId);
+    clearInterval(watchId)
 };
 
 function getGaitFromSpeed(speed) {
     let gaitType;
-    if (speed < SPEED_THRESHOLD_STOP) {
-        gaitType = GAIT_STOP;
-    } else if (speed < SPEED_THRESHOLD_WALK) {
-        gaitType = GAIT_WALK;
-    } else if (speed < SPEED_THRESHOLD_TROT) {
-        gaitType = GAIT_TROT;
+    if (speed < SPEED_THRESHOLD.STOP) {
+        gaitType = GAIT.STOP;
+    } else if (speed < SPEED_THRESHOLD.WALK) {
+        gaitType = GAIT.WALK;
+    } else if (speed < SPEED_THRESHOLD.TROT) {
+        gaitType = GAIT.TROT;
     } else {
-        gaitType = GAIT_CANTER;
+        gaitType = GAIT.CANTER;
     }
     return gaitType;
 }

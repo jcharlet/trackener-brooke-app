@@ -10,6 +10,7 @@ import {
 import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../util/utils";
+import {STATUS} from "../reducers/liveTrackerReducer";
 
 export default class LiveTrackerScreen extends Component{
 
@@ -21,14 +22,14 @@ export default class LiveTrackerScreen extends Component{
     renderSecondButton() {
         switch (this.props.liveTracker.status) {
             default:
-            case utils.STATUS.START:
+            case STATUS.START:
                 return (
                     <TouchableOpacity style={[globalStyles.COMMON_STYLES.secondRideButton]} activeOpacity={globalStyles.ACTIVE_OPACITY}
                                       onPress={this.props.pauseTracking}>
                       <Text style={globalStyles.COMMON_STYLES.secondRideButtonText}>Pause</Text>
                     </TouchableOpacity>
                 );
-            case utils.STATUS.PAUSE:
+            case STATUS.PAUSE:
                 return (
                     <TouchableOpacity style={[globalStyles.COMMON_STYLES.secondRideButton]} activeOpacity={globalStyles.ACTIVE_OPACITY}
                                       onPress={this.props.restartTracking}>
@@ -114,11 +115,11 @@ export default class LiveTrackerScreen extends Component{
 
     render(){
         switch (this.props.liveTracker.status) {
-            case utils.STATUS.STOP:
+            case STATUS.STOP:
                 return this.renderDefaultScreen();
                 break;
-            case utils.STATUS.PAUSE:
-            case utils.STATUS.START:
+            case STATUS.PAUSE:
+            case STATUS.START:
                 return this.renderTrackingStartedScreen();
                 break;
             default:
