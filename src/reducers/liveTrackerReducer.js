@@ -3,7 +3,7 @@ import {
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
 import moment from "moment";
-import {GPS_TIMEOUT_GET, GPS_MAX_AGE, GPS_TIME_INTERVAL} from "../config/config";
+import {GPS_TIMEOUT_GET, GPS_MAX_AGE, GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_DISTANCE_FILTER} from "../config/config";
 
 export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
 export const GAIT = {STOP:"STOP",WALK:"WALK",TROT:"TROT",CANTER:"CANTER"}
@@ -14,7 +14,7 @@ const initialState = {
     totalDistance: 0,
     // ride:{
     //     date:null,
-    //     watchId: null,
+    //     geoIds: null,
     //     positions:[
     //         {
     //             longitude:0,
@@ -65,7 +65,7 @@ const startRide = (state) => {
         status: STATUS.START,
         ride: {
             date: moment().format(),
-            watchId: null,
+            geoIds: null,
             positions: [
                 // {
                 //     longitude:0,
@@ -88,7 +88,7 @@ const startRide = (state) => {
 
 const stopRide = (state) => {
 
-    clearWatchGps(state.ride.watchId);
+    clearWatchGps(state.ride.geoIds);
     return {
         ...state,
         status: STATUS.STOP,
@@ -96,7 +96,7 @@ const stopRide = (state) => {
 };
 
 const pauseRide = (state) => {
-    clearWatchGps(state.ride.watchId);
+    clearWatchGps(state.ride.geoIds);
     return {
         ...state,
         status: STATUS.PAUSE
@@ -110,12 +110,12 @@ const restartRide = (state) => {
     };
 };
 
-const initWatch = (state, watchId) => {
+const initWatch = (state, geoIds) => {
     return {
         ...state,
         ride: {
             ...state.ride,
-            watchId
+            geoIds:geoIds
         },
     };
 };
@@ -195,14 +195,29 @@ const updateLocation = (state, geoPosition) => {
 
 export const watchGPS = (time = GPS_TIME_INTERVAL) => {
     return (dispatch) => {
-        let watchId = setInterval(() => {
+
+        //start the GPS into full time watching. Drains battery but brings best accuracy (required for our needs)
+        let watchId = navigator.geolocation.watchPosition((position) => {
+            }
+            , (error) => {
+                console.log(error);
+            }
+            , {
+                enableHighAccuracy: true,
+                timeout: GPS_TIMEOUT_WATCH,
+                maximumAge: GPS_MAX_AGE,
+                distanceFilter: GPS_DISTANCE_FILTER
+            });
+
+        //check GPS every X milliseconds)
+        let intervalId = setInterval(() => {
             navigator.geolocation.getCurrentPosition((position) => {
                     if (position.coords.accuracy < 21) {
                         dispatch({type: GPS_UPDATE_LOC, payload: position})
                     }
                 }
                 , (error) => {
-                console.log(error);
+                    console.log(error);
                 }
                 , {
                     enableHighAccuracy: true,
@@ -211,7 +226,7 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
                 });
         }, time);
 
-        dispatch({type: GPS_INIT_WATCH, payload: watchId});
+        dispatch({type: GPS_INIT_WATCH, payload: {intervalId:intervalId,watchId:watchId}});
     }
 };
 
@@ -241,9 +256,9 @@ export const calculateDistance = (a, b) => {
     return R * c;
 };
 
-const clearWatchGps = (watchId) => {
-    // navigator.geolocation.clearWatch(watchId);
-    clearInterval(watchId)
+const clearWatchGps = (geoIds) => {
+    navigator.geolocation.clearWatch(geoIds.watchId);
+    clearInterval(geoIds.intervalId);
 };
 
 function getGaitFromSpeed(speed) {
