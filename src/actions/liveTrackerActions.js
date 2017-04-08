@@ -1,4 +1,10 @@
-import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH} from "./actionTypes";
+
+import {
+    AsyncStorage
+} from 'react-native';
+import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
+    UPDATE_TOTAL_DISTANCE, LOAD_TOTAL_DISTANCE
+} from "./actionTypes";
 import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET} from "../config/config";
 import moment from "moment";
 
@@ -68,6 +74,41 @@ export const clearWatchGps = () => {
         navigator.geolocation.clearWatch(geoIds.watchId);
         clearInterval(geoIds.intervalId);
     }
+};
+
+export const loadTotalDistance = () => ({
+    type: UPDATE_TOTAL_DISTANCE,
+    payload: AsyncStorage.getItem('totalDistance').then((totalDistance) => {
+        if (totalDistance && !isNaN(totalDistance)) {
+            return Number(totalDistance);
+        }
+        return 0;
+    })
+});
+
+export const updateTotalDistance = (rideDistance) =>{
+    return (dispatch)=>{
+        AsyncStorage.getItem('totalDistance').then((totalDistanceString) => {
+            let totalDistance=0;
+            if (totalDistanceString && !isNaN(totalDistanceString)) {
+                totalDistance=Number(totalDistanceString);
+            }
+            totalDistance+=rideDistance;
+            AsyncStorage.setItem('totalDistance', totalDistance.toString());
+            dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
+        });
+    }
+}
+
+export const addRide = (ride) =>{
+    AsyncStorage.getItem('rides').then((rides) => {
+        if (rides) {
+            const rideArray = JSON.parse(rides);
+            return AsyncStorage.setItem('rides', JSON.stringify([...rideArray, ride]));
+        }
+        return AsyncStorage.setItem('rides', JSON.stringify([ride]));
+    });
+    return ({type: ADD_RIDE, payload: ride});
 };
 
 

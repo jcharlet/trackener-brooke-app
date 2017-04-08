@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 import LiveTrackerPage from "../components/LiveTrackerScreen";
 import {connect} from "react-redux";
-import {addRide} from "../actions/hackDetailsActions";
-import {startRide, stopRide, pauseRide, restartRide, watchGPS, clearWatchGps} from "../actions/liveTrackerActions";
+import {startRide, stopRide, pauseRide, restartRide, watchGPS, clearWatchGps, updateTotalDistance, addRide,
+    loadTotalDistance
+} from "../actions/liveTrackerActions";
 
 
 const mapStateToProps = (state) => {
@@ -22,15 +23,18 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        load:() => {
+            dispatch(loadTotalDistance());
+        },
         startTracking: () => {
-            //FIXME LOW thunk had to be called directly for some reason
             // dispatch({type:START_GPS_WATCH});
             dispatch(startRide());
             dispatch(watchGPS());
             // dispatch(stopAfterFiveSeconds());
         },
-        stopTracking: (ride) => {
+        stopTracking: (ride,distance) => {
             dispatch(clearWatchGps());
+            dispatch(updateTotalDistance(distance));
             dispatch(addRide(ride));
             dispatch(stopRide());
         },

@@ -1,6 +1,6 @@
 import {
     START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC,
-    GPS_INIT_WATCH
+    GPS_INIT_WATCH, UPDATE_TOTAL_DISTANCE, LOAD_TOTAL_DISTANCE
 } from '../actions/actionTypes';
 import moment from "moment";
 import {GPS_TIME_INTERVAL} from "../config/config";
@@ -35,11 +35,12 @@ const initialState = {
 
 export default (state = initialState, action = {}) => {
     switch (action.type) {
-
         case START_RIDE:
             return startRide(state);
         case STOP_RIDE:
             return stopRide(state);
+        case UPDATE_TOTAL_DISTANCE:
+            return updateTotalDistance(state, action.payload);
         case PAUSE_RIDE:
             return pauseRide(state);
         case RESTART_RIDE:
@@ -55,7 +56,6 @@ export default (state = initialState, action = {}) => {
             return state;
     }
 };
-
 
 const startRide = (state) => {
     return {
@@ -180,6 +180,12 @@ const updateLocation = (state, newPosition) => {
     };
 };
 
+export const updateTotalDistance= (state, totalDistance) =>{
+    return {
+        ...state,
+        totalDistance: totalDistance,
+    }
+}
 
 
 /**

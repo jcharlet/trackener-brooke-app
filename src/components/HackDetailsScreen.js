@@ -6,7 +6,6 @@ import {
     View,
     Image,
     TouchableOpacity,
-    AsyncStorage
 } from 'react-native';
 import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
@@ -18,8 +17,6 @@ export default class HackDetailsScreen extends Component {
 
     constructor(props) {
         super(props);
-        console.log("constructor HackDetailsScreen");
-        // AsyncStorage.setItem('rides', JSON.stringify([]));
         this.props.load();
     }
 

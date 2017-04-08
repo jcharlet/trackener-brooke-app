@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry,View} from 'react-native';
+import {AppRegistry,View, AsyncStorage} from 'react-native';
 import Header from './components/Header'
 import * as globalStyles from './styles/global';
 import {
@@ -22,6 +22,8 @@ export default class App extends Component {
     store = createStore();
     constructor(props) {
         super(props);
+        // AsyncStorage.setItem('rides', JSON.stringify([]));
+        // AsyncStorage.setItem('totalDistance', JSON.stringify([]));
     }
 
     render() {

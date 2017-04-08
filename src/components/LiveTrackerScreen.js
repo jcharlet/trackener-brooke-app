@@ -5,7 +5,7 @@ import {
     Text,
     View,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
 import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
@@ -16,6 +16,7 @@ export default class LiveTrackerScreen extends Component{
 
     constructor(props) {
         super(props);
+        this.props.load();
     }
 
 
@@ -67,7 +68,7 @@ export default class LiveTrackerScreen extends Component{
                   {this.renderSecondButton()}
                 <TouchableOpacity style={[globalStyles.COMMON_STYLES.startRideButton,globalStyles.COMMON_STYLES.withSecondRideButton]}
                                   activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                  onPress={() => this.props.stopTracking(this.props.liveTracker.ride)}>
+                                  onPress={() => this.props.stopTracking(this.props.liveTracker.ride, this.props.liveTracker.ride.analytics.distance)}>
                   <Text style={[globalStyles.COMMON_STYLES.startRideButtonText, globalStyles.COMMON_STYLES.withSecondRideButtonText]}>Stop</Text>
                 </TouchableOpacity>
               </View>
@@ -131,6 +132,7 @@ export default class LiveTrackerScreen extends Component{
 
 LiveTrackerScreen.propTypes = {
     liveTracker:PropTypes.any,
+    load: PropTypes.func,
     startTracking: PropTypes.func,
     stopTracking: PropTypes.func,
     pauseTracking: PropTypes.func,
