@@ -4,10 +4,10 @@ import {
     View, StyleSheet, Platform
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
-import LiveTracker from "./LiveTracker";
-import HistoryScreen from "../components/HistoryScreen";
+import LiveTracker from "../containers/LiveTracker";
+import HistoryScreen from "./HistoryScreen";
 import * as globalStyles from "../styles/global"
-import HackDetails from "./HackDetails";
+import HackDetails from "../containers/HackDetails";
 
 //FIXME calendar icon is cropped
 

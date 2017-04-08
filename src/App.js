@@ -10,7 +10,7 @@ import {
     connect,
 } from 'react-redux';
 import createStore from "./store";
-import AppNavigator from "./containers/AppNavigator"
+import AppNavigator from "./components/AppNavigator"
 
 const AppWithNavigationState = connect(state => ({
     nav: state.nav,

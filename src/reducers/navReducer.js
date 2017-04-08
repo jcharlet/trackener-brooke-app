@@ -1,5 +1,5 @@
 
-import AppNavigator from "./../containers/AppNavigator"
+import AppNavigator from "../components/AppNavigator"
 import {
     NavigationActions,
 } from 'react-navigation';

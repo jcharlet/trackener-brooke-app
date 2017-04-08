@@ -3,10 +3,8 @@ import {
     GPS_INIT_WATCH
 } from '../actions/actionTypes';
 import moment from "moment";
-import {GPS_TIMEOUT_GET, GPS_MAX_AGE, GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_DISTANCE_FILTER} from "../config/config";
+import {GPS_TIME_INTERVAL} from "../config/config";
 
-export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
-export const GAIT = {STOP:"STOP",WALK:"WALK",TROT:"TROT",CANTER:"CANTER"}
 export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 
 const initialState = {
@@ -87,8 +85,6 @@ const startRide = (state) => {
 };
 
 const stopRide = (state) => {
-
-    clearWatchGps(state.ride.geoIds);
     return {
         ...state,
         status: STATUS.STOP,
@@ -96,7 +92,6 @@ const stopRide = (state) => {
 };
 
 const pauseRide = (state) => {
-    clearWatchGps(state.ride.geoIds);
     return {
         ...state,
         status: STATUS.PAUSE
@@ -119,25 +114,8 @@ const initWatch = (state, geoIds) => {
         },
     };
 };
-let createPositionObjectFromGeoPosition = function (state, position) {
-    let speed = undefined;
-    let gait = undefined;
-    if (position.coords.speed != undefined && position.coords.speed != "NaN") {
-        speed = position.coords.speed;
-        gait = getGaitFromSpeed(speed);
-    }
-    return {
-        longitude: position.coords.longitude,
-        latitude: position.coords.latitude,
-        timestamp: moment().valueOf(),
-        speed: speed,
-        gait: gait,
-    };
-};
 
-const updateLocation = (state, geoPosition) => {
-
-    let newPosition = createPositionObjectFromGeoPosition(state, geoPosition);
+const updateLocation = (state, newPosition) => {
 
     if (!state.ride.positions || state.ride.positions.length == 0) {
         return {
@@ -152,8 +130,17 @@ const updateLocation = (state, geoPosition) => {
         }
     }
     let lastPosition = state.ride.positions[state.ride.positions.length - 1];
-    if (lastPosition.timestamp - newPosition.timestamp > 10 * 1000) {
-        return state;
+    if (newPosition.timestamp - lastPosition.timestamp > GPS_TIME_INTERVAL + 5 * 1000) {
+        return {
+            ...state,
+            ride: {
+                ...state.ride,
+                positions: [
+                    ...state.ride.positions,
+                    newPosition,
+                ],
+            },
+        }
     }
 
     let from = {lat: lastPosition.latitude, lon: lastPosition.longitude};
@@ -193,43 +180,6 @@ const updateLocation = (state, geoPosition) => {
     };
 };
 
-export const watchGPS = (time = GPS_TIME_INTERVAL) => {
-    return (dispatch) => {
-
-        //start the GPS into full time watching. Drains battery but brings best accuracy (required for our needs)
-        let watchId = navigator.geolocation.watchPosition((position) => {
-            }
-            , (error) => {
-                console.log(error);
-            }
-            , {
-                enableHighAccuracy: true,
-                timeout: GPS_TIMEOUT_WATCH,
-                maximumAge: GPS_MAX_AGE,
-                distanceFilter: GPS_DISTANCE_FILTER
-            });
-
-        //check GPS every X milliseconds)
-        let intervalId = setInterval(() => {
-            navigator.geolocation.getCurrentPosition((position) => {
-                    if (position.coords.accuracy < 21) {
-                        dispatch({type: GPS_UPDATE_LOC, payload: position})
-                    }
-                }
-                , (error) => {
-                    console.log(error);
-                }
-                , {
-                    enableHighAccuracy: true,
-                    timeout: GPS_TIMEOUT_GET,
-                    maximumAge: GPS_MAX_AGE
-                });
-        }, time);
-
-        dispatch({type: GPS_INIT_WATCH, payload: {intervalId:intervalId,watchId:watchId}});
-    }
-};
-
 
 
 /**
@@ -255,22 +205,3 @@ export const calculateDistance = (a, b) => {
 
     return R * c;
 };
-
-const clearWatchGps = (geoIds) => {
-    navigator.geolocation.clearWatch(geoIds.watchId);
-    clearInterval(geoIds.intervalId);
-};
-
-function getGaitFromSpeed(speed) {
-    let gaitType;
-    if (speed < SPEED_THRESHOLD.STOP) {
-        gaitType = GAIT.STOP;
-    } else if (speed < SPEED_THRESHOLD.WALK) {
-        gaitType = GAIT.WALK;
-    } else if (speed < SPEED_THRESHOLD.TROT) {
-        gaitType = GAIT.TROT;
-    } else {
-        gaitType = GAIT.CANTER;
-    }
-    return gaitType;
-}
