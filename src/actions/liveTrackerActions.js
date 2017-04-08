@@ -7,6 +7,8 @@ import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INI
 } from "./actionTypes";
 import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET} from "../config/config";
 import moment from "moment";
+import BackgroundTimer from 'react-native-background-timer';
+
 
 export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
 export const GAIT = {STOP:"STOP",WALK:"WALK",TROT:"TROT",CANTER:"CANTER"}
@@ -45,7 +47,7 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
             });
 
         //check GPS every X milliseconds)
-        let intervalId = setInterval(() => {
+        let intervalId = BackgroundTimer.setInterval(() => {
             navigator.geolocation.getCurrentPosition((geoPosition) => {
                     if (geoPosition.coords.accuracy < 21) {
 
@@ -72,7 +74,7 @@ export const clearWatchGps = () => {
     return (dispatch, getState) => {
         let geoIds = getState().liveTracker.ride.geoIds;
         navigator.geolocation.clearWatch(geoIds.watchId);
-        clearInterval(geoIds.intervalId);
+        BackgroundTimer.clearInterval(geoIds.intervalId);
     }
 };
 
