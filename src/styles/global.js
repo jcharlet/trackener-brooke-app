@@ -1,4 +1,3 @@
-
 import {
     StyleSheet,
     Platform,
@@ -6,6 +5,7 @@ import {
 
 export const ACTIVE_OPACITY = 0.6;
 
+export const RED = '#e54242';
 export const GREEN = '#619b64';
 export const WHITE = 'white';
 export const GRAY = '#d9d9d9';
@@ -68,7 +68,7 @@ export const COMMON_STYLES = StyleSheet.create({
         borderWidth: 2,
 
         // will throw error: flex:0 so use flexGrow instead,
-        flexGrow:0,
+        flexGrow: 0,
         flexDirection: 'row',
         margin: 10,
     },
@@ -85,8 +85,8 @@ export const COMMON_STYLES = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         // flexGrow: 1,
-        flex:1,
-        overflow:'hidden',
+        flex: 1,
+        overflow: 'hidden',
         alignSelf: 'center',
     },
     infoBoxText: {
@@ -118,8 +118,8 @@ export const COMMON_STYLES = StyleSheet.create({
 
         overflow: 'hidden',
         alignSelf: 'center',
-        flex:0,
-        flexDirection:'row',
+        flex: 0,
+        flexDirection: 'row',
         alignItems: 'center',
 
     },
@@ -174,8 +174,8 @@ export const COMMON_STYLES = StyleSheet.create({
 
         alignSelf: 'center',
 
-        flex:0,
-        flexDirection:'row',
+        flex: 0,
+        flexDirection: 'row',
         alignItems: 'center',
 
     },
@@ -188,9 +188,35 @@ export const COMMON_STYLES = StyleSheet.create({
 
 
     social: {
-        flexGrow:0,
+        flexGrow: 0,
     },
 
+    centeredElement: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+
+    buttonView: {
+        flexGrow: 0,
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        margin: 10,
+        padding: 10,
+    },
+    redButton: {
+
+        borderStyle: 'solid',
+        borderWidth: 2,
+        borderColor: RED,
+        backgroundColor: RED
+    },
+    buttonText: {
+
+        fontSize: 20,
+        textAlign: 'center',
+        color: WHITE,
+    },
 
     border: {
         borderStyle: 'solid',

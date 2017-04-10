@@ -27,13 +27,13 @@ export default class HackDetailsScreen extends Component {
         return moment(dateTime).format("MMMM Do");
     }
 
-    renderBrowsingButton(side){
-        switch (side){
+    renderBrowsingButton(side) {
+        switch (side) {
             case "LEFT":
-                if (this.props.hasPreviousHack(this.props.hackDetails.index, this.props.hackDetails.rides.length)){
+                if (this.props.hasPreviousHack(this.props.hackDetails.index, this.props.hackDetails.rides.length)) {
                     return (
                         <TouchableOpacity activeOpacity={globalStyles.ACTIVE_OPACITY}
-                            onPress={this.props.showPreviousHack}
+                                          onPress={this.props.showPreviousHack}
 
                                           style={{
                                   width:50
@@ -45,14 +45,14 @@ export default class HackDetailsScreen extends Component {
 
                         */
                      }}>
-                        <Image source={require('../../img/ic_navigate_prev_green.png')}
-                        //    {/*style={globalStyles.COMMON_STYLES.infoBoxArrow}*/}
-                    />
+                            <Image source={require('../../img/ic_navigate_prev_green.png')}
+                                //    {/*style={globalStyles.COMMON_STYLES.infoBoxArrow}*/}
+                            />
                         </TouchableOpacity>);
                 }
                 break;
             case "RIGHT":
-                if (this.props.hasNextHack(this.props.hackDetails.index, this.props.hackDetails.rides.length)){
+                if (this.props.hasNextHack(this.props.hackDetails.index, this.props.hackDetails.rides.length)) {
                     return (
                         <TouchableOpacity activeOpacity={globalStyles.ACTIVE_OPACITY}
                                           onPress={this.props.showNextHack}
@@ -73,7 +73,7 @@ export default class HackDetailsScreen extends Component {
                         </TouchableOpacity>);
                 }
         }
-        return  <View style={{width:50}}><Text> </Text></View>;
+        return <View style={{width:50}}><Text> </Text></View>;
     }
 
     renderHackBrowserTopBar() {
@@ -134,39 +134,50 @@ export default class HackDetailsScreen extends Component {
                     {this.renderHackBrowserTopBar()}
                     <View style={globalStyles.COMMON_STYLES.container}>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
-                        <View style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
-                        <Text
-                            style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(ride.analytics.duration))}</Text>
-                        </View>
-                        <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
-                        <Text
-                            style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES)}
-                            mi</Text>
-                        </View>
+                            <View
+                                style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
+                                <Text
+                                    style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(ride.analytics.duration))}</Text>
+                            </View>
+                            <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
+                                <Text
+                                    style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES)}
+                                    mi</Text>
+                            </View>
 
 
                         </View>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
-                        <View style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
-                        <Text
-                            style={[globalStyles.COMMON_STYLES.infoBoxText]}>MAX SPEED {"\n"}
-                                {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.maxSpeed))}
-                                mi/h</Text>
+                            <View
+                                style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
+                                <Text
+                                    style={[globalStyles.COMMON_STYLES.infoBoxText]}>MAX SPEED {"\n"}
+                                    {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.maxSpeed))}
+                                    mi/h</Text>
                             </View>
-                                <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
+                            <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
                                 <Text
                                     style={[globalStyles.COMMON_STYLES.infoBoxText]}>AVG SPEED {"\n"}
-                                {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.avgSpeed))}
-                                mi/h</Text>
+                                    {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.avgSpeed))}
+                                    mi/h</Text>
                             </View>
                         </View>
+
+                        <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
+                    ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
+                                          onPress={() => {this.props.remove(this.props.hackDetails.rides[this.props.hackDetails.index].date,this.props.hackDetails.rides[this.props.hackDetails.index].analytics.distance)}}>
+
+                            <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.redButton]}>
+                                <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Remove</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
 
             );
         }
         return (
-                <View style={[globalStyles.COMMON_STYLES.container,{
+            <View style={[globalStyles.COMMON_STYLES.container,{
 
                     flex:1,
         alignItems: 'center',
@@ -174,8 +185,8 @@ export default class HackDetailsScreen extends Component {
         flexDirection: 'column',
 
             }]}>
-                    <Text
-                        style={{
+                <Text
+                    style={{
                     textAlign:"center",
         fontSize: 20,
         padding: 20,
@@ -184,8 +195,8 @@ export default class HackDetailsScreen extends Component {
         //borderColor: 'red',
         //borderWidth: 1
                 }}
-                    >No hack recorded</Text>
-                </View>
+                >No hack recorded</Text>
+            </View>
         );
     }
 }
@@ -197,47 +208,5 @@ HackDetailsScreen.propTypes = {
     showNextHack: PropTypes.func,
     hasPreviousHack: PropTypes.func,
     hasNextHack: PropTypes.func,
+    remove: PropTypes.func,
 };
-
-
-// export const COMMON_STYLES = StyleSheet.create(
-//     {
-//         infoBox: {
-//             borderStyle: 'solid',
-//             borderColor: globalStyles.GREEN,
-//             borderWidth: 2,
-//
-//             flexDirection: 'row',
-//             alignSelf: 'stretch',
-//             width: undefined,
-//             margin: 20,
-//         },
-//         infoBoxStartText: {
-//             fontSize: 30,
-//             padding: 20,
-//             color: globalStyles.GREEN,
-//             alignItems: 'center',
-//             flexGrow: 3,
-//             textAlign: 'center',
-//             paddingLeft: 70
-//         },
-//         infoBoxText: {
-//             fontSize: 20,
-//             padding: 20,
-//             color: globalStyles.GREEN,
-//             alignItems: 'center',
-//             flexGrow: 1,
-//             textAlign: 'center',
-//         },
-//         infoBoxBorderRight: {
-//             borderRightColor: globalStyles.GREEN,
-//             borderStyle: 'solid',
-//             borderRightWidth: 1,
-//         },
-//         infoBoxArrow: {
-//             alignSelf: 'center',
-//             flexGrow: 2,
-//             width: 30,
-//             height: 30
-//         },
-//     });

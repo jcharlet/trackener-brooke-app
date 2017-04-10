@@ -21,3 +21,4 @@ export const GPS_UPDATE_LOC = 'gps/GPS_UPDATE_LOC';
 export const LOAD_RIDES = 'hacks/LOAD_RIDES';
 export const SHOW_PREVIOUS_HACK = 'hacks/SHOW_PREVIOUS_HACK';
 export const SHOW_NEXT_HACK = 'hacks/SHOW_NEXT_HACK';
+export const REMOVE_HACK = 'hacks/REMOVE_HACK';

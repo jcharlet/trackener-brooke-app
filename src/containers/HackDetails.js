@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import HackDetailsScreen from "../components/HackDetailsScreen";
 import {connect} from "react-redux";
-import {loadRides, showPreviousHack, showNextHack} from "../actions/hackDetailsActions";
+import {loadRides, showPreviousHack, showNextHack, removeHack} from "../actions/hackDetailsActions";
+import {updateTotalDistance} from "../actions/liveTrackerActions";
 
 const mapStateToProps = (state) => {
     return {
@@ -34,6 +35,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         hasNextHack: (index:number,length:number) => {
             return hasNextHack(index,length)
+        },
+        remove: (date:number, distance:number) => {
+            dispatch(removeHack(date))
+            dispatch(updateTotalDistance(-distance));
         },
     }
 };

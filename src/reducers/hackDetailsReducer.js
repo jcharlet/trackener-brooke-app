@@ -1,5 +1,5 @@
 import {
-    ADD_RIDE, SHOW_NEXT_HACK, SHOW_PREVIOUS_HACK, LOAD_RIDES
+    ADD_RIDE, SHOW_NEXT_HACK, SHOW_PREVIOUS_HACK, LOAD_RIDES, REMOVE_HACK
 } from '../actions/actionTypes';
 import moment from "../../node_modules/moment/moment";
 
@@ -20,6 +20,8 @@ export default (state = initialState, action = {}) => {
             return showPreviousHack(state);
         case SHOW_NEXT_HACK:
             return showNextHack(state);
+        case REMOVE_HACK:
+            return removeHack(state, action.payload);
         default:
             return state;
     }
@@ -56,5 +58,19 @@ const showNextHack = (state) =>{
     return {
         ...state,
         index:state.index +1
+    };
+};
+
+const removeHack = (state, date:string) =>{
+    let rideArray = state.rides;
+    let newRideArray = rideArray.filter(function (item) {
+        return item.date !== date;
+    });
+    let indexOfElementToRemove = rideArray.map(function(x) {return x.date; }).indexOf(date);
+    let newIndex = indexOfElementToRemove-1>=0?indexOfElementToRemove-1:0;
+    return {
+        ...state,
+        rides:newRideArray,
+        index:newIndex
     };
 };
