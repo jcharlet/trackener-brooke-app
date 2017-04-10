@@ -2,10 +2,10 @@
 export default {
 
     timeSpentByGait: [
-        {"number":  25, "name": 'STOP'},
-        {"number": 50, "name": 'WALK'},
-        {"number": 20, "name": 'TROT'},
-        {"number":  5, "name": 'CANTER'},
+        {"index":0, "number":  25, "name": 'STOP'},
+        {"index":1,"number": 50, "name": 'WALK'},
+        {"index":2,"number": 20, "name": 'TROT'},
+        {"index":3,"number":  5, "name": 'CANTER'},
     ],
 };
 

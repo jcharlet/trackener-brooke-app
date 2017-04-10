@@ -68,18 +68,23 @@ class Pie extends React.Component {
 
     _label(item) { return item.name; }
 
+    _index(item) { return item.index; }
+
     _color(index) { return Theme.colors[index]; }
 
     _createPieChart(index) {
 
         var arcs = d3.shape.pie()
             .value(this._value)
+            .sortValues((a,b) => {return this._index(b)-this._index(a)})
+            .startAngle(90*0.0175)
+            .endAngle((360+90)*0.0175)
             (this.props.data);
 
-        var hightlightedArc = d3.shape.arc()
-            .outerRadius(this.props.pieWidth/2 + 10)
-            .padAngle(.05)
-            .innerRadius(30);
+        // var hightlightedArc = d3.shape.arc()
+        //     .outerRadius(this.props.pieWidth/2 + 10)
+        //     .padAngle(.05)
+        //     .innerRadius(30);
 
         var arc = d3.shape.arc()
             .outerRadius(this.props.pieWidth/2)
