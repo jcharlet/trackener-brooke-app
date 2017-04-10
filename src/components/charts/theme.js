@@ -4,7 +4,8 @@
 export default {
 
     colors: [
-        "#ded6e9","#beadd3","#b39fcb","#9276b5"
+        // "#ded6e9","#beadd3","#b39fcb","#9276b5"
+        "#d9d9d9","#619b64","#8890ff","#9276B9"
     ]
     // colors: [
     //     "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
