@@ -77,14 +77,14 @@ export default class LiveTrackerScreen extends Component{
               <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
               <Text
                   style={[globalStyles.COMMON_STYLES.infoBoxText]}>SPEED {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.lastSpeed))}
-                      mi/h</Text>
+                      mph</Text>
                   </View>
                   {/*<Text*/}
                       {/*style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.maxSpeed))}*/}
-                      {/*mi/h</Text>*/}
+                      {/*mph</Text>*/}
                   {/*<Text*/}
                       {/*style={[globalStyles.COMMON_STYLES.infoBoxText]}>AVG {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.avgSpeed))}*/}
-                      {/*mi/h</Text>*/}
+                      {/*mph</Text>*/}
               </View>
             </View>
         );

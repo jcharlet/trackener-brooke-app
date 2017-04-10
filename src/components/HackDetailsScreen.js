@@ -155,13 +155,13 @@ export default class HackDetailsScreen extends Component {
                                 <Text
                                     style={[globalStyles.COMMON_STYLES.infoBoxText]}>MAX SPEED {"\n"}
                                     {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.maxSpeed))}
-                                    mi/h</Text>
+                                    mph</Text>
                             </View>
                             <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
                                 <Text
                                     style={[globalStyles.COMMON_STYLES.infoBoxText]}>AVG SPEED {"\n"}
                                     {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.avgSpeed))}
-                                    mi/h</Text>
+                                    mph</Text>
                             </View>
                         </View>
 

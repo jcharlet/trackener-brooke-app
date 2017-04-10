@@ -8,8 +8,9 @@ import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INI
 import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET} from "../config/config";
 import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
+import * as utils from '../util/utils'
 
-
+// speed thresholds in mph
 export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
 export const GAIT = {STOP:"STOP",WALK:"WALK",TROT:"TROT",CANTER:"CANTER"}
 
@@ -160,7 +161,8 @@ let createPositionObjectFromGeoPosition = function (position) {
     };
 };
 
-function getGaitFromSpeed(speed) {
+function getGaitFromSpeed(speedKmh) {
+  let speed = utils.convertMeterPerSecondToMilesPerHour(speedKmh);
     let gaitType;
     if (speed < SPEED_THRESHOLD.STOP) {
         gaitType = GAIT.STOP;
