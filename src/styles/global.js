@@ -74,12 +74,12 @@ export const COMMON_STYLES = StyleSheet.create({
     },
     infoBoxStartText: {
         fontSize: 30,
-        padding: 20,
+        padding: 10,
         color: GREEN,
         alignItems: 'center',
         flexGrow: 3,
         textAlign: 'center',
-        paddingLeft: 70
+        paddingLeft: 30,
     },
     infoBoxView: {
         padding: 10,
@@ -201,8 +201,8 @@ export const COMMON_STYLES = StyleSheet.create({
         flexGrow: 0,
         flexDirection: 'row',
         alignItems: 'stretch',
-        margin: 10,
-        padding: 10,
+        margin: 7,
+        padding: 7,
     },
     redButton: {
 
@@ -213,7 +213,7 @@ export const COMMON_STYLES = StyleSheet.create({
     },
     buttonText: {
 
-        fontSize: 20,
+        fontSize: 15,
         textAlign: 'center',
         color: WHITE,
     },

@@ -167,12 +167,12 @@ export default class HackDetailsScreen extends Component {
 
                         <View style={[globalStyles.COMMON_STYLES.centeredElement]}>
                             <Pie
-                                pieWidth={150}
-                                pieHeight={150}
+                                pieWidth={130}
+                                pieHeight={130}
                                 onItemSelected={this._onPieItemSelected}
                                 colors={Theme.colors}
                                 width={200}
-                                height={200}
+                                height={170}
                                 data={ride.analytics.timeSpentByGait} />
                         </View>
 
