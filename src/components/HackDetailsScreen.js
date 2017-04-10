@@ -166,14 +166,16 @@ export default class HackDetailsScreen extends Component {
                             </View>
                         </View>
 
-                        <Pie
-                            pieWidth={150}
-                            pieHeight={150}
-                            onItemSelected={this._onPieItemSelected}
-                            colors={Theme.colors}
-                            width={200}
-                            height={200}
-                            data={data.timeSpentByGait} />
+                        <View style={[globalStyles.COMMON_STYLES.centeredElement]}>
+                            <Pie
+                                pieWidth={150}
+                                pieHeight={150}
+                                onItemSelected={this._onPieItemSelected}
+                                colors={Theme.colors}
+                                width={200}
+                                height={200}
+                                data={data.timeSpentByGait} />
+                        </View>
 
                         <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
                     ]} activeOpacity={globalStyles.ACTIVE_OPACITY}

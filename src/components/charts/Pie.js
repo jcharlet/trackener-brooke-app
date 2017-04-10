@@ -34,6 +34,7 @@ import {
     scaleBand,
     scaleLinear
 } from 'd3-scale';
+import * as globalStyles from "../../styles/global";
 
 type Props = {
     height: number,
@@ -112,8 +113,9 @@ class Pie extends React.Component {
         const y = this.props.pieHeight / 2 + margin;
 
         return (
-            <View width={this.props.width} height={this.props.height}>
-                <Surface width={this.props.width} height={this.props.height}>
+            <View style={[{flex:1, flexDirection:'row',
+        justifyContent: 'space-around',marginLeft:20,marginRight:20}]}>
+                <Surface width={this.props.width} height={this.props.height} >
                     <Group x={x} y={y}>
                         {
                             this.props.data.map( (item, index) =>
@@ -126,7 +128,8 @@ class Pie extends React.Component {
                         }
                     </Group>
                 </Surface>
-                <View style={{position: 'absolute', top:margin, left: 2*margin + this.props.pieWidth}}>
+                <View style={[{
+        flex:1,alignItems: 'flex-start',alignSelf:'center'}]}>
                     {
                         this.props.data.map( (item, index) =>
                         {
