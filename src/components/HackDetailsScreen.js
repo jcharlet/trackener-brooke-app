@@ -11,6 +11,9 @@ import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../util/utils";
 import moment from "moment";
+import Pie from './charts/Pie';
+import Theme from "./charts/theme";
+import data from "./charts/data";
 
 
 export default class HackDetailsScreen extends Component {
@@ -162,6 +165,15 @@ export default class HackDetailsScreen extends Component {
                                     mi/h</Text>
                             </View>
                         </View>
+
+                        <Pie
+                            pieWidth={150}
+                            pieHeight={150}
+                            onItemSelected={this._onPieItemSelected}
+                            colors={Theme.colors}
+                            width={200}
+                            height={200}
+                            data={data.timeSpentByGait} />
 
                         <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
                     ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
