@@ -1,14 +1,16 @@
 
 import {
-    AsyncStorage
+    AsyncStorage,
+    Platform
 } from 'react-native';
 import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
-    UPDATE_TOTAL_DISTANCE, LOAD_TOTAL_DISTANCE
+    UPDATE_TOTAL_DISTANCE
 } from "./actionTypes";
 import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET} from "../config/config";
 import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../util/utils'
+import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 
 // speed thresholds in mph
 export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
@@ -27,6 +29,19 @@ export const restartRide = () =>{
     return {type: RESTART_RIDE}
 }
 
+export const checkLocationServicesIsEnabled = () => {
+    if(Platform.OS === 'android'){
+        return LocationServicesDialogBox.checkLocationServicesIsEnabled({
+            message: "<h2>Use Location?</h2> \
+                            This app wants to change your device settings:<br/><br/>\
+                            Use GPS for location<br/><br/>",
+            ok: "YES",
+            cancel: "NO"
+        })
+    }
+    //done by default on iOS
+    return Promise.resolve();
+};
 
 export const watchGPS = (time = GPS_TIME_INTERVAL) => {
     return (dispatch) => {
@@ -101,7 +116,7 @@ export const updateTotalDistance = (rideDistance) =>{
             dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
         });
     }
-}
+};
 
 export const addRide = (ride) =>{
     function createTimeSpentByGaitAnalytics(positions) {
@@ -118,7 +133,7 @@ export const addRide = (ride) =>{
             {"index":1, "number": 0, "name": GAIT.WALK},
             {"index":2, "number": 0, "name": GAIT.TROT},
             {"index":3, "number": 0, "name": GAIT.CANTER},
-        ])
+        ]);
 
         return analytics.map((analytic)=>{
             analytic["number"]=Math.round(analytic["number"]);

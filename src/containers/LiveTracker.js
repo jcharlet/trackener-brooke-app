@@ -11,7 +11,7 @@ import {
 import LiveTrackerPage from "../components/LiveTrackerScreen";
 import {connect} from "react-redux";
 import {startRide, stopRide, pauseRide, restartRide, watchGPS, clearWatchGps, updateTotalDistance, addRide,
-    loadTotalDistance
+    loadTotalDistance, checkLocationServicesIsEnabled
 } from "../actions/liveTrackerActions";
 
 
@@ -27,10 +27,10 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(loadTotalDistance());
         },
         startTracking: () => {
-            // dispatch({type:START_GPS_WATCH});
-            dispatch(startRide());
-            dispatch(watchGPS());
-            // dispatch(stopAfterFiveSeconds());
+                checkLocationServicesIsEnabled().then(()=>{
+                    dispatch(startRide());
+                    dispatch(watchGPS());
+                })
         },
         stopTracking: (ride,distance) => {
             dispatch(clearWatchGps());
