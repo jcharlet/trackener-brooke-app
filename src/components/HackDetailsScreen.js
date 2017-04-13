@@ -10,7 +10,6 @@ import {
 import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../util/utils";
-import moment from "moment";
 import Pie from './charts/Pie';
 import Theme from "./charts/theme";
 
@@ -20,13 +19,6 @@ export default class HackDetailsScreen extends Component {
     constructor(props) {
         super(props);
         this.props.load();
-    }
-
-    formatDateToDisplay(dateTime) {
-        if (moment(dateTime).format("YYYY MM DD") == moment().format("YYYY MM DD")) {
-            return "TODAY"
-        }
-        return moment(dateTime).format("MMMM Do");
     }
 
     renderBrowsingButton(side) {
@@ -80,8 +72,8 @@ export default class HackDetailsScreen extends Component {
 
     renderHackBrowserTopBar() {
         let ride = this.props.hackDetails.rides[this.props.hackDetails.index];
-        let date = this.formatDateToDisplay(ride.date);
-        let time = moment(ride.date).format("HH:mm");
+        let date = utils.formatDateToDisplay(ride.date);
+        let time = utils.formatTimeToDisplay(ride.date);
         return (
             <View style={{
                 flex:0,

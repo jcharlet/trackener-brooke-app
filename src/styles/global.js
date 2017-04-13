@@ -221,7 +221,7 @@ export const COMMON_STYLES = StyleSheet.create({
     border: {
         borderStyle: 'solid',
         borderColor: 'red',
-        borderWidth: 1
+        borderWidth: 1,
     }
 
 });

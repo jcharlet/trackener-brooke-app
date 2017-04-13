@@ -1,3 +1,6 @@
+
+import moment from "moment";
+
 export const ONE_METER_IN_MILES = 0.000621;
 
 export const convertMeterPerSecondToMilesPerHour = (number) => {
@@ -5,7 +8,7 @@ export const convertMeterPerSecondToMilesPerHour = (number) => {
 };
 
 export const roundWithOneDecimals = (number) => {
-    return Math.round(number * 100) / 100;
+    return Math.round(number * 10) / 10;
 };
 
 export const roundWithThreeDecimals = (number) => {
@@ -23,3 +26,19 @@ export const secondsToHourMinSec = (input) => {
         pad(Math.floor(input % 60)),
     ].join(typeof separator !== 'undefined' ? separator : ':');
 };
+
+
+export const secondsToMin = (input) => {
+    return Math.floor(input / 3600 / 60);
+};
+
+
+export const formatDateToDisplay = (dateTime) =>{
+    if (moment(dateTime).format("YYYY MM DD") == moment().format("YYYY MM DD")) {
+        return "TODAY"
+    }
+    return moment(dateTime).format("MMMM Do");
+}
+export const formatTimeToDisplay = (dateTime) => {
+    return moment(dateTime).format("HH:mm");
+}
