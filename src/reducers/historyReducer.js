@@ -1,5 +1,5 @@
 import {
-    ADD_RIDE, SHOW_NEXT_HACK, SHOW_PREVIOUS_HACK, LOAD_RIDES, REMOVE_HACK
+    LOAD_RIDES_SUMMARY, ADD_RIDE, REMOVE_HACK
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -11,14 +11,10 @@ const initialState = {
 export default (state = initialState, action = {}) => {
     switch (action.type) {
 
-        case LOAD_RIDES:
+        case LOAD_RIDES_SUMMARY:
             return loadRides(state, action.payload);
         case ADD_RIDE:
             return addRide(state, action.payload);
-        case SHOW_PREVIOUS_HACK:
-            return showPreviousHack(state);
-        case SHOW_NEXT_HACK:
-            return showNextHack(state);
         case REMOVE_HACK:
             return removeHack(state, action.payload);
         default:
@@ -33,30 +29,21 @@ const loadRides = (state, payload) =>{
         rides:rides,
         index:rides.length-1,
     }
-}
+};
 
 const addRide = (state, ride) => {
+    let historyRide = {
+        ...ride.analytics,
+        date:ride.date
+
+    };
     return {
         ...state,
         rides:[
             ...state.rides,
-            ride
+            historyRide
         ],
         index:state.rides.length
-    };
-};
-
-const showPreviousHack = (state) =>{
-    return {
-        ...state,
-        index:state.index -1
-    };
-};
-
-const showNextHack = (state) =>{
-    return {
-        ...state,
-        index:state.index +1
     };
 };
 

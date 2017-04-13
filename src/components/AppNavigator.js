@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
 import LiveTracker from "../containers/LiveTracker";
-import HistoryScreen from "./HistoryScreen";
+import History from "../containers/History";
 import * as globalStyles from "../styles/global"
 import HackDetails from "../containers/HackDetails";
 
@@ -35,7 +35,7 @@ HackDetails.navigationOptions = {
     },
 };
 
-HistoryScreen.navigationOptions = {
+History.navigationOptions = {
     title: 'History',
     tabBar: {
         icon: ({tintColor}) => (
@@ -50,7 +50,7 @@ HistoryScreen.navigationOptions = {
 export default AppNavigator = TabNavigator({
     LiveTracker: {screen: LiveTracker},
     HackDetails: {screen: HackDetails},
-    // History: {screen: HistoryScreen},
+    History: {screen: History},
 }, {
     tabBarPosition: 'bottom',
     tabBarOptions: {

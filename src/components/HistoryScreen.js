@@ -6,7 +6,8 @@ import {
     Text,
     View,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ListView
 } from 'react-native';
 import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
@@ -15,8 +16,33 @@ import * as utils from "../util/utils";
 
 export default class HistoryScreen extends Component{
 
+    state={
+        dataSource:{},
+    };
+
     constructor(props) {
         super(props);
+        this.props.load();
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        // this.state.dataSource=ds.cloneWithRows(['row 1', 'row 2'];
+        this.state.dataSource=ds.cloneWithRows(this.props.history.rides);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(nextProps.history.rides),
+        });
+    }
+
+    renderRow(rowData, ...rest) {
+        // const index = parseInt(rest[1], 10);
+        return (
+            <View>
+                <Text>{rowData.date}</Text>
+                <Text>{rowData.duration}</Text>
+                <Text>{rowData.distance}</Text>
+            </View>
+        );
     }
 
     render(){
@@ -27,17 +53,11 @@ export default class HistoryScreen extends Component{
         justifyContent: 'center',
         flexDirection: 'column',
             }]}>
-                <Text
-                style={{
-                    textAlign:"center",
-        fontSize: 20,
-        padding: 20,
-        color: globalStyles.GREEN,
-        //borderStyle: 'solid',
-        //borderColor: 'red',
-        //borderWidth: 1
-                }}
-                >Not available yet</Text>
+                <ListView
+                enableEmptySections
+                dataSource={this.state.dataSource}
+                renderRow={this.renderRow}
+            />
             </View>);
     }
 }
@@ -45,12 +65,14 @@ export default class HistoryScreen extends Component{
 HistoryScreen.navigationOptions = {
     title: 'History',
 };
-//
-// LiveTrackerScreen.propTypes = {
-//     liveTracker:PropTypes.any,
-//     startTracking: PropTypes.func,
-//     stopTracking: PropTypes.func,
-//     pauseTracking: PropTypes.func,
-//     restartTracking: PropTypes.func,
-// };
+HistoryScreen.propTypes = {
+    history:PropTypes.any,
+    load: PropTypes.func,
+};
 
+const COMMON_STYLES = StyleSheet.create({
+    main: {
+        flex: 1,
+        flexDirection: 'column',
+    },
+});

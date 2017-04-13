@@ -9,7 +9,7 @@ const initialNavState = {
     routes: [
         { key: 'InitA', routeName: 'LiveTracker' },
         { key: 'InitB', routeName: 'HackDetails' },
-        // { key: 'InitC', routeName: 'History' },
+        { key: 'InitC', routeName: 'History' },
     ],
 };
 
