@@ -29,7 +29,7 @@ export const secondsToHourMinSec = (input) => {
 
 
 export const secondsToMin = (input) => {
-    return Math.floor(input / 3600 / 60);
+    return Math.floor(input / 60);
 };
 
 
