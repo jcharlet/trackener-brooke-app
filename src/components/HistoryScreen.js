@@ -42,17 +42,18 @@ export default class HistoryScreen extends Component {
                 justifyContent: 'space-between',
                 marginTop:5,
                 marginBottom:5,
+                paddingTop:5,
+                paddingBottom:5,
+                paddingLeft:20,
+                paddingRight:20,
         backgroundColor: globalStyles.GRAY,
 
             }}>
                 <View style={{
-                    flex:1,
+                    flex:1.1,
                     flexDirection:'row',
-                    marginTop:5,
-                    marginBottom:5,
-                    marginLeft:20,
-                    marginRight:20,
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
+        marginRight:20,
             }}>
                     <Text style={{
                         fontSize:16,
@@ -61,14 +62,14 @@ export default class HistoryScreen extends Component {
                     <Text style={{
                         fontSize:12,
                         alignSelf:'center',
+
                     }}>{utils.formatTimeToDisplay(rowData.date)}</Text>
                 </View>
 
                 <View style={{
                     flex:1,
                     flexDirection:'row',
-        justifyContent: 'flex-start',
-                    margin:5,
+        justifyContent: 'space-between',
             }}>
                     <Image source={require('../../img/ic_timer_purple.png')} style={{
                         width:22,height:22,
@@ -78,8 +79,7 @@ export default class HistoryScreen extends Component {
                         fontSize:16,
                         alignSelf:'center',
                     flex:1,
-                    marginRight:20,
-        textAlign: 'right',
+        textAlign: 'center',
             }}>{utils.secondsToMin(rowData.duration)} min</Text>
                 </View>
 
@@ -87,16 +87,13 @@ export default class HistoryScreen extends Component {
                     flex:1,
                     flexDirection:'row',
         justifyContent: 'flex-start',
-                    margin:5,
-                    marginLeft:10,
             }}>
                     <Image source={require('../../img/distance_blue.png')} style={{width:25,height:25}}/>
                     <Text style={{
                         fontSize:16,
                         alignSelf:'center',
                     flex:1,
-                    marginRight:20,
-        textAlign: 'right',
+        textAlign: 'center',
             }}>{utils.roundWithOneDecimals(rowData.distance * utils.ONE_METER_IN_MILES)} mi</Text>
                 </View>
             </View>

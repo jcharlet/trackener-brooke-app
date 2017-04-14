@@ -50,8 +50,6 @@ export const COMMON_STYLES = StyleSheet.create({
     headerText: {
         color: WHITE,
         fontSize: 25,
-        flex: 1,
-        textAlignVertical: 'center'
     },
 
 
