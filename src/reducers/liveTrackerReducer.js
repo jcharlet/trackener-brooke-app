@@ -117,6 +117,10 @@ const initWatch = (state, geoIds) => {
 
 const updateLocation = (state, newPosition) => {
 
+    if(!state.ride.geoIds){
+        return state;
+    }
+
     if (!state.ride.positions || state.ride.positions.length == 0) {
         return {
             ...state,
@@ -148,7 +152,7 @@ const updateLocation = (state, newPosition) => {
     let distanceRidden = calculateDistance(from, to);
     let distance = state.ride.analytics.distance + distanceRidden;
     let totalDistance = state.totalDistance + distanceRidden;
-    let duration = state.ride.analytics.duration + (newPosition.timestamp - lastPosition.timestamp) / 1000;
+    let duration = (newPosition.timestamp - state.ride.geoIds.startTime) / 1000;
     let avgSpeed = distance / duration;
 
 

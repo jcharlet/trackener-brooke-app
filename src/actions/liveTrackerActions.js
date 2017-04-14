@@ -81,7 +81,14 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
                 });
         }, time);
 
-        dispatch({type: GPS_INIT_WATCH, payload: {intervalId:intervalId,watchId:watchId}});
+        dispatch({
+            type: GPS_INIT_WATCH,
+            payload: {
+                intervalId:intervalId,
+                watchId:watchId,
+                startTime:moment().valueOf(),
+            }
+        });
     }
 };
 

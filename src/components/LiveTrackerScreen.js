@@ -91,7 +91,6 @@ export default class LiveTrackerScreen extends Component{
     }
 
     renderDefaultScreen() {
-        //FIXME navigation weirdly behaves + crash to hack Details from total distance button
         return (
             <View style={[globalStyles.COMMON_STYLES.container]}>
               <TouchableOpacity style={globalStyles.COMMON_STYLES.infoBox} activeOpacity={globalStyles.ACTIVE_OPACITY}
