@@ -11,6 +11,7 @@ import {
 import * as globalStyles from '../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../util/utils";
+import {NAV_HACK_DETAILS} from "../actions/actionTypes";
 
 
 export default class HistoryScreen extends Component {
@@ -33,10 +34,14 @@ export default class HistoryScreen extends Component {
         });
     }
 
+    _navigate(index) {
+        this.props.navigation.navigate(NAV_HACK_DETAILS, {index:index});
+    }
+
     renderRow(rowData, ...rest) {
-        // const index = parseInt(rest[1], 10);
+        const index = parseInt(rest[1], 10);
         return (
-            <View style={{
+            <TouchableOpacity style={{
                 flex:1,
                 flexDirection:'row',
                 justifyContent: 'space-between',
@@ -46,9 +51,9 @@ export default class HistoryScreen extends Component {
                 paddingBottom:5,
                 paddingLeft:20,
                 paddingRight:20,
-        backgroundColor: globalStyles.GRAY,
-
-            }}>
+                backgroundColor: globalStyles.GRAY,
+            }} activeOpacity={globalStyles.ACTIVE_OPACITY}
+                              onPress={() => this._navigate(index)}>
                 <View style={{
                     flex:1.1,
                     flexDirection:'row',
@@ -96,7 +101,12 @@ export default class HistoryScreen extends Component {
         textAlign: 'center',
             }}>{utils.roundWithOneDecimals(rowData.distance * utils.ONE_METER_IN_MILES)} mi</Text>
                 </View>
-            </View>
+                <View><Image source={require('../../img/ic_navigate_next_green.png')}
+                             style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
+                </View>
+
+            </TouchableOpacity>
+
         );
     }
 
@@ -114,7 +124,7 @@ export default class HistoryScreen extends Component {
                 <ListView
                     enableEmptySections
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderRow}
+                    renderRow={this.renderRow.bind(this)}
                 />
             </View>);
     }

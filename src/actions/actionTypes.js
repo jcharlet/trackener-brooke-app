@@ -1,7 +1,13 @@
 ///////////////////////
+// Navigation actions
+///////////////////////
+export const NAV_NAVIGATE = 'Navigation/NAVIGATE';
+export const NAV_HACK_DETAILS = 'HackDetails';
+
+
+///////////////////////
 // Live Tracker actions
 ///////////////////////
-
 export const START_RIDE = 'tracker/START_RIDE';
 export const STOP_RIDE = 'tracker/STOP_RIDE';
 export const PAUSE_RIDE = 'tracker/PAUSE_RIDE';
@@ -28,3 +34,5 @@ export const REMOVE_HACK = 'hacks/REMOVE_HACK';
 ///////////////////////
 
 export const LOAD_RIDES_SUMMARY = 'hacks/LOAD_RIDES_SUMMARY';
+
+
