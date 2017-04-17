@@ -64,6 +64,7 @@ const startRide = (state) => {
         ride: {
             date: moment().format(),
             geoIds: null,
+            pastDuration:0,
             positions: [
                 // {
                 //     longitude:0,
@@ -92,8 +93,14 @@ const stopRide = (state) => {
 };
 
 const pauseRide = (state) => {
+    let pastDuration = state.ride.analytics.duration;
     return {
         ...state,
+        ride:{
+            ...state.ride,
+            geoIds: null,
+            pastDuration:pastDuration,
+        },
         status: STATUS.PAUSE
     };
 };
@@ -152,7 +159,7 @@ const updateLocation = (state, newPosition) => {
     let distanceRidden = calculateDistance(from, to);
     let distance = state.ride.analytics.distance + distanceRidden;
     let totalDistance = state.totalDistance + distanceRidden;
-    let duration = (newPosition.timestamp - state.ride.geoIds.startTime) / 1000;
+    let duration = state.ride.pastDuration + (newPosition.timestamp - state.ride.geoIds.startTime) / 1000;
     let avgSpeed = distance / duration;
 
 

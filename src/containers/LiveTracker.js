@@ -43,8 +43,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(pauseRide());
         },
         restartTracking: () => {
-            dispatch(watchGPS());
             dispatch(restartRide());
+            dispatch(watchGPS());
         },
     }
 };
