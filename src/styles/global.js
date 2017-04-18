@@ -209,6 +209,13 @@ export const COMMON_STYLES = StyleSheet.create({
         borderColor: RED,
         backgroundColor: RED
     },
+    greenButton: {
+
+        borderStyle: 'solid',
+        borderWidth: 2,
+        borderColor: GREEN,
+        backgroundColor: GREEN
+    },
     buttonText: {
 
         fontSize: 15,
