@@ -6,6 +6,7 @@ import navReducer from "./navigation/bottomBar/navReducer";
 import promiseMiddleware from 'redux-promise';
 import {createLogger} from "redux-logger";
 import historyReducer from "./screens/history/historyReducer";
+import {mainNavReducer} from "./navigation/main/MainNavConfiguration";
 
 
 
@@ -21,6 +22,7 @@ let middleWare = [thunkMiddleware, promiseMiddleware];
 export default () => (
     createStore(
         combineReducers({
+            mainNav: mainNavReducer,
             nav: navReducer,
             liveTracker: liveTrackerReducer,
             hackDetails: hackDetailsReducer,

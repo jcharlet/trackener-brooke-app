@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import {AppRegistry,View, AsyncStorage} from 'react-native';
-import Header from './navigation/HeaderComponent'
+import {AppRegistry, View, AsyncStorage} from 'react-native';
 import * as globalStyles from './styles/global';
 import {
     Provider,
 } from 'react-redux';
 import createStore from "./store";
-import BottomTabNavContainer from "./navigation/bottomBar/BottomTabNavContainer";
+import MainNavContainer from "./navigation/main/MainNavContainer";
 
 
 export default class App extends Component {
     store = createStore();
+
     constructor(props) {
         super(props);
         // AsyncStorage.setItem('rides', JSON.stringify([]));
@@ -19,12 +19,9 @@ export default class App extends Component {
 
     render() {
         return (
-            <View style={[globalStyles.COMMON_STYLES.main]}>
-                <Header/>
-                <Provider store={this.store}>
-                    <BottomTabNavContainer/>
-                </Provider>
-            </View>
+            <Provider store={this.store}>
+                <MainNavContainer/>
+            </Provider>
         );
     }
 }
