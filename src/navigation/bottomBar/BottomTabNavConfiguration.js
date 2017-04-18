@@ -29,7 +29,7 @@ HackDetailsContainer.navigationOptions = {
         icon: ({tintColor}) => (
             <Image
                 source={require('../../../img/tab-exercising.png')}
-                style={[FOOTER_STYLE.footerImage]}
+                style={[FOOTER_STYLE.footerImage,{width:30}]}
             />
         ),
     },
@@ -79,6 +79,7 @@ export default BottomTabNavigator = TabNavigator({
 
 export const FOOTER_STYLE = ({
     footerImage: {
+        resizeMode:'contain',
         width: 24,
         height: 24,
     },
