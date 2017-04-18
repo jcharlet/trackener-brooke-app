@@ -1,6 +1,6 @@
 import {
     ADD_RIDE, SHOW_NEXT_HACK, SHOW_PREVIOUS_HACK, LOAD_RIDES, REMOVE_HACK, NAV_HACK_DETAILS, NAV_NAVIGATE
-} from '../actions/actionTypes';
+} from '../../actions/actionTypes';
 
 const initialState = {
     rides: [],

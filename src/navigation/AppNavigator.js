@@ -4,14 +4,14 @@ import {
     View, StyleSheet, Platform
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
-import LiveTracker from "../containers/LiveTracker";
-import History from "../containers/History";
+import LiveTrackerContainer from "../screens/liveTracker/LiveTrackerContainer";
+import HistoryContainer from "../screens/history/HistoryContainer";
 import * as globalStyles from "../styles/global"
-import HackDetails from "../containers/HackDetails";
+import HackDetailsContainer from "../screens/hackDetails/HackDetailsContainer";
 
 //FIXME calendar icon is cropped
 
-LiveTracker.navigationOptions = {
+LiveTrackerContainer.navigationOptions = {
     title: 'Tracker',
     tabBar: {
         icon: ({tintColor}) => (
@@ -23,7 +23,7 @@ LiveTracker.navigationOptions = {
     },
 };
 
-HackDetails.navigationOptions = {
+HackDetailsContainer.navigationOptions = {
     title: 'Hack details',
     tabBar: {
         icon: ({tintColor}) => (
@@ -35,7 +35,7 @@ HackDetails.navigationOptions = {
     },
 };
 
-History.navigationOptions = {
+HistoryContainer.navigationOptions = {
     title: 'History',
     tabBar: {
         icon: ({tintColor}) => (
@@ -48,9 +48,9 @@ History.navigationOptions = {
 };
 
 export default AppNavigator = TabNavigator({
-    LiveTracker: {screen: LiveTracker},
-    HackDetails: {screen: HackDetails},
-    History: {screen: History},
+    LiveTracker: {screen: LiveTrackerContainer},
+    HackDetails: {screen: HackDetailsContainer},
+    History: {screen: HistoryContainer},
 }, {
     tabBarPosition: 'bottom',
     tabBarOptions: {

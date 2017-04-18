@@ -8,10 +8,10 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native';
-import HackDetailsScreen from "../components/HackDetailsScreen";
+import HackDetailsScreen from "./HackDetailsScreen";
 import {connect} from "react-redux";
-import {loadRides, showPreviousHack, showNextHack, removeHack} from "../actions/hackDetailsActions";
-import {updateTotalDistance} from "../actions/liveTrackerActions";
+import {loadRides, showPreviousHack, showNextHack, removeHack} from "./hackDetailsActions";
+import {updateTotalDistance} from "../liveTracker/liveTrackerActions";
 
 const mapStateToProps = (state) => {
     return {
@@ -51,10 +51,10 @@ function hasNextHack(index:number,length:number) {
     return (index<length-1)
 }
 
-const LiveTracker = connect(
+const HackDetailsContainer = connect(
     mapStateToProps,
     mapDispatchToProps
 )(HackDetailsScreen);
 
-export default LiveTracker
+export default HackDetailsContainer
 

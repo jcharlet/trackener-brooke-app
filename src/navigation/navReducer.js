@@ -1,5 +1,5 @@
 
-import AppNavigator from "../components/AppNavigator"
+import AppNavigator from "./AppNavigator"
 import {
     NavigationActions,
 } from 'react-navigation';
@@ -18,10 +18,10 @@ export default (state = initialNavState, action) => {
     // if (action.type === 'DetailedSession') {
     //     return AppNavigator.router.getStateForAction(NavigationActions.back(), state);
     // }
-    // if (action.type === 'LiveTracker') {
+    // if (action.type === 'LiveTrackerContainer') {
     //     return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DetailedSession' }), state);
     // }
-    // if (action.type === 'History') {
+    // if (action.type === 'HistoryContainer') {
     //     return AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DetailedSession' }), state);
     // }
     // if (action.type === 'Logout') {

@@ -1,6 +1,6 @@
 import {
     LOAD_RIDES_SUMMARY, ADD_RIDE, REMOVE_HACK
-} from '../actions/actionTypes';
+} from '../../actions/actionTypes';
 
 const initialState = {
     rides:[],

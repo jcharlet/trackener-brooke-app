@@ -1,9 +1,9 @@
 import {
     START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC,
     GPS_INIT_WATCH, UPDATE_TOTAL_DISTANCE, LOAD_TOTAL_DISTANCE
-} from '../actions/actionTypes';
+} from '../../actions/actionTypes';
 import moment from "moment";
-import {GPS_TIME_INTERVAL} from "../config/config";
+import {GPS_TIME_INTERVAL} from "../../config/config";
 
 export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 

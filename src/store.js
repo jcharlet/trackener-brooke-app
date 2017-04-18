@@ -1,11 +1,11 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk'
-import liveTrackerReducer from "./reducers/liveTrackerReducer";
-import hackDetailsReducer from "./reducers/hackDetailsReducer";
-import navReducer from "./reducers/navReducer";
+import liveTrackerReducer from "./screens/liveTracker/liveTrackerReducer";
+import hackDetailsReducer from "./screens/hackDetails/hackDetailsReducer";
+import navReducer from "./navigation/navReducer";
 import promiseMiddleware from 'redux-promise';
 import {createLogger} from "redux-logger";
-import historyReducer from "./reducers/historyReducer";
+import historyReducer from "./screens/history/historyReducer";
 
 
 

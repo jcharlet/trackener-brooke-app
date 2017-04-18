@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {AppRegistry,View, AsyncStorage} from 'react-native';
-import Header from './components/Header'
+import Header from './navigation/HeaderComponent'
 import * as globalStyles from './styles/global';
 import {
     addNavigationHelpers,
@@ -10,7 +10,7 @@ import {
     connect,
 } from 'react-redux';
 import createStore from "./store";
-import AppNavigator from "./components/AppNavigator"
+import AppNavigator from "./navigation/AppNavigator"
 
 const AppWithNavigationState = connect(state => ({
     nav: state.nav,

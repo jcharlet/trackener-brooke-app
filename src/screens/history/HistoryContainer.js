@@ -8,8 +8,8 @@ import {
     TouchableOpacity
 } from 'react-native';
 import {connect} from "react-redux";
-import HistoryScreen from "../components/HistoryScreen";
-import {loadRides} from "../actions/historyActions";
+import HistoryScreen from "./HistoryScreen";
+import {loadRides} from "./historyActions";
 
 const mapStateToProps = (state) => {
     return {
@@ -26,10 +26,10 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-const History = connect(
+const HistoryContainer = connect(
     mapStateToProps,
     mapDispatchToProps
 )(HistoryScreen);
 
-export default History
+export default HistoryContainer
 

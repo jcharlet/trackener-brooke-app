@@ -5,11 +5,11 @@ import {
 } from 'react-native';
 import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
     UPDATE_TOTAL_DISTANCE
-} from "./actionTypes";
-import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET} from "../config/config";
+} from "../../actions/actionTypes";
+import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET} from "../../config/config";
 import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
-import * as utils from '../util/utils'
+import * as utils from '../../util/utils'
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 
 // speed thresholds in mph

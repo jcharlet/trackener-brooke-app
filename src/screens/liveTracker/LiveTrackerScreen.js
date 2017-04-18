@@ -7,11 +7,11 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-import * as globalStyles from '../styles/global';
+import * as globalStyles from '../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
-import * as utils from "../util/utils";
-import {STATUS} from "../reducers/liveTrackerReducer";
-import {NAV_HACK_DETAILS} from "../actions/actionTypes";
+import * as utils from "../../util/utils";
+import {STATUS} from "./liveTrackerReducer";
+import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
 
 export default class LiveTrackerScreen extends Component{
 
@@ -98,7 +98,7 @@ export default class LiveTrackerScreen extends Component{
               onPress={() => this.props.navigation.navigate(NAV_HACK_DETAILS)}>
                 <Text
                     style={globalStyles.COMMON_STYLES.infoBoxStartText}>{utils.roundWithOneDecimals(this.props.liveTracker.totalDistance * utils.ONE_METER_IN_MILES)} mi ridden</Text>
-                <Image source={require('../../img/ic_navigate_next_green.png')} style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
+                <Image source={require('../../../img/ic_navigate_next_green.png')} style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
               </TouchableOpacity>
 
               <TouchableOpacity style={globalStyles.COMMON_STYLES.startRideButton} activeOpacity={globalStyles.ACTIVE_OPACITY}

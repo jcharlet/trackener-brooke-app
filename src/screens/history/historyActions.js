@@ -1,7 +1,7 @@
 import {
     AsyncStorage
 } from 'react-native';
-import {LOAD_RIDES_SUMMARY} from "./actionTypes";
+import {LOAD_RIDES_SUMMARY} from "../../actions/actionTypes";
 
 export const loadRides = () => ({
     type: LOAD_RIDES_SUMMARY,

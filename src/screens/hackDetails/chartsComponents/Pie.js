@@ -19,7 +19,7 @@ const {
     Shape,
 } = ART;
 
-import * as scale from '../../../node_modules/d3-scale';
+import * as scale from '../../../../node_modules/d3-scale';
 import * as shape from 'd3-shape';
 import * as d3Array from 'd3-array';
 import AnimShape from './AnimShape';
@@ -34,7 +34,7 @@ import {
     scaleBand,
     scaleLinear
 } from 'd3-scale';
-import * as globalStyles from "../../styles/global";
+import * as globalStyles from "../../../styles/global";
 
 type Props = {
     height: number,

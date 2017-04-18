@@ -8,11 +8,11 @@ import {
     TouchableOpacity,
     AsyncStorage
 } from 'react-native';
-import LiveTrackerPage from "../components/LiveTrackerScreen";
+import LiveTrackerPage from "./LiveTrackerScreen";
 import {connect} from "react-redux";
 import {startRide, stopRide, pauseRide, restartRide, watchGPS, clearWatchGps, updateTotalDistance, addRide,
     loadTotalDistance, checkLocationServicesIsEnabled
-} from "../actions/liveTrackerActions";
+} from "./liveTrackerActions";
 
 
 const mapStateToProps = (state) => {
@@ -49,10 +49,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const LiveTracker = connect(
+const LiveTrackerContainer = connect(
     mapStateToProps,
     mapDispatchToProps
 )(LiveTrackerPage);
 
-export default LiveTracker
+export default LiveTrackerContainer
 
