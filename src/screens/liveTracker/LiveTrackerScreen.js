@@ -98,7 +98,9 @@ export default class LiveTrackerScreen extends Component{
               onPress={() => this.props.navigation.navigate(NAV_HACK_DETAILS)}>
                 <Text
                     style={globalStyles.COMMON_STYLES.infoBoxStartText}>{utils.roundWithOneDecimals(this.props.liveTracker.totalDistance * utils.ONE_METER_IN_MILES)} mi ridden</Text>
+                    <View>
                 <Image source={require('../../../img/ic_navigate_next_green.png')} style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
+                    </View>
               </TouchableOpacity>
 
               <TouchableOpacity style={globalStyles.COMMON_STYLES.startRideButton} activeOpacity={globalStyles.ACTIVE_OPACITY}
