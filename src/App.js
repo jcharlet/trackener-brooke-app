@@ -3,20 +3,11 @@ import {AppRegistry,View, AsyncStorage} from 'react-native';
 import Header from './navigation/HeaderComponent'
 import * as globalStyles from './styles/global';
 import {
-    addNavigationHelpers,
-} from 'react-navigation';
-import {
     Provider,
-    connect,
 } from 'react-redux';
 import createStore from "./store";
-import AppNavigator from "./navigation/AppNavigator"
+import BottomTabNavContainer from "./navigation/bottomBar/BottomTabNavContainer";
 
-const AppWithNavigationState = connect(state => ({
-    nav: state.nav,
-}))(({ dispatch, nav }) => (
-    <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
-));
 
 export default class App extends Component {
     store = createStore();
@@ -31,7 +22,7 @@ export default class App extends Component {
             <View style={[globalStyles.COMMON_STYLES.main]}>
                 <Header/>
                 <Provider store={this.store}>
-                    <AppWithNavigationState/>
+                    <BottomTabNavContainer/>
                 </Provider>
             </View>
         );

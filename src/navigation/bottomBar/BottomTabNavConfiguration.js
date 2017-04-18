@@ -1,13 +1,13 @@
-import React from 'react';
+    import React from 'react';
 import {
     Image,
     View, StyleSheet, Platform
 } from 'react-native';
 import {TabNavigator} from "react-navigation";
-import LiveTrackerContainer from "../screens/liveTracker/LiveTrackerContainer";
-import HistoryContainer from "../screens/history/HistoryContainer";
-import * as globalStyles from "../styles/global"
-import HackDetailsContainer from "../screens/hackDetails/HackDetailsContainer";
+import LiveTrackerContainer from "../../screens/liveTracker/LiveTrackerContainer";
+import HistoryContainer from "../../screens/history/HistoryContainer";
+import * as globalStyles from "../../styles/global"
+import HackDetailsContainer from "../../screens/hackDetails/HackDetailsContainer";
 
 //FIXME calendar icon is cropped
 
@@ -16,7 +16,7 @@ LiveTrackerContainer.navigationOptions = {
     tabBar: {
         icon: ({tintColor}) => (
             <Image
-                source={require('../../img/tab-dashboard.png')}
+                source={require('../../../img/tab-dashboard.png')}
                 style={[FOOTER_STYLE.footerImage]}
             />
         ),
@@ -28,7 +28,7 @@ HackDetailsContainer.navigationOptions = {
     tabBar: {
         icon: ({tintColor}) => (
             <Image
-                source={require('../../img/tab-exercising.png')}
+                source={require('../../../img/tab-exercising.png')}
                 style={[FOOTER_STYLE.footerImage]}
             />
         ),
@@ -40,14 +40,14 @@ HistoryContainer.navigationOptions = {
     tabBar: {
         icon: ({tintColor}) => (
             <Image
-                source={require('../../img/tab-calendar.png')}
+                source={require('../../../img/tab-calendar.png')}
                 style={[FOOTER_STYLE.footerImage]}
             />
         ),
     },
 };
 
-export default AppNavigator = TabNavigator({
+export default BottomTabNavigator = TabNavigator({
     LiveTracker: {screen: LiveTrackerContainer},
     HackDetails: {screen: HackDetailsContainer},
     History: {screen: HistoryContainer},
