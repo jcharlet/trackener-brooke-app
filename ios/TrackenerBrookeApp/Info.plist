@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>Your location is used to track your position during a ride and get feedback (distance ridden, duration, speed, etc) in real time and afterwards.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

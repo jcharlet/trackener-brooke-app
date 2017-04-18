@@ -23,29 +23,29 @@ export default class Header extends Component {
     render() {
         return (
             <View style={globalStyles.COMMON_STYLES.header}>
-                <TouchableOpacity style={[globalStyles.COMMON_STYLES.headerImageView]}
+                <View style={[globalStyles.COMMON_STYLES.headerImageView]}
                                   activeOpacity={globalStyles.ACTIVE_OPACITY}>
                     <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
-                        <Image
-                            source={require('../../img/header-horse.png')}
-                            style={globalStyles.COMMON_STYLES.headerImage}
-                        />
+                        {/*<Image*/}
+                            {/*source={require('../../img/header-horse.png')}*/}
+                            {/*style={globalStyles.COMMON_STYLES.headerImage}*/}
+                        {/*/>*/}
                     </View>
-                </TouchableOpacity>
+                </View>
                 <View style={[globalStyles.COMMON_STYLES.headerView]}>
                     <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
                         <Text style={globalStyles.COMMON_STYLES.headerText}>My Hackathon</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={globalStyles.COMMON_STYLES.headerImageView}
+                <View style={globalStyles.COMMON_STYLES.headerImageView}
                                   activeOpacity={globalStyles.ACTIVE_OPACITY}>
                     <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
-                        <Image
-                            source={require('../../img/header-settings.png')}
-                            style={globalStyles.COMMON_STYLES.headerImage}
-                        />
+                        {/*<Image*/}
+                            {/*source={require('../../img/header-settings.png')}*/}
+                            {/*style={globalStyles.COMMON_STYLES.headerImage}*/}
+                        {/*/>*/}
                     </View>
-                </TouchableOpacity>
+                </View>
             </View>
         );
     }

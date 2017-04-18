@@ -34,7 +34,8 @@ export const checkLocationServicesIsEnabled = () => {
         return LocationServicesDialogBox.checkLocationServicesIsEnabled({
             message: "<h2>Use Location?</h2> \
                             This app wants to change your device settings:<br/><br/>\
-                            Use GPS for location<br/><br/>",
+                            - Use GPS for location<br/><br/>\
+                            <p>Your location is used to track your position during a ride and get feedback (distance ridden, duration, speed, etc) in real time and afterwards.</p>",
             ok: "YES",
             cancel: "NO"
         })
