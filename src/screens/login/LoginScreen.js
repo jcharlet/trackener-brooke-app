@@ -17,7 +17,6 @@ import * as utils from "../../util/utils";
 export default class LoginScreen extends Component {
 
     state = {
-        dataSource: {},
         username:'',
         password:'',
     };
@@ -120,7 +119,7 @@ export default class LoginScreen extends Component {
         alignItems: 'center',
         alignSelf: 'center',}
                     ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                              onPress={() => this.props.navigation.navigate('BottomTabNavContainer')}>
+                                              onPress={() => this.props.login(this.state.username,this.state.password)}>
 
                                 <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.greenButton]}>
                                     <Text style={[globalStyles.COMMON_STYLES.buttonText,{fontSize:20}]}>Login</Text>
@@ -140,4 +139,5 @@ export default class LoginScreen extends Component {
 
 LoginScreen.propTypes = {
     Login: PropTypes.any,
+    login: PropTypes.func,
 };

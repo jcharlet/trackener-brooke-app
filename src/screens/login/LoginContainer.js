@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {connect} from "react-redux";
 import LoginScreen from "./LoginScreen";
+import {login} from "./loginActions";
 
 const mapStateToProps = (state) => {
     return {
@@ -18,6 +19,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        login: (username:string, password:string) => {
+            dispatch(login(username,password));
+        },
     }
 };
 
