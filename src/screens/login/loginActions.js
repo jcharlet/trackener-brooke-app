@@ -2,6 +2,7 @@ import {
     AsyncStorage
 } from 'react-native';
 import {LOGIN_SUCCESS, LOGIN_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV} from "../../actions/actionTypes";
+import {TRACKENER_API} from "../../config/config";
 
 
 export const ERROR_FORBIDDEN = 'FORBIDDEN';
@@ -27,7 +28,7 @@ export const login = (username: string, password: string) => {
         formData.append('username', username);
         formData.append('password', password);
 
-        fetch("http://192.168.1.6:8000/api/login", {
+        fetch(TRACKENER_API+"/login", {
                 method: "post",
                 body: formData
             }
