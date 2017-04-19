@@ -3,6 +3,13 @@
 ///////////////////////
 export const NAV_NAVIGATE = 'Navigation/NAVIGATE';
 export const NAV_HACK_DETAILS = 'HackDetails';
+export const NAV_BOTTOM_TAB_NAV = 'BottomTabNavContainer';
+
+///////////////////////
+// Navigation actions
+///////////////////////
+export const LOGIN_SUCCESS = 'login/SUCCESS';
+export const LOGIN_ERROR = 'login/ERROR';
 
 
 ///////////////////////

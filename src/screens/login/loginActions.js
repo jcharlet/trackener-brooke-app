@@ -1,6 +1,25 @@
 import {
     AsyncStorage
 } from 'react-native';
+import {LOGIN_SUCCESS, LOGIN_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV} from "../../actions/actionTypes";
+
+
+export const ERROR_FORBIDDEN = 'FORBIDDEN';
+export const ERROR_UNKNOWN = 'UNKNOWN_ERROR';
+export const ERROR_SERVER = 'SERVER_ERROR';
+
+export function reinitLoginPage(state) {
+    return {
+        ...state,
+        feedback:''
+    }
+}
+export function displayFeedback(state,feedback) {
+    return {
+        ...state,
+        feedback:feedback
+    }
+}
 
 export const login = (username: string, password: string) => {
     return (dispatch) => {
@@ -16,26 +35,29 @@ export const login = (username: string, password: string) => {
             .then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     dispatch({
-                            type: "Navigation/NAVIGATE",
-                            routeName: 'BottomTabNavContainer',
+                        type: LOGIN_SUCCESS,
+                    });
+                    dispatch({
+                            type: NAV_NAVIGATE,
+                            routeName: NAV_BOTTOM_TAB_NAV,
                         }
                     )
                 } else if (response.status == 403){
                     dispatch({
-                            type: "login/ERROR",
-                            payload: 'FORBIDDEN',
+                            type: LOGIN_ERROR,
+                            payload: ERROR_FORBIDDEN,
                         }
                     )
                 } else if (response.status == 500){
                     dispatch({
-                            type: "login/ERROR",
-                            payload: 'SERVER_ERROR',
+                            type: LOGIN_ERROR,
+                            payload: ERROR_SERVER,
                         }
                     )
                 } else{
                     dispatch({
-                            type: "login/ERROR",
-                            payload: 'UNKNOWN_ERROR',
+                            type: LOGIN_ERROR,
+                            payload: ERROR_UNKNOWN,
                         }
                     )
                 }

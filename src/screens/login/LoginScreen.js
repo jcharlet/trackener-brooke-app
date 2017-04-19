@@ -9,16 +9,17 @@ import {
     ListView,
     Button,
     TextInput,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Keyboard,
 } from 'react-native';
 import * as globalStyles from '../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
+import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER} from "./loginActions";
 export default class LoginScreen extends Component {
 
     state = {
-        username:'',
-        password:'',
+        feedback: '',
     };
 
     constructor(props) {
@@ -26,6 +27,19 @@ export default class LoginScreen extends Component {
     }
 
     render() {
+        switch (this.props.login.feedback){
+            case ERROR_UNKNOWN:
+                this.state.feedback="An error occurred"
+                break;
+            case ERROR_SERVER:
+                this.state.feedback="An error occurred"
+                break;
+            case ERROR_FORBIDDEN:
+                this.state.feedback="Incorrect username/password"
+                break;
+            default:
+                this.state.feedback='';
+        }
         const Dimensions = require('Dimensions');
         const window = Dimensions.get('window');
         return (
@@ -33,15 +47,15 @@ export default class LoginScreen extends Component {
                 width: window.width,
                 height: window.height,
             }]}>
-                    <KeyboardAvoidingView
-                        contentContainerStyle={{
+                <KeyboardAvoidingView
+                    contentContainerStyle={{
                             flex:1
                         }}
-                        behavior='position'
-                        style={[{
+                    behavior='position'
+                    style={[{
                             flex:1
             }]}>
-                        <View style={[globalStyles.COMMON_STYLES.container,{
+                    <View style={[globalStyles.COMMON_STYLES.container,{
                     alignItems: 'stretch',
                     flexDirection:'column',
                     flex:1,
@@ -55,33 +69,33 @@ export default class LoginScreen extends Component {
         padding:16,
                     justifyContent: 'space-around',
             }]}>
-                    <Image source={require('../../../img/brooke_logo.png')} style={[{
+                        <Image source={require('../../../img/brooke_logo.png')} style={[{
     resizeMode: 'contain',
     width: 80,
     height: 100,
     alignSelf: 'center',
 }]}/>
-                    <Text style={{
+                        <Text style={{
                     fontSize:35,
                     textAlign:'center',
             }}>My Hackathon</Text>
-                    <View style={{
+                        <View style={{
                     flexDirection:'row',
                     alignItems:'center',
         justifyContent: 'center',
             }}>
-                        <Text>by</Text>
-                        <Image source={require('../../../img/trackener_logo.png')} style={[{
+                            <Text>by</Text>
+                            <Image source={require('../../../img/trackener_logo.png')} style={[{
                             marginLeft:10,
     resizeMode: 'contain',
     width: 100,
     height: 100,
     alignSelf: 'center',
 }]}/>
-                    </View>
+                        </View>
 
-                    <TextInput
-                        style={{
+                        <TextInput
+                            style={{
                             height: 50,
                     fontSize:20,
         textAlign:'center',
@@ -89,15 +103,11 @@ export default class LoginScreen extends Component {
         marginRight:8,
         color:'rgba(0,0,0,.625)',
                         }}
-                        placeholder='Username'
-                        onChangeText={(text) => this.setState(
-                            {
-                                ...this.state,
-                                username:text
-                            })}
-                    />
-                    <TextInput
-                        style={{
+                            placeholder='Username'
+                            onChangeText={(text) => this.props.login.username=text}
+                        />
+                        <TextInput
+                            style={{
                             height: 50,
                     fontSize:20,
         textAlign:'center',
@@ -106,32 +116,41 @@ export default class LoginScreen extends Component {
         color:'rgba(0,0,0,.625)',
                         }}
 
-                        secureTextEntry={true}
-                        placeholder='Password'
-                        onChangeText={(text) => this.setState(
-                            {
-                                ...this.state,
-                                password:text
-                            })}
-                    />
-                            <TouchableOpacity style={[{
+                            secureTextEntry={true}
+                            placeholder='Password'
+                            onChangeText={(text) => this.props.login.password=text}
+                        />
+                        <Text style={{
+                                color:globalStyles.RED,
+                                textAlign:'center',
+                                height:22,
+                            }}>
+                            {this.state.feedback}
+                        </Text>
+                        <TouchableOpacity style={[{
         flexDirection: 'row',
         alignItems: 'center',
         alignSelf: 'center',}
                     ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                              onPress={() => this.props.login(this.state.username,this.state.password)}>
+                                          onPress={() => {
+                                              this.setState({feedback: ''});
+                                              this.props.login.feedback='';
+                                              Keyboard.dismiss();
+                                              this.props.doLogin(this.props.login.username,this.props.login.password)
+                                          }}>
 
-                                <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.greenButton]}>
-                                    <Text style={[globalStyles.COMMON_STYLES.buttonText,{fontSize:20}]}>Login</Text>
-                                </View>
-                            </TouchableOpacity>
+                            <View
+                                style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.greenButton]}>
+                                <Text style={[globalStyles.COMMON_STYLES.buttonText,{fontSize:20}]}>Login</Text>
+                            </View>
+                        </TouchableOpacity>
                         <Text
                             style={{
         textAlign:'center',
         color:globalStyles.GREEN
                         }}>register</Text>
-                        </View>
-                    </KeyboardAvoidingView>
+                    </View>
+                </KeyboardAvoidingView>
             </Image>
         );
     }
@@ -139,5 +158,5 @@ export default class LoginScreen extends Component {
 
 LoginScreen.propTypes = {
     Login: PropTypes.any,
-    login: PropTypes.func,
+    doLogin: PropTypes.func,
 };

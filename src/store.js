@@ -7,6 +7,7 @@ import promiseMiddleware from 'redux-promise';
 import {createLogger} from "redux-logger";
 import historyReducer from "./screens/history/historyReducer";
 import {mainNavReducer} from "./navigation/main/MainNavConfiguration";
+import loginReducer from "./screens/login/loginReducer";
 
 
 
@@ -23,6 +24,7 @@ export default () => (
     createStore(
         combineReducers({
             mainNav: mainNavReducer,
+            login:loginReducer,
             nav: navReducer,
             liveTracker: liveTrackerReducer,
             hackDetails: hackDetailsReducer,
