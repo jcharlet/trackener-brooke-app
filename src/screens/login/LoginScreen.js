@@ -90,7 +90,7 @@ export default class LoginScreen extends Component {
         marginRight:8,
         color:'rgba(0,0,0,.625)',
                         }}
-                        placeholder='USERNAME'
+                        placeholder='Username'
                         onChangeText={(text) => this.setState(
                             {
                                 ...this.state,
@@ -108,7 +108,7 @@ export default class LoginScreen extends Component {
                         }}
 
                         secureTextEntry={true}
-                        placeholder='PASSWORD'
+                        placeholder='Password'
                         onChangeText={(text) => this.setState(
                             {
                                 ...this.state,
@@ -123,7 +123,7 @@ export default class LoginScreen extends Component {
                                               onPress={() => this.props.navigation.navigate('BottomTabNavContainer')}>
 
                                 <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.greenButton]}>
-                                    <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Login</Text>
+                                    <Text style={[globalStyles.COMMON_STYLES.buttonText,{fontSize:20}]}>Login</Text>
                                 </View>
                             </TouchableOpacity>
                         <Text
