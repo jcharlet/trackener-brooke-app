@@ -1,6 +1,5 @@
 
 import {
-    AsyncStorage,
     Platform
 } from 'react-native';
 import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
@@ -11,6 +10,7 @@ import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../../util/utils'
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
+import * as localStorageService from "../../modules/localStorage/localStorageService";
 
 // speed thresholds in mph
 export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
@@ -103,25 +103,15 @@ export const clearWatchGps = () => {
 
 export const loadTotalDistance = () => ({
     type: UPDATE_TOTAL_DISTANCE,
-    payload: AsyncStorage.getItem('totalDistance').then((totalDistance) => {
-        if (totalDistance && !isNaN(totalDistance)) {
-            return Number(totalDistance);
-        }
-        return 0;
-    })
+    payload: localStorageService.loadTotalDistance()
 });
 
 export const updateTotalDistance = (rideDistance) =>{
     return (dispatch)=>{
-        AsyncStorage.getItem('totalDistance').then((totalDistanceString) => {
-            let totalDistance=0;
-            if (totalDistanceString && !isNaN(totalDistanceString)) {
-                totalDistance=Number(totalDistanceString);
-            }
-            totalDistance+=rideDistance;
-            AsyncStorage.setItem('totalDistance', totalDistance.toString());
-            dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
-        });
+        localStorageService.updateTotalDistance(rideDistance)
+            .then((totalDistance) =>{
+                dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
+            });
     }
 };
 
@@ -156,13 +146,7 @@ export const addRide = (ride) =>{
             timeSpentByGait
         }
     };
-    AsyncStorage.getItem('rides').then((rides) => {
-        if (rides) {
-            const rideArray = JSON.parse(rides);
-            return AsyncStorage.setItem('rides', JSON.stringify([...rideArray, ride]));
-        }
-        return AsyncStorage.setItem('rides', JSON.stringify([ride]));
-    });
+    localStorageService.addRide(ride);
     return ({type: ADD_RIDE, payload: ride});
 };
 

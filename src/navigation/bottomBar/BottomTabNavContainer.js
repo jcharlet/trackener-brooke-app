@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry, View, AsyncStorage} from 'react-native';
+import {AppRegistry, View} from 'react-native';
 import {
     addNavigationHelpers,
 } from 'react-navigation';

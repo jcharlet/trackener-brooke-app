@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {AppRegistry, View, AsyncStorage} from 'react-native';
+import {AppRegistry, View} from 'react-native';
 import * as globalStyles from './styles/global';
 import {
     Provider,
 } from 'react-redux';
 import createStore from "./store";
 import MainNavContainer from "./navigation/main/MainNavContainer";
+import * as localStorageService from "./modules/localStorage/localStorageService";
 
 
 export default class App extends Component {
@@ -13,8 +14,7 @@ export default class App extends Component {
 
     constructor(props) {
         super(props);
-        // AsyncStorage.setItem('rides', JSON.stringify([]));
-        // AsyncStorage.setItem('totalDistance', JSON.stringify([]));
+        // localStorageService.emptyLocalStorage();
     }
 
     render() {

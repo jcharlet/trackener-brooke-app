@@ -1,6 +1,3 @@
-import {
-    AsyncStorage
-} from 'react-native';
 import {LOGIN_SUCCESS, LOGIN_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV} from "../../actions/actionTypes";
 import {TRACKENER_API} from "../../config/config";
 

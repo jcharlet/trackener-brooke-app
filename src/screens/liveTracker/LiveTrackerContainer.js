@@ -6,7 +6,6 @@ import {
     View,
     Image,
     TouchableOpacity,
-    AsyncStorage
 } from 'react-native';
 import LiveTrackerPage from "./LiveTrackerScreen";
 import {connect} from "react-redux";
