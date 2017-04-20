@@ -6,7 +6,7 @@ import {
 import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
     UPDATE_TOTAL_DISTANCE
 } from "../../actions/actionTypes";
-import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET} from "../../config/config";
+import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET, GPS_MIN_ACCURACY} from "../../config/config";
 import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../../util/utils'
@@ -66,8 +66,7 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
         //check GPS every X milliseconds)
         let intervalId = BackgroundTimer.setInterval(() => {
             navigator.geolocation.getCurrentPosition((geoPosition) => {
-                    if (geoPosition.coords.accuracy < 21) {
-
+                    if (geoPosition.coords.accuracy < GPS_MIN_ACCURACY) {
                         let position = createPositionObjectFromGeoPosition(geoPosition);
                         dispatch({type: GPS_UPDATE_LOC, payload: position})
                     }

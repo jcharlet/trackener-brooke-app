@@ -15,7 +15,6 @@ let middleWare = [thunkMiddleware, promiseMiddleware];
 //     const logger = createLogger({
 //          // predicate: (getState, action) => [LOAD_RIDES, ADD_RIDE].includes(action.type)
 //     });
-//
 //     middleWare.push(logger);
 // }
 
