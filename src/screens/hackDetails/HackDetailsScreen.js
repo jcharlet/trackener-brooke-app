@@ -24,10 +24,10 @@ export default class HackDetailsScreen extends Component {
     renderBrowsingButton(side) {
         switch (side) {
             case "LEFT":
-                if (this.props.hasPreviousHack(this.props.hackDetails.index, this.props.hackDetails.rides.length)) {
+                if (this.props.hasPreviousRide(this.props.hackDetails.index, this.props.hackDetails.rides.length)) {
                     return (
                         <TouchableOpacity activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                          onPress={this.props.showPreviousHack}
+                                          onPress={this.props.showPreviousRide}
 
                                           style={{
                                   width:50
@@ -46,10 +46,10 @@ export default class HackDetailsScreen extends Component {
                 }
                 break;
             case "RIGHT":
-                if (this.props.hasNextHack(this.props.hackDetails.index, this.props.hackDetails.rides.length)) {
+                if (this.props.hasNextRide(this.props.hackDetails.index, this.props.hackDetails.rides.length)) {
                     return (
                         <TouchableOpacity activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                          onPress={this.props.showNextHack}
+                                          onPress={this.props.showNextRide}
 
                                           style={{
                                   width:50
@@ -209,9 +209,9 @@ export default class HackDetailsScreen extends Component {
 HackDetailsScreen.propTypes = {
     hackDetails: PropTypes.any,
     load: PropTypes.func,
-    showPreviousHack: PropTypes.func,
-    showNextHack: PropTypes.func,
-    hasPreviousHack: PropTypes.func,
-    hasNextHack: PropTypes.func,
+    showPreviousRide: PropTypes.func,
+    showNextRide: PropTypes.func,
+    hasPreviousRide: PropTypes.func,
+    hasNextRide: PropTypes.func,
     remove: PropTypes.func,
 };

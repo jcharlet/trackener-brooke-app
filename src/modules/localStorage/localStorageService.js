@@ -19,7 +19,7 @@ export const addRide = (ride) => {
         });
 }
 
-export const removeHack = (date: string) => {
+export const removeRide = (date: string) => {
     loadRides()
         .then((rideArray) => {
             let newRideArray = rideArray.filter(function (item) {

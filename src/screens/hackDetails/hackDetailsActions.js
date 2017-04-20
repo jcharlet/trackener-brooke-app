@@ -7,8 +7,8 @@ export const loadRides = () => ({
     payload: localStorageService.loadRides()
 });
 
-export const removeHack = (date: string) => {
-    localStorageService.removeHack(date);
+export const removeRide = (date: string) => {
+    localStorageService.removeRide(date);
 
     return ({
         type: REMOVE_HACK,
@@ -16,9 +16,9 @@ export const removeHack = (date: string) => {
     })
 }
 
-export const showPreviousHack = function () {
+export const showPreviousRide = function () {
     return {type: SHOW_PREVIOUS_HACK};
 };
-export const showNextHack = function () {
+export const showNextRide = function () {
     return {type: SHOW_NEXT_HACK};
 };

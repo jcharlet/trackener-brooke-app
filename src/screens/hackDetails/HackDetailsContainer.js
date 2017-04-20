@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import HackDetailsScreen from "./HackDetailsScreen";
 import {connect} from "react-redux";
-import {loadRides, showPreviousHack, showNextHack, removeHack} from "./hackDetailsActions";
+import {loadRides, showPreviousRide, showNextRide, removeRide} from "./hackDetailsActions";
 import {updateTotalDistance} from "../liveTracker/liveTrackerActions";
 
 const mapStateToProps = (state) => {
@@ -24,30 +24,30 @@ const mapDispatchToProps = (dispatch) => {
         load: () => {
             dispatch(loadRides());
         },
-        showPreviousHack: () => {
-            dispatch(showPreviousHack());
+        showPreviousRide: () => {
+            dispatch(showPreviousRide());
         },
-        showNextHack: () => {
-            dispatch(showNextHack())
+        showNextRide: () => {
+            dispatch(showNextRide())
         },
-        hasPreviousHack: (index:number,length:number) => {
-            return hasPreviousHack(index,length)
+        hasPreviousRide: (index:number, length:number) => {
+            return hasPreviousRide(index,length)
         },
-        hasNextHack: (index:number,length:number) => {
-            return hasNextHack(index,length)
+        hasNextRide: (index:number, length:number) => {
+            return hasNextRide(index,length)
         },
         remove: (date:number, distance:number) => {
-            dispatch(removeHack(date))
+            dispatch(removeRide(date))
             dispatch(updateTotalDistance(-distance));
         },
     }
 };
 
 
-function hasPreviousHack(index:number,length:number) {
+function hasPreviousRide(index:number,length:number) {
     return (index>0)
 }
-function hasNextHack(index:number,length:number) {
+function hasNextRide(index:number,length:number) {
     return (index<length-1)
 }
 
