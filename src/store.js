@@ -11,12 +11,12 @@ import historyReducer from "./screens/history/historyReducer";
 
 let middleWare = [thunkMiddleware, promiseMiddleware];
 
-// if (global.__DEV__) {
-//     const logger = createLogger({
-//          // predicate: (getState, action) => [LOAD_RIDES, ADD_RIDE].includes(action.type)
-//     });
-//     middleWare.push(logger);
-// }
+ if (global.__DEV__) {
+     const logger = createLogger({
+          // predicate: (getState, action) => [LOAD_RIDES, ADD_RIDE].includes(action.type)
+     });
+     middleWare.push(logger);
+ }
 
 export default () => (
     createStore(

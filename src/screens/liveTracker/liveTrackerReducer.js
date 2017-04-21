@@ -159,9 +159,15 @@ const updateLocation = (state, newPosition) => {
     let distanceRidden = calculateDistance(from, to);
     let distance = state.ride.analytics.distance + distanceRidden;
     let totalDistance = state.totalDistance + distanceRidden;
+    let durationSinceLastPos = newPosition.timestamp - lastPosition.timestamp;
     let duration = state.ride.pastDuration + (newPosition.timestamp - state.ride.geoIds.startTime) / 1000;
     let avgSpeed = distance / duration;
 
+    newPosition = {
+      ...newPosition,
+      distance:distanceRidden,
+      duration:durationSinceLastPos,
+    }
 
     let speed = state.ride.analytics.lastSpeed;
     let maxSpeed = state.ride.analytics.maxSpeed;
