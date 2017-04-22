@@ -13,7 +13,6 @@ export const STOP_RIDE = 'tracker/STOP_RIDE';
 export const PAUSE_RIDE = 'tracker/PAUSE_RIDE';
 export const RESTART_RIDE = 'tracker/RESTART_RIDE';
 export const UPDATE_TOTAL_DISTANCE = 'tracker/UPDATE_TOTAL_DISTANCE';
-export const INCREMENT_TIMER = 'tracker/INCREMENT_TIMER';
 export const ADD_RIDE = 'tracker/ADD_RIDE';
 
 // export const START_GPS_WATCH ='START_GPS_WATCH';

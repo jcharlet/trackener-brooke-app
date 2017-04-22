@@ -12,14 +12,57 @@ import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
 import {STATUS} from "./liveTrackerReducer";
 import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
+import BackgroundTimer from 'react-native-background-timer';
+import moment from "moment";
 
 export default class LiveTrackerScreen extends Component{
+
+    initialState = {
+        timerIntervalId:null,
+        timer:0
+    };
+
 
     constructor(props) {
         super(props);
         this.props.load();
+        this.state= this.initialState;
     }
 
+
+    startTimer() {
+        let timerIntervalId = BackgroundTimer.setInterval(() => {
+            this.incrementTimer();
+        }, 100);
+        this.setState({
+            ...this.state,
+            timerIntervalId: timerIntervalId,
+        })
+    }
+
+    incrementTimer() {
+        if(!this.props.liveTracker.ride){
+            return;
+        }
+        let timer = this.props.liveTracker.ride.pastDuration + (moment().valueOf() - this.props.liveTracker.ride.geoIds.startTime) / 1000;
+        this.setState({
+            ...this.state,
+            timer: timer
+        })
+    }
+
+    pauseTimer() {
+        BackgroundTimer.clearInterval(this.state.timerIntervalId);
+        this.setState({
+            ...this.state,
+            timerIntervalId: null,
+        })
+    }
+
+    stopTimer() {
+        BackgroundTimer.clearInterval(this.state.timerIntervalId);
+        this.setState(this.initialState)
+    }
 
     renderSecondButton() {
         switch (this.props.liveTracker.status) {
@@ -27,14 +70,20 @@ export default class LiveTrackerScreen extends Component{
             case STATUS.START:
                 return (
                     <TouchableOpacity style={[globalStyles.COMMON_STYLES.secondRideButton]} activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                      onPress={this.props.pauseTracking}>
+                                      onPress={()=>{
+                                          this.props.pauseTracking();
+                                          this.pauseTimer();
+                                      }}>
                       <Text style={globalStyles.COMMON_STYLES.secondRideButtonText}>Pause</Text>
                     </TouchableOpacity>
                 );
             case STATUS.PAUSE:
                 return (
                     <TouchableOpacity style={[globalStyles.COMMON_STYLES.secondRideButton]} activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                      onPress={this.props.restartTracking}>
+                                      onPress={()=>{
+                                          this.props.restartTracking();
+                                          this.startTimer();
+                                      }}>
                       <Text style={[globalStyles.COMMON_STYLES.secondRideButtonText]}>Start</Text>
                     </TouchableOpacity>
                 );
@@ -56,7 +105,7 @@ export default class LiveTrackerScreen extends Component{
               <View style={globalStyles.COMMON_STYLES.infoBox}>
               <View style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
               <Text
-                  style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(this.props.liveTracker.ride.analytics.duration))}</Text>
+                  style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(this.state.timer))}</Text>
               </View>
                   <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
                   <Text
@@ -69,7 +118,10 @@ export default class LiveTrackerScreen extends Component{
                   {this.renderSecondButton()}
                 <TouchableOpacity style={[globalStyles.COMMON_STYLES.startRideButton,globalStyles.COMMON_STYLES.withSecondRideButton]}
                                   activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                  onPress={() => this.props.stopTracking(this.props.liveTracker.ride, this.props.liveTracker.ride.analytics.distance)}>
+                                  onPress={() => {
+                                      this.props.stopTracking(this.props.liveTracker.ride.analytics.distance);
+                                      this.stopTimer();
+                                  }}>
                   <Text style={[globalStyles.COMMON_STYLES.startRideButtonText, globalStyles.COMMON_STYLES.withSecondRideButtonText]}>Stop</Text>
                 </TouchableOpacity>
               </View>
@@ -104,7 +156,10 @@ export default class LiveTrackerScreen extends Component{
               </TouchableOpacity>
 
               <TouchableOpacity style={globalStyles.COMMON_STYLES.startRideButton} activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                onPress={this.props.startTracking}>
+                                onPress={()=>{
+                                    this.props.startTracking();
+                                    this.startTimer();
+                                }}>
                 <Text style={globalStyles.COMMON_STYLES.startRideButtonText}>Start Ride</Text>
               </TouchableOpacity>
 
@@ -130,7 +185,6 @@ export default class LiveTrackerScreen extends Component{
         }
     }
 }
-
 
 LiveTrackerScreen.propTypes = {
     liveTracker:PropTypes.any,

@@ -4,7 +4,7 @@ import {
     Platform
 } from 'react-native';
 import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
-    UPDATE_TOTAL_DISTANCE, INCREMENT_TIMER
+    UPDATE_TOTAL_DISTANCE
 } from "../../actions/actionTypes";
 import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET, GPS_MIN_ACCURACY} from "../../config/config";
 import moment from "moment";
@@ -81,16 +81,10 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
                 });
         }, time);
 
-        let timerIntervalId = BackgroundTimer.setInterval(() => {
-            dispatch({type: INCREMENT_TIMER})
-        }, 1000);
-
-
         dispatch({
             type: GPS_INIT_WATCH,
             payload: {
                 intervalId:intervalId,
-                timerIntervalId:timerIntervalId,
                 watchId:watchId,
                 startTime:moment().valueOf(),
             }
@@ -101,12 +95,11 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
 
 export const clearWatchGps = () => {
     return (dispatch, getState) => {
-        let geoIds = getState().liveTracker.ride.geoIds;
-        navigator.geolocation.clearWatch(geoIds.watchId);
-        BackgroundTimer.clearInterval(geoIds.intervalId);
-
-        let timerIntervalId = geoIds.timerIntervalId;
-        BackgroundTimer.clearInterval(timerIntervalId);
+        if(getState().liveTracker.ride.geoIds){
+            let geoIds = getState().liveTracker.ride.geoIds;
+            navigator.geolocation.clearWatch(geoIds.watchId);
+            BackgroundTimer.clearInterval(geoIds.intervalId);
+        }
     }
 };
 
@@ -134,45 +127,26 @@ export const updateTotalDistance = (rideDistance) =>{
     }
 };
 
-export const addRide = (ride) =>{
-    function createTimeSpentByGaitAnalytics(positions) {
-        let nbOfMeasures = positions.length;
-
-        let analytics = positions.reduce((reduction,position)=>{
-            let element = reduction.filter(analytics=>analytics["name"]===position.gait)[0];
-            //if(position.duration){
-                reduction[element["index"]]["number"]= reduction[element["index"]]["number"] + 1*100/nbOfMeasures;
-            //}
-            return reduction;
-        }, [
-            {"index":0, "number": 0, "name": GAIT.STOP},
-            {"index":1, "number": 0, "name": GAIT.WALK},
-            {"index":2, "number": 0, "name": GAIT.TROT},
-            {"index":3, "number": 0, "name": GAIT.CANTER},
-        ]);
-
-        return analytics.map((analytic)=>{
-            analytic["number"]=Math.round(analytic["number"]);
-            return analytic
-        })
+export const addRide = () =>{
+    return (dispatch,getState)=>{
+        let ride = getState().liveTracker.ride;
+        let timeSpentByGait = createTimeSpentByGaitAnalytics(ride.positions);
+        ride = {
+            ...ride,
+            analytics:{
+                ...ride.analytics,
+                timeSpentByGait,
+            }
+        };
+        AsyncStorage.getItem('rides').then((rides) => {
+            if (rides) {
+                const rideArray = JSON.parse(rides);
+                return AsyncStorage.setItem('rides', JSON.stringify([...rideArray, ride]));
+            }
+            return AsyncStorage.setItem('rides', JSON.stringify([ride]));
+        });
+        dispatch({type: ADD_RIDE, payload: ride});
     }
-
-    let timeSpentByGait = createTimeSpentByGaitAnalytics(ride.positions);
-    ride = {
-        ...ride,
-        analytics:{
-            ...ride.analytics,
-            timeSpentByGait
-        }
-    };
-    AsyncStorage.getItem('rides').then((rides) => {
-        if (rides) {
-            const rideArray = JSON.parse(rides);
-            return AsyncStorage.setItem('rides', JSON.stringify([...rideArray, ride]));
-        }
-        return AsyncStorage.setItem('rides', JSON.stringify([ride]));
-    });
-    return ({type: ADD_RIDE, payload: ride});
 };
 
 
@@ -206,4 +180,26 @@ function getGaitFromSpeed(speedKmh) {
         gaitType = GAIT.CANTER;
     }
     return gaitType;
+}
+
+function createTimeSpentByGaitAnalytics(positions) {
+    let nbOfMeasures = positions.length;
+
+    let analytics = positions.reduce((reduction,position)=>{
+        let element = reduction.filter(analytics=>analytics["name"]===position.gait)[0];
+        //if(position.duration){
+        reduction[element["index"]]["number"]= reduction[element["index"]]["number"] + 1*100/nbOfMeasures;
+        //}
+        return reduction;
+    }, [
+        {"index":0, "number": 0, "name": GAIT.STOP},
+        {"index":1, "number": 0, "name": GAIT.WALK},
+        {"index":2, "number": 0, "name": GAIT.TROT},
+        {"index":3, "number": 0, "name": GAIT.CANTER},
+    ]);
+
+    return analytics.map((analytic)=>{
+        analytic["number"]=Math.round(analytic["number"]);
+        return analytic
+    })
 }

@@ -1,6 +1,6 @@
 import {
     START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC,
-    GPS_INIT_WATCH, UPDATE_TOTAL_DISTANCE, INCREMENT_TIMER
+    GPS_INIT_WATCH, UPDATE_TOTAL_DISTANCE
 } from '../../actions/actionTypes';
 import moment from "moment";
 import {GPS_TIME_INTERVAL} from "../../config/config";
@@ -52,8 +52,6 @@ export default (state = initialState, action = {}) => {
             return initWatch(state, action.payload);
         case GPS_UPDATE_LOC:
             return updateLocation(state, action.payload);
-        case INCREMENT_TIMER:
-            return incrementTimer(state);
         default:
             return state;
     }
@@ -88,20 +86,21 @@ const startRide = (state) => {
 };
 
 const stopRide = (state) => {
+    let ride = updateRideAnalytics(state.ride);
     return {
         ...state,
         status: STATUS.STOP,
+        ride: ride
     };
 };
 
 const pauseRide = (state) => {
-    let pastDuration = state.ride.analytics.duration;
+    let ride=updateRideAnalytics(state.ride)
     return {
         ...state,
-        ride:{
-            ...state.ride,
+        ride: {
+            ...ride,
             geoIds: null,
-            pastDuration:pastDuration,
         },
         status: STATUS.PAUSE
     };
@@ -233,21 +232,21 @@ export const calculateDistance = (a, b) => {
 };
 
 
-export const incrementTimer = (state) => {
-    if(!state.ride.geoIds){
-        return state;
+
+export function updateRideAnalytics(ride) {
+    let duration=ride.analytics.duration;
+    let avgSpeed=ride.analytics.avgSpeed;
+    if(ride.geoIds){
+        duration = ride.pastDuration + (moment().valueOf() - ride.geoIds.startTime) / 1000;
+        avgSpeed = ride.analytics.distance / duration;
     }
-
-    let duration = state.ride.pastDuration + (moment().valueOf() - state.ride.geoIds.startTime) / 1000;
     return {
-        ...state,
-        ride:{
-            ...state.ride,
-            analytics:{
-                ...state.ride.analytics,
-                duration:duration,
-            }
-
-        }
+        ...ride,
+        analytics:{
+            ...ride.analytics,
+            duration:duration,
+            avgSpeed:avgSpeed,
+        },
+        pastDuration:duration,
     };
 }
