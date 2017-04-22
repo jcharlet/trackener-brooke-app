@@ -1,6 +1,6 @@
 import {
     START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC,
-    GPS_INIT_WATCH, UPDATE_TOTAL_DISTANCE, LOAD_TOTAL_DISTANCE
+    GPS_INIT_WATCH, UPDATE_TOTAL_DISTANCE, LOAD_TOTAL_DISTANCE, INCREMENT_TIMER
 } from '../../actions/actionTypes';
 import moment from "moment";
 import {GPS_TIME_INTERVAL} from "../../config/config";
@@ -10,6 +10,10 @@ export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 const initialState = {
     status: STATUS.STOP,
     totalDistance: 0,
+    timer:{
+        intervalId:null,
+        duration:0,
+    },
     // ride:{
     //     date:null,
     //     geoIds: null,
@@ -36,7 +40,7 @@ const initialState = {
 export default (state = initialState, action = {}) => {
     switch (action.type) {
         case START_RIDE:
-            return startRide(state);
+            return startRide(state, action.payload);
         case STOP_RIDE:
             return stopRide(state);
         case UPDATE_TOTAL_DISTANCE:
@@ -44,7 +48,7 @@ export default (state = initialState, action = {}) => {
         case PAUSE_RIDE:
             return pauseRide(state);
         case RESTART_RIDE:
-            return restartRide(state);
+            return restartRide(state, action.payload);
 
         // case START_GPS_WATCH:
         //     return startGpsWatch(state);
@@ -52,17 +56,24 @@ export default (state = initialState, action = {}) => {
             return initWatch(state, action.payload);
         case GPS_UPDATE_LOC:
             return updateLocation(state, action.payload);
+        case INCREMENT_TIMER:
+            return incrementTimer(state);
         default:
             return state;
     }
 };
 
-const startRide = (state) => {
+const startRide = (state, timerIntervalId) => {
     return {
         ...state,
         status: STATUS.START,
+        timer:{
+            intervalId:timerIntervalId,
+            duration:0,
+        },
         ride: {
             date: moment().format(),
+            dateTimestamp: moment().valueOf(),
             geoIds: null,
             pastDuration:0,
             positions: [
@@ -89,6 +100,10 @@ const stopRide = (state) => {
     return {
         ...state,
         status: STATUS.STOP,
+        timer:{
+            intervalId:null,
+            duration:0,
+        },
     };
 };
 
@@ -101,14 +116,22 @@ const pauseRide = (state) => {
             geoIds: null,
             pastDuration:pastDuration,
         },
-        status: STATUS.PAUSE
+        status: STATUS.PAUSE,
+        timer:{
+            ...state.timer,
+            intervalId:null,
+        },
     };
 };
 
-const restartRide = (state) => {
+const restartRide = (state, timerIntervalId) => {
     return {
         ...state,
         status: STATUS.START,
+        timer:{
+            ...state.timer,
+            intervalId:timerIntervalId,
+        },
     };
 };
 
@@ -160,7 +183,7 @@ const updateLocation = (state, newPosition) => {
     let distance = state.ride.analytics.distance + distanceRidden;
     let totalDistance = state.totalDistance + distanceRidden;
     let durationSinceLastPos = newPosition.timestamp - lastPosition.timestamp;
-    let duration = state.ride.pastDuration + (newPosition.timestamp - state.ride.geoIds.startTime) / 1000;
+    let duration = state.ride.pastDuration + (newPosition.timestamp - state.ride.dateTimestamp) / 1000;
     let avgSpeed = distance / duration;
 
     newPosition = {
@@ -228,3 +251,18 @@ export const calculateDistance = (a, b) => {
 
     return R * c;
 };
+
+
+export const incrementTimer = (state) => {
+    if(!state.timer.intervalId){
+        return state;
+    }
+    let duration = state.timer.duration + 1;
+    return {
+        ...state,
+        timer: {
+            ...state.timer,
+            duration: duration,
+        },
+    };
+}
