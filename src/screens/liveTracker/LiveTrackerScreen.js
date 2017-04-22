@@ -60,7 +60,7 @@ export default class LiveTrackerScreen extends Component{
               </View>
                   <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
                   <Text
-                      style={[globalStyles.COMMON_STYLES.infoBoxText]}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(this.props.liveTracker.ride.analytics.distance * utils.ONE_METER_IN_MILES)}
+                      style={[globalStyles.COMMON_STYLES.infoBoxText]}>DISTANCE {"\n"} {utils.roundWithOneDecimals(this.props.liveTracker.ride.analytics.distance * utils.ONE_METER_IN_MILES)}
                   mi</Text>
               </View>
               </View>
