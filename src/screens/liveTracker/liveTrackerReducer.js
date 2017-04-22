@@ -158,26 +158,26 @@ const updateLocation = (state, newPosition) => {
 
     let from = {lat: lastPosition.latitude, lon: lastPosition.longitude};
     let to = {lat: newPosition.latitude, lon: newPosition.longitude};
-    let distanceRidden = calculateDistance(from, to);
-    let distance = state.ride.analytics.distance + distanceRidden;
-    let totalDistance = state.totalDistance + distanceRidden;
+    let distanceSinceLastPos = calculateDistance(from, to);
+    let distance = state.ride.analytics.distance + distanceSinceLastPos;
+    let totalDistance = state.totalDistance + distanceSinceLastPos;
     let durationSinceLastPos = newPosition.timestamp - lastPosition.timestamp;
     let duration = state.ride.pastDuration + (newPosition.timestamp - state.ride.geoIds.startTime) / 1000;
     let avgSpeed = distance / duration;
+    let speed = newPosition.speed;
+
+    if(speed <0 || speed == undefined || speed == "NaN"){
+      speed=distanceSinceLastPos/durationSinceLastPos;
+    }
 
     newPosition = {
       ...newPosition,
-      distance:distanceRidden,
+      distance:distanceSinceLastPos,
       duration:durationSinceLastPos,
+      speed:speed
     }
 
-    let speed = state.ride.analytics.lastSpeed;
-    let maxSpeed = state.ride.analytics.maxSpeed;
-    if (newPosition.speed != undefined && newPosition.speed != "NaN") {
-        speed = newPosition.speed;
-        maxSpeed = speed > maxSpeed ? speed : maxSpeed
-        ;
-    }
+    maxSpeed = speed > state.ride.analytics.maxSpeed ? speed : state.ride.analytics.maxSpeed
 
     return {
         ...state,

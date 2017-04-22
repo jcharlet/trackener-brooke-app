@@ -66,8 +66,7 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
         //check GPS every X milliseconds)
         let intervalId = BackgroundTimer.setInterval(() => {
             navigator.geolocation.getCurrentPosition((geoPosition) => {
-                    if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY
-                        && geoPosition.coords.speed >=0) {
+                    if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY) {
                         let position = createPositionObjectFromGeoPosition(geoPosition);
                         dispatch({type: GPS_UPDATE_LOC, payload: position})
                     }
