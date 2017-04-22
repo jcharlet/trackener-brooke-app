@@ -1,57 +1,36 @@
+
 import {
     AsyncStorage,
     Platform
 } from 'react-native';
-import {
-    PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
+import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
     UPDATE_TOTAL_DISTANCE, INCREMENT_TIMER
 } from "../../actions/actionTypes";
-import {
-    GPS_TIME_INTERVAL,
-    GPS_TIMEOUT_WATCH,
-    GPS_MAX_AGE,
-    GPS_DISTANCE_FILTER,
-    GPS_TIMEOUT_GET,
-    GPS_MIN_ACCURACY
-} from "../../config/config";
+import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET, GPS_MIN_ACCURACY} from "../../config/config";
 import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../../util/utils'
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 
 // speed thresholds in mph
-export const SPEED_THRESHOLD = {STOP: 1, WALK: 7, TROT: 13}
-export const GAIT = {STOP: "STOP", WALK: "WALK", TROT: "TROT", CANTER: "CANTER"}
+export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
+export const GAIT = {STOP:"STOP",WALK:"WALK",TROT:"TROT",CANTER:"CANTER"}
 
-export const stopRide = () => {
-    return (dispatch, getState) => {
-        let intervalId = getState().liveTracker.timer.intervalId;
-        BackgroundTimer.clearInterval(intervalId);
-        dispatch({type: STOP_RIDE});
-    }
+export const stopRide = () =>{
+    return {type: STOP_RIDE}
 }
-export const startRide = () => {
-    return (dispatch) => {
-        let intervalId = BackgroundTimer.setInterval(() => {
-            dispatch({type: INCREMENT_TIMER})
-        }, 1000);
-        dispatch({type: START_RIDE, payload: intervalId})
-    }
+export const startRide = () =>{
+    return {type: START_RIDE}
 }
-export const pauseRide = () => {
+export const pauseRide = () =>{
     return {type: PAUSE_RIDE}
 }
-export const restartRide = () => {
-    return (dispatch) => {
-        let intervalId = BackgroundTimer.setInterval(() => {
-            dispatch({type: INCREMENT_TIMER})
-        }, 1000);
-        return dispatch({type: RESTART_RIDE, payload: intervalId})
-    }
+export const restartRide = () =>{
+    return {type: RESTART_RIDE}
 }
 
 export const checkLocationServicesIsEnabled = () => {
-    if (Platform.OS === 'android') {
+    if(Platform.OS === 'android'){
         return LocationServicesDialogBox.checkLocationServicesIsEnabled({
             message: "<h2>Use Location?</h2> \
                             This app wants to change your device settings:<br/><br/>\
@@ -103,11 +82,18 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
                 });
         }, time);
 
+        let timerIntervalId = BackgroundTimer.setInterval(() => {
+            dispatch({type: INCREMENT_TIMER})
+        }, 1000);
+
+
         dispatch({
             type: GPS_INIT_WATCH,
             payload: {
-                intervalId: intervalId,
-                watchId: watchId,
+                intervalId:intervalId,
+                timerIntervalId:timerIntervalId,
+                watchId:watchId,
+                startTime:moment().valueOf(),
             }
         });
     }
@@ -119,6 +105,9 @@ export const clearWatchGps = () => {
         let geoIds = getState().liveTracker.ride.geoIds;
         navigator.geolocation.clearWatch(geoIds.watchId);
         BackgroundTimer.clearInterval(geoIds.intervalId);
+
+        let timerIntervalId = geoIds.timerIntervalId;
+        BackgroundTimer.clearInterval(timerIntervalId);
     }
 };
 
@@ -132,39 +121,39 @@ export const loadTotalDistance = () => ({
     })
 });
 
-export const updateTotalDistance = (rideDistance) => {
-    return (dispatch) => {
+export const updateTotalDistance = (rideDistance) =>{
+    return (dispatch)=>{
         AsyncStorage.getItem('totalDistance').then((totalDistanceString) => {
-            let totalDistance = 0;
+            let totalDistance=0;
             if (totalDistanceString && !isNaN(totalDistanceString)) {
-                totalDistance = Number(totalDistanceString);
+                totalDistance=Number(totalDistanceString);
             }
-            totalDistance += rideDistance;
+            totalDistance+=rideDistance;
             AsyncStorage.setItem('totalDistance', totalDistance.toString());
             dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
         });
     }
 };
 
-export const addRide = (ride) => {
+export const addRide = (ride) =>{
     function createTimeSpentByGaitAnalytics(positions) {
         let nbOfMeasures = positions.length;
 
-        let analytics = positions.reduce((reduction, position) => {
-            let element = reduction.filter(analytics => analytics["name"] === position.gait)[0];
+        let analytics = positions.reduce((reduction,position)=>{
+            let element = reduction.filter(analytics=>analytics["name"]===position.gait)[0];
             //if(position.duration){
-            reduction[element["index"]]["number"] = reduction[element["index"]]["number"] + 1 * 100 / nbOfMeasures;
+                reduction[element["index"]]["number"]= reduction[element["index"]]["number"] + 1*100/nbOfMeasures;
             //}
             return reduction;
         }, [
-            {"index": 0, "number": 0, "name": GAIT.STOP},
-            {"index": 1, "number": 0, "name": GAIT.WALK},
-            {"index": 2, "number": 0, "name": GAIT.TROT},
-            {"index": 3, "number": 0, "name": GAIT.CANTER},
+            {"index":0, "number": 0, "name": GAIT.STOP},
+            {"index":1, "number": 0, "name": GAIT.WALK},
+            {"index":2, "number": 0, "name": GAIT.TROT},
+            {"index":3, "number": 0, "name": GAIT.CANTER},
         ]);
 
-        return analytics.map((analytic) => {
-            analytic["number"] = Math.round(analytic["number"]);
+        return analytics.map((analytic)=>{
+            analytic["number"]=Math.round(analytic["number"]);
             return analytic
         })
     }
@@ -172,7 +161,7 @@ export const addRide = (ride) => {
     let timeSpentByGait = createTimeSpentByGaitAnalytics(ride.positions);
     ride = {
         ...ride,
-        analytics: {
+        analytics:{
             ...ride.analytics,
             timeSpentByGait
         }
@@ -206,7 +195,7 @@ let createPositionObjectFromGeoPosition = function (position) {
 };
 
 function getGaitFromSpeed(speedKmh) {
-    let speed = utils.convertMeterPerSecondToMilesPerHour(speedKmh);
+  let speed = utils.convertMeterPerSecondToMilesPerHour(speedKmh);
     let gaitType;
     if (speed < SPEED_THRESHOLD.STOP) {
         gaitType = GAIT.STOP;

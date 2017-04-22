@@ -56,7 +56,7 @@ export default class LiveTrackerScreen extends Component{
               <View style={globalStyles.COMMON_STYLES.infoBox}>
               <View style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
               <Text
-                  style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(this.props.liveTracker.timer.duration))}</Text>
+                  style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(this.props.liveTracker.ride.analytics.duration))}</Text>
               </View>
                   <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
                   <Text
