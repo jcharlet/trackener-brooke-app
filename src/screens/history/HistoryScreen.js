@@ -111,8 +111,9 @@ export default class HistoryScreen extends Component {
     }
 
     render() {
-        return (
-            <View style={[globalStyles.COMMON_STYLES.container,{
+        if (this.props.history.rides &&  this.props.history.rides.length > 0){
+            return (
+                <View style={[globalStyles.COMMON_STYLES.container,{
         alignItems: 'stretch',
                     flex:1,
                 marginTop:5,
@@ -121,13 +122,37 @@ export default class HistoryScreen extends Component {
         //flexDirection: 'column',
             }]}>
 
-                <ListView
-                    enableEmptySections
-                    dataSource={this.state.dataSource}
-                    renderRow={this.renderRow.bind(this)}
-                />
-            </View>);
+                    <ListView
+                        enableEmptySections
+                        dataSource={this.state.dataSource}
+                        renderRow={this.renderRow.bind(this)}
+                    />
+                </View>);
+        }
+        return (
+            <View style={[globalStyles.COMMON_STYLES.container,{
+
+                    flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+
+            }]}>
+                <Text
+                    style={{
+                    textAlign:"center",
+        fontSize: 20,
+        padding: 20,
+        color: globalStyles.GREEN,
+        //borderStyle: 'solid',
+        //borderColor: 'red',
+        //borderWidth: 1
+                }}
+                >No hack recorded</Text>
+            </View>
+        );
     }
+
 }
 
 HistoryScreen.navigationOptions = {
