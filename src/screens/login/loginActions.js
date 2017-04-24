@@ -2,10 +2,11 @@ import {LOGIN_SUCCESS, LOGIN_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV} from "../.
 import {TRACKENER_API} from "../../config/config";
 import * as trackenerApiService from "../../modules/trackenerApi/trackenerApiService";
 
-
+//FIXME JC to move in actionTypes in a enum object
 export const ERROR_FORBIDDEN = 'FORBIDDEN';
 export const ERROR_UNKNOWN = 'UNKNOWN_ERROR';
 export const ERROR_SERVER = 'SERVER_ERROR';
+export const ERROR_UNAVAILABLE = 'ERROR_UNAVAILABLE';
 
 export function reinitLoginPage(state) {
     return {

@@ -15,7 +15,7 @@ import {
 import * as globalStyles from '../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
-import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER} from "./loginActions";
+import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNAVAILABLE} from "./loginActions";
 export default class LoginScreen extends Component {
 
     state = {
@@ -36,6 +36,9 @@ export default class LoginScreen extends Component {
                 break;
             case ERROR_FORBIDDEN:
                 this.state.feedback="Incorrect username/password"
+                break;
+            case ERROR_UNAVAILABLE:
+                this.state.feedback="Service is unavailable"
                 break;
             default:
                 this.state.feedback='';

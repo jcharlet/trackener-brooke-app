@@ -1,6 +1,7 @@
 import {TRACKENER_API} from "../../config/config";
-import {LOGIN_SUCCESS, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV, LOGIN_ERROR} from "../../actions/actionTypes";
-import {ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNKNOWN} from "../../screens/login/loginActions";
+import {LOGIN_SUCCESS, LOGIN_ERROR} from "../../actions/actionTypes";
+import {ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNKNOWN, ERROR_UNAVAILABLE} from "../../screens/login/loginActions";
+import moment from "moment";
 
 export const login = (username: string, password: string) => {
     let formData = new FormData();
@@ -23,11 +24,13 @@ export const login = (username: string, password: string) => {
                         errorType: ERROR_FORBIDDEN,
                     }
                 } else if (response.status == 500) {
+                    console.error(response);
                     return {
                         type: LOGIN_ERROR,
                         errorType: ERROR_SERVER,
                     }
                 } else {
+                    console.error(response);
                     return {
                         type: LOGIN_ERROR,
                         errorType: ERROR_UNKNOWN,
@@ -36,7 +39,17 @@ export const login = (username: string, password: string) => {
             }
         )
         .catch((error) => {
-            console.warn(error);
+            console.error(error);
+            if(error.message == "Network request failed"){
+                return {
+                    type: LOGIN_ERROR,
+                    errorType: ERROR_UNAVAILABLE,
+                }
+            }
+            return {
+                type: LOGIN_ERROR,
+                errorType: ERROR_UNKNOWN,
+            }
         })
         ;
 }
