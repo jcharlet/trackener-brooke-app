@@ -10,6 +10,7 @@ export const loadRides = () => ({
             let completeRides = JSON.parse(ridesString);
             return completeRides.map(ride => {
                 delete ride.analytics.timeSpentByGait;
+                    delete ride.positions;
                 return {
                     ...ride.analytics,
                     date:ride.date
