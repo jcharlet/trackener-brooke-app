@@ -15,6 +15,7 @@
     "react-native": "0.42.3",
     "react-native-android-location-services-dialog-box": "^1.2.1",
     "react-native-background-timer": "^1.0.0",
+    "react-native-location": "^0.27.0",
     "react-navigation": "^1.0.0-beta.7",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
