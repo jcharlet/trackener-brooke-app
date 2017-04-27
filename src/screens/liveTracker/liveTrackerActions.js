@@ -134,10 +134,8 @@ export const addRide = () =>{
             }
         };
 
-
-
         localStorageService.addRide(ride);
-        return ({type: ADD_RIDE, payload: ride});
+        dispatch({type: ADD_RIDE, payload: ride});
     }
 };
 

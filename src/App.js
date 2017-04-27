@@ -7,6 +7,7 @@ import {
 import createStore from "./store";
 import MainNavContainer from "./navigation/main/MainNavContainer";
 import * as localStorageService from "./modules/localStorage/localStorageService";
+import * as storageService from "./modules/storageService";
 
 
 export default class App extends Component {
@@ -15,6 +16,7 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         // localStorageService.emptyLocalStorage();
+        // storageService.sync();
     }
 
     render() {
