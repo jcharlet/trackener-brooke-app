@@ -29,6 +29,7 @@ const initialState = {
     //         avgSpeed:0,
     //         maxSpeed:0,
     //     },
+    //      deviceId:''
     // },
 };
 
@@ -36,7 +37,7 @@ const initialState = {
 export default (state = initialState, action = {}) => {
     switch (action.type) {
         case START_RIDE:
-            return startRide(state);
+            return startRide(state, action.payload);
         case STOP_RIDE:
             return stopRide(state);
         case UPDATE_TOTAL_DISTANCE:
@@ -57,12 +58,13 @@ export default (state = initialState, action = {}) => {
     }
 };
 
-const startRide = (state) => {
+const startRide = (state, deviceId) => {
     return {
         ...state,
         status: STATUS.START,
         ride: {
             date: moment().format(),
+            deviceId: deviceId,
             geoIds: null,
             pastDuration:0,
             positions: [
@@ -141,6 +143,9 @@ const updateLocation = (state, newPosition) => {
         }
     }
     let lastPosition = state.ride.positions[state.ride.positions.length - 1];
+    if (newPosition.timestamp - lastPosition.timestamp < GPS_TIME_INTERVAL) {
+        return state;
+    }
     if (newPosition.timestamp - lastPosition.timestamp > GPS_TIME_INTERVAL + 5 * 1000) {
         return {
             ...state,

@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import {startRide, stopRide, pauseRide, restartRide, watchGPS, clearWatchGps, updateTotalDistance, addRide,
     loadTotalDistance, checkLocationServicesIsEnabled
 } from "./liveTrackerActions";
+import {sync} from "../../modules/storageService";
 
 
 const mapStateToProps = (state) => {
@@ -36,6 +37,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(updateTotalDistance(distance));
             dispatch(addRide(ride));
             dispatch(stopRide());
+            dispatch(sync());
         },
         pauseTracking: () => {
             dispatch(clearWatchGps());

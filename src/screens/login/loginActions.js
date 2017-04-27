@@ -8,18 +8,6 @@ export const ERROR_UNKNOWN = 'UNKNOWN_ERROR';
 export const ERROR_SERVER = 'SERVER_ERROR';
 export const ERROR_UNAVAILABLE = 'ERROR_UNAVAILABLE';
 
-export function reinitLoginPage(state) {
-    return {
-        ...state,
-        feedback: ''
-    }
-}
-export function displayFeedback(state, feedback) {
-    return {
-        ...state,
-        feedback: feedback
-    }
-}
 
 export const login = (username: string, password: string) => {
     return (dispatch) => {

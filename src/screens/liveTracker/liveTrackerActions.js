@@ -20,7 +20,12 @@ export const stopRide = () =>{
     return {type: STOP_RIDE}
 }
 export const startRide = () =>{
-    return {type: START_RIDE}
+    return (dispatch, getState) =>{
+        dispatch({
+            type: START_RIDE,
+            payload: getState().login.deviceId
+        });
+    }
 }
 export const pauseRide = () =>{
     return {type: PAUSE_RIDE}
@@ -116,28 +121,6 @@ export const updateTotalDistance = (rideDistance) =>{
 };
 
 export const addRide = (ride) =>{
-    function createTimeSpentByGaitAnalytics(positions) {
-        let nbOfMeasures = positions.length;
-
-        let analytics = positions.reduce((reduction,position)=>{
-            let element = reduction.filter(analytics=>analytics["name"]===position.gait)[0];
-            //if(position.duration){
-                reduction[element["index"]]["number"]= reduction[element["index"]]["number"] + 1*100/nbOfMeasures;
-            //}
-            return reduction;
-        }, [
-            {"index":0, "number": 0, "name": GAIT.STOP},
-            {"index":1, "number": 0, "name": GAIT.WALK},
-            {"index":2, "number": 0, "name": GAIT.TROT},
-            {"index":3, "number": 0, "name": GAIT.CANTER},
-        ]);
-
-        return analytics.map((analytic)=>{
-            analytic["number"]=Math.round(analytic["number"]);
-            return analytic
-        })
-    }
-
     let timeSpentByGait = createTimeSpentByGaitAnalytics(ride.positions);
     ride = {
         ...ride,
@@ -146,10 +129,34 @@ export const addRide = (ride) =>{
             timeSpentByGait
         }
     };
+
+
+
     localStorageService.addRide(ride);
     return ({type: ADD_RIDE, payload: ride});
 };
 
+function createTimeSpentByGaitAnalytics(positions) {
+    let nbOfMeasures = positions.length;
+
+    let analytics = positions.reduce((reduction,position)=>{
+        let element = reduction.filter(analytics=>analytics["name"]===position.gait)[0];
+        //if(position.duration){
+        reduction[element["index"]]["number"]= reduction[element["index"]]["number"] + 1*100/nbOfMeasures;
+        //}
+        return reduction;
+    }, [
+        {"index":0, "number": 0, "name": GAIT.STOP},
+        {"index":1, "number": 0, "name": GAIT.WALK},
+        {"index":2, "number": 0, "name": GAIT.TROT},
+        {"index":3, "number": 0, "name": GAIT.CANTER},
+    ]);
+
+    return analytics.map((analytic)=>{
+        analytic["number"]=Math.round(analytic["number"]);
+        return analytic
+    })
+}
 
 let createPositionObjectFromGeoPosition = function (position) {
     let speed = undefined;
