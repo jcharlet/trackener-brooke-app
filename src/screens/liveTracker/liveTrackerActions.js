@@ -71,7 +71,7 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
         //check GPS every X milliseconds)
         let intervalId = BackgroundTimer.setInterval(() => {
             navigator.geolocation.getCurrentPosition((geoPosition) => {
-                    if (geoPosition.coords.accuracy < GPS_MIN_ACCURACY) {
+                    if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY) {
                         let position = createPositionObjectFromGeoPosition(geoPosition);
                         dispatch({type: GPS_UPDATE_LOC, payload: position})
                     }
@@ -100,9 +100,11 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
 
 export const clearWatchGps = () => {
     return (dispatch, getState) => {
-        let geoIds = getState().liveTracker.ride.geoIds;
-        navigator.geolocation.clearWatch(geoIds.watchId);
-        BackgroundTimer.clearInterval(geoIds.intervalId);
+        if(getState().liveTracker.ride.geoIds){
+            let geoIds = getState().liveTracker.ride.geoIds;
+            navigator.geolocation.clearWatch(geoIds.watchId);
+            BackgroundTimer.clearInterval(geoIds.intervalId);
+        }
     }
 };
 
@@ -120,20 +122,23 @@ export const updateTotalDistance = (rideDistance) =>{
     }
 };
 
-export const addRide = (ride) =>{
-    let timeSpentByGait = createTimeSpentByGaitAnalytics(ride.positions);
-    ride = {
-        ...ride,
-        analytics:{
-            ...ride.analytics,
-            timeSpentByGait
-        }
-    };
+export const addRide = () =>{
+    return (dispatch,getState)=>{
+        let ride = getState().liveTracker.ride;
+        let timeSpentByGait = createTimeSpentByGaitAnalytics(ride.positions);
+        ride = {
+            ...ride,
+            analytics:{
+                ...ride.analytics,
+                timeSpentByGait
+            }
+        };
 
 
 
-    localStorageService.addRide(ride);
-    return ({type: ADD_RIDE, payload: ride});
+        localStorageService.addRide(ride);
+        return ({type: ADD_RIDE, payload: ride});
+    }
 };
 
 function createTimeSpentByGaitAnalytics(positions) {
@@ -171,6 +176,7 @@ let createPositionObjectFromGeoPosition = function (position) {
         timestamp: moment().valueOf(),
         speed: speed,
         gait: gait,
+        accuracy: position.coords.accuracy,
     };
 };
 

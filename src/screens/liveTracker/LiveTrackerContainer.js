@@ -32,11 +32,11 @@ const mapDispatchToProps = (dispatch) => {
                     dispatch(watchGPS());
                 })
         },
-        stopTracking: (ride,distance) => {
+        stopTracking: (distance) => {
             dispatch(clearWatchGps());
             dispatch(updateTotalDistance(distance));
-            dispatch(addRide(ride));
             dispatch(stopRide());
+            dispatch(addRide());
             dispatch(sync());
         },
         pauseTracking: () => {

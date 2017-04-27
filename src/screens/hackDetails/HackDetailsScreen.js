@@ -135,7 +135,7 @@ export default class HackDetailsScreen extends Component {
                             </View>
                             <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
                                 <Text
-                                    style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithThreeDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES)}
+                                    style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithOneDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES)}
                                     mi</Text>
                             </View>
 
