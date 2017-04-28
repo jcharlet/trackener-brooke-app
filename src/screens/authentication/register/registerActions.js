@@ -8,6 +8,8 @@ export const ERROR_USERNAME_MISSING = 'ERROR_USERNAME_MISSING';
 export const ERROR_EMAIL_MISSING = 'ERROR_EMAIL_MISSING';
 export const ERROR_PASSWORD_MISSING = 'ERROR_PASSWORD_MISSING';
 export const ERROR_INVALID_EMAIL = 'ERROR_INVALID_EMAIL';
+export const EMAIL_ALREADY_USED = 'EMAIL_ALREADY_USED';
+export const USERNAME_ALREADY_USED = 'USERNAME_ALREADY_USED';
 
 
 export const register = (email: string, username: string, password: string, repeatPassword: string) => {

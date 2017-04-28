@@ -15,10 +15,12 @@ import {
 import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../../util/utils";
-import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNAVAILABLE, ERROR_PASSWORD_MISMATCH,
-    ERROR_USERNAME_MISSING, ERROR_EMAIL_MISSING, ERROR_PASSWORD_MISSING, ERROR_INVALID_EMAIL
+import {ERROR_PASSWORD_MISMATCH,
+    ERROR_USERNAME_MISSING, ERROR_EMAIL_MISSING, ERROR_PASSWORD_MISSING, ERROR_INVALID_EMAIL, USERNAME_ALREADY_USED,
+    EMAIL_ALREADY_USED
 } from "./registerActions";
 import {NAV_AUTHENT_LOGIN} from "../../../actions/actionTypes";
+import {ERROR_UNKNOWN, ERROR_SERVER, ERROR_FORBIDDEN, ERROR_UNAVAILABLE} from "../login/loginActions";
 export default class RegisterScreen extends Component {
 
     state = {
@@ -52,8 +54,11 @@ export default class RegisterScreen extends Component {
             case ERROR_SERVER:
                 this.state.feedback="An error occurred"
                 break;
-            case ERROR_FORBIDDEN:
-                this.state.feedback="This username is already being used"
+            case EMAIL_ALREADY_USED:
+                this.state.feedback="This email is already used"
+                break;
+            case USERNAME_ALREADY_USED:
+                this.state.feedback="This username is already used"
                 break;
             case ERROR_UNAVAILABLE:
                 this.state.feedback="Service is unavailable"
