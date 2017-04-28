@@ -15,9 +15,11 @@ import {
 import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../../util/utils";
-import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNAVAILABLE} from "./loginActions";
-import {NAV_AUTHENT_REGISTER} from "../../../actions/actionTypes";
-export default class LoginScreen extends Component {
+import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNAVAILABLE, ERROR_PASSWORD_MISMATCH,
+    ERROR_USERNAME_MISSING, ERROR_EMAIL_MISSING, ERROR_PASSWORD_MISSING, ERROR_INVALID_EMAIL
+} from "./registerActions";
+import {NAV_AUTHENT_LOGIN} from "../../../actions/actionTypes";
+export default class RegisterScreen extends Component {
 
     state = {
         feedback: '',
@@ -28,7 +30,22 @@ export default class LoginScreen extends Component {
     }
 
     render() {
-        switch (this.props.login.feedback){
+        switch (this.props.register.feedback){
+            case ERROR_PASSWORD_MISMATCH:
+                this.state.feedback="the passwords do not match";
+                break;
+            case ERROR_USERNAME_MISSING:
+                this.state.feedback="please provide a username";
+                break;
+            case ERROR_EMAIL_MISSING:
+                this.state.feedback="please provide your email address";
+                break;
+            case ERROR_PASSWORD_MISSING:
+                this.state.feedback="please provide a password";
+                break;
+            case ERROR_INVALID_EMAIL:
+                this.state.feedback="your email is invalid";
+                break;
             case ERROR_UNKNOWN:
                 this.state.feedback="An error occurred"
                 break;
@@ -36,7 +53,7 @@ export default class LoginScreen extends Component {
                 this.state.feedback="An error occurred"
                 break;
             case ERROR_FORBIDDEN:
-                this.state.feedback="Incorrect username/password"
+                this.state.feedback="This username is already being used"
                 break;
             case ERROR_UNAVAILABLE:
                 this.state.feedback="Service is unavailable"
@@ -107,8 +124,20 @@ export default class LoginScreen extends Component {
         marginRight:8,
         color:'rgba(0,0,0,.625)',
                         }}
+                            placeholder='Email'
+                            onChangeText={(text) => this.props.register.email=text}
+                        />
+                        <TextInput
+                            style={{
+                            height: 50,
+                    fontSize:20,
+        textAlign:'center',
+        marginLeft:8,
+        marginRight:8,
+        color:'rgba(0,0,0,.625)',
+                        }}
                             placeholder='Username'
-                            onChangeText={(text) => this.props.login.username=text}
+                            onChangeText={(text) => this.props.register.username=text}
                         />
                         <TextInput
                             style={{
@@ -122,7 +151,21 @@ export default class LoginScreen extends Component {
 
                             secureTextEntry={true}
                             placeholder='Password'
-                            onChangeText={(text) => this.props.login.password=text}
+                            onChangeText={(text) => this.props.register.password=text}
+                        />
+                        <TextInput
+                            style={{
+                            height: 50,
+                    fontSize:20,
+        textAlign:'center',
+        marginLeft:8,
+        marginRight:8,
+        color:'rgba(0,0,0,.625)',
+                        }}
+
+                            secureTextEntry={true}
+                            placeholder='Repeat password'
+                            onChangeText={(text) => this.props.register.repeatPassword=text}
                         />
                         <Text style={{
                                 color:globalStyles.RED,
@@ -138,14 +181,14 @@ export default class LoginScreen extends Component {
                     ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
                                           onPress={() => {
                                               this.setState({feedback: ''});
-                                              this.props.login.feedback='';
+                                              this.props.register.feedback='';
                                               Keyboard.dismiss();
-                                              this.props.doLogin(this.props.login.username,this.props.login.password)
+                                              this.props.doRegister(this.props.register.email,this.props.register.username,this.props.register.password,this.props.register.repeatPassword)
                                           }}>
 
                             <View
                                 style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.greenButton]}>
-                                <Text style={[globalStyles.COMMON_STYLES.buttonText,{fontSize:20}]}>Login</Text>
+                                <Text style={[globalStyles.COMMON_STYLES.buttonText,{fontSize:20}]}>Register</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -156,13 +199,13 @@ export default class LoginScreen extends Component {
                                 ]}
                             activeOpacity={globalStyles.ACTIVE_OPACITY}
                                           onPress={() => {
-                                              this.props.navigation.navigate(NAV_AUTHENT_REGISTER)
+                                              this.props.navigation.navigate(NAV_AUTHENT_LOGIN)
                                           }}>
                         <Text
                             style={{
         textAlign:'center',
         color:globalStyles.GREEN
-                        }}>register</Text>
+                        }}>login</Text>
                     </TouchableOpacity>
                     </View>
                 </KeyboardAvoidingView>
@@ -171,7 +214,7 @@ export default class LoginScreen extends Component {
     }
 }
 
-LoginScreen.propTypes = {
+RegisterScreen.propTypes = {
     Login: PropTypes.any,
-    doLogin: PropTypes.func,
+    doRegister: PropTypes.func,
 };

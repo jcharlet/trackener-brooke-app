@@ -8,6 +8,7 @@ import {createLogger} from "redux-logger";
 import historyReducer from "./screens/history/historyReducer";
 import {mainNavReducer} from "./navigation/main/MainNavConfiguration";
 import loginReducer from "./screens/authentication/login/loginReducer";
+import registerReducer from "./screens/authentication/register/registerReducer";
 
 
 
@@ -29,6 +30,7 @@ export default () => (
             liveTracker: liveTrackerReducer,
             hackDetails: hackDetailsReducer,
             history: historyReducer,
+            register: registerReducer,
         }),
         applyMiddleware(...middleWare)
     )

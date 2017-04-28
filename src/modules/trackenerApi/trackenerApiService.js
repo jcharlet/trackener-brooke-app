@@ -1,7 +1,13 @@
 import {TRACKENER_API} from "../../config/config";
-import {LOGIN_SUCCESS, LOGIN_ERROR} from "../../actions/actionTypes";
+import {LOGIN_SUCCESS, LOGIN_ERROR, REGISTER_SUCCESS} from "../../actions/actionTypes";
 import {ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNKNOWN, ERROR_UNAVAILABLE} from "../../screens/authentication/login/loginActions";
 import moment from "moment";
+
+export const register = (email: string, username: string, password: string) => {
+    return Promise.resolve( {
+        type: REGISTER_SUCCESS,
+    });
+}
 
 export const login = (username: string, password: string) => {
     let formData = new FormData();

@@ -4,12 +4,17 @@
 export const NAV_NAVIGATE = 'Navigation/NAVIGATE';
 export const NAV_HACK_DETAILS = 'HackDetails';
 export const NAV_BOTTOM_TAB_NAV = 'BottomTabNavContainer';
+export const NAV_AUTHENT_REGISTER = 'Register';
+export const NAV_AUTHENT_LOGIN = 'Login';
+
 
 ///////////////////////
 // API actions
 ///////////////////////
 export const LOGIN_SUCCESS = 'login/SUCCESS';
 export const LOGIN_ERROR = 'login/ERROR';
+export const REGISTER_SUCCESS = 'register/SUCCESS';
+export const REGISTER_ERROR = 'register/ERROR';
 export const RIDES_POST_SUCCESS = 'api/rides/SUCCESS';
 export const RIDES_POST_ERROR = 'api/rides/ERROR';
 
