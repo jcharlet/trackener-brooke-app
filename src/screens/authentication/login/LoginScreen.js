@@ -12,9 +12,9 @@ import {
     KeyboardAvoidingView,
     Keyboard,
 } from 'react-native';
-import * as globalStyles from '../../styles/global';
+import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
-import * as utils from "../../util/utils";
+import * as utils from "../../../util/utils";
 import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNAVAILABLE} from "./loginActions";
 export default class LoginScreen extends Component {
 
@@ -46,7 +46,7 @@ export default class LoginScreen extends Component {
         const Dimensions = require('Dimensions');
         const window = Dimensions.get('window');
         return (
-            <Image source={require('../../../img/login-background.jpg')} style={[{
+            <Image source={require('../../../../img/login-background.jpg')} style={[{
                 width: window.width,
                 height: window.height,
             }]}>
@@ -72,7 +72,7 @@ export default class LoginScreen extends Component {
         padding:16,
                     justifyContent: 'space-around',
             }]}>
-                        <Image source={require('../../../img/brooke_logo.png')} style={[{
+                        <Image source={require('../../../../img/brooke_logo.png')} style={[{
     resizeMode: 'contain',
     width: 80,
     height: 100,
@@ -88,7 +88,7 @@ export default class LoginScreen extends Component {
         justifyContent: 'center',
             }}>
                             <Text>by</Text>
-                            <Image source={require('../../../img/trackener_logo.png')} style={[{
+                            <Image source={require('../../../../img/trackener_logo.png')} style={[{
                             marginLeft:10,
     resizeMode: 'contain',
     width: 100,

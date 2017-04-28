@@ -1,4 +1,4 @@
-import {LOGIN_ERROR, LOGIN_SUCCESS} from "../../actions/actionTypes";
+import {LOGIN_ERROR, LOGIN_SUCCESS} from "../../../actions/actionTypes";
 const initialState = {
     username: '',
     password: '',

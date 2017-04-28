@@ -1,6 +1,6 @@
-import {LOGIN_SUCCESS, LOGIN_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV} from "../../actions/actionTypes";
-import {TRACKENER_API} from "../../config/config";
-import * as trackenerApiService from "../../modules/trackenerApi/trackenerApiService";
+import {LOGIN_SUCCESS, LOGIN_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV} from "../../../actions/actionTypes";
+import {TRACKENER_API} from "../../../config/config";
+import * as trackenerApiService from "../../../modules/trackenerApi/trackenerApiService";
 
 //FIXME JC to move in actionTypes in a enum object
 export const ERROR_FORBIDDEN = 'FORBIDDEN';

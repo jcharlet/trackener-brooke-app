@@ -7,7 +7,7 @@ import promiseMiddleware from 'redux-promise';
 import {createLogger} from "redux-logger";
 import historyReducer from "./screens/history/historyReducer";
 import {mainNavReducer} from "./navigation/main/MainNavConfiguration";
-import loginReducer from "./screens/login/loginReducer";
+import loginReducer from "./screens/authentication/login/loginReducer";
 
 
 

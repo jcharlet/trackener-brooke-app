@@ -1,6 +1,6 @@
 import {TRACKENER_API} from "../../config/config";
 import {LOGIN_SUCCESS, LOGIN_ERROR} from "../../actions/actionTypes";
-import {ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNKNOWN, ERROR_UNAVAILABLE} from "../../screens/login/loginActions";
+import {ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNKNOWN, ERROR_UNAVAILABLE} from "../../screens/authentication/login/loginActions";
 import moment from "moment";
 
 export const login = (username: string, password: string) => {

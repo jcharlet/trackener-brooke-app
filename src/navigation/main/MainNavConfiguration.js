@@ -1,7 +1,7 @@
 'use strict'
 import { StackNavigator} from 'react-navigation'
 import BottomTabNavContainer from "../bottomBar/BottomTabNavContainer";
-import LoginContainer from "../../screens/login/LoginContainer";
+import LoginContainer from "../../screens/authentication/login/LoginContainer";
 
 
 export const MainNavigator = StackNavigator({
