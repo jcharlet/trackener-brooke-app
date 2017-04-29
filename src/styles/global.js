@@ -100,10 +100,8 @@ const base ={
     },
     infoBoxArrow: {
         alignSelf: 'center',
-        flexGrow: 2,
-        width: 30,
+        width: 15,
         height: 30,
-        marginRight:10,
     },
 
     startRideButton: {
@@ -232,7 +230,7 @@ const base ={
     footerImage: {
         width: 24,
         height: 24,
-        resizeMode:'contain' , 
+        resizeMode:'contain' ,
     },
     footerStyle:{
         backgroundColor: GREEN,

@@ -67,7 +67,7 @@ export default class HistoryScreen extends Component {
                     }}>{utils.formatDateToDisplay(rowData.date)}</Text>
                     <Text style={{
                         fontSize:12,
-                        alignSelf:'center',
+                        alignSelf:'flex-end',
 
                     }}>{utils.formatTimeToDisplay(rowData.date)}</Text>
                 </View>
@@ -78,7 +78,9 @@ export default class HistoryScreen extends Component {
         justifyContent: 'space-between',
             }}>
                     <Image source={require('../../../img/ic_timer_purple.png')} style={{
-                        width:22,height:22,
+                        width:22,height:30,
+                            alignSelf: 'center',
+                            resizeMode:'contain' ,
                     }}/>
 
                     <Text style={{
@@ -94,7 +96,10 @@ export default class HistoryScreen extends Component {
                     flexDirection:'row',
         justifyContent: 'flex-start',
             }}>
-                    <Image source={require('../../../img/distance_blue.png')} style={{width:25,height:25}}/>
+                    <Image source={require('../../../img/distance_blue.png')}
+                    style={{width:25,height:30,
+                    resizeMode:'contain' ,
+                        alignSelf: 'center',}}/>
                     <Text style={{
                         fontSize:16,
                         alignSelf:'center',
