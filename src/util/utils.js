@@ -35,7 +35,7 @@ export const secondsToMin = (input) => {
 
 export const formatDateToDisplay = (dateTime) =>{
     if (moment(dateTime).format("YYYY MM DD") == moment().format("YYYY MM DD")) {
-        return "TODAY"
+        return "Today"
     }
     return moment(dateTime).format("MMMM Do");
 }

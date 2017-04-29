@@ -61,15 +61,12 @@ export default class HistoryScreen extends Component {
         justifyContent: 'space-between',
         marginRight:20,
             }}>
-                    <Text style={{
-                        fontSize:16,
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal,{
                         alignSelf:'center',
-                    }}>{utils.formatDateToDisplay(rowData.date)}</Text>
-                    <Text style={{
-                        fontSize:12,
+                    }]}>{utils.formatDateToDisplay(rowData.date)}</Text>
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeSmall,{
                         alignSelf:'flex-end',
-
-                    }}>{utils.formatTimeToDisplay(rowData.date)}</Text>
+                    }]}>{utils.formatTimeToDisplay(rowData.date)}</Text>
                 </View>
 
                 <View style={{
@@ -83,12 +80,11 @@ export default class HistoryScreen extends Component {
                             resizeMode:'contain' ,
                     }}/>
 
-                    <Text style={{
-                        fontSize:16,
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal,{
                         alignSelf:'center',
                     flex:1,
         textAlign: 'center',
-            }}>{utils.secondsToMin(rowData.duration)} min</Text>
+      }]}>{utils.secondsToMin(rowData.duration)} min</Text>
                 </View>
 
                 <View style={{
@@ -100,12 +96,11 @@ export default class HistoryScreen extends Component {
                     style={{width:25,height:30,
                     resizeMode:'contain' ,
                         alignSelf: 'center',}}/>
-                    <Text style={{
-                        fontSize:16,
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal,{
                         alignSelf:'center',
                     flex:1,
         textAlign: 'center',
-            }}>{utils.roundWithOneDecimals(rowData.distance * utils.ONE_METER_IN_MILES)} mi</Text>
+      }]}>{utils.roundWithOneDecimals(rowData.distance * utils.ONE_METER_IN_MILES)} mi</Text>
                 </View>
                 <View><Image source={require('../../../img/ic_navigate_next_green.png')}
                              style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
@@ -150,15 +145,14 @@ export default class HistoryScreen extends Component {
 
             }]}>
                 <Text
-                    style={{
+                    style={[globalStyles.COMMON_STYLES.fontSizeLarge,{
                     textAlign:"center",
-        fontSize: 20,
         padding: 20,
         color: globalStyles.GREEN,
         //borderStyle: 'solid',
         //borderColor: 'red',
         //borderWidth: 1
-                }}
+      }]}
                 >No hack recorded</Text>
             </View>
         </View>

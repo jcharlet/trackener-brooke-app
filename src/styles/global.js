@@ -10,7 +10,20 @@ export const GREEN = '#619b64';
 export const WHITE = 'white';
 export const GRAY = '#d9d9d9';
 
+export const FONT_SIZE_NORMAL=16;
+export const FONT_SIZE_SMALL=12;
+
 const base ={
+    fontSizeLarge:{
+      fontSize:20
+    },
+    fontSizeNormal:{
+      fontSize:16
+    },
+    fontSizeSmall:{
+      fontSize:12
+    },
+
     main: {
         flex: 1,
         backgroundColor: WHITE,
@@ -256,7 +269,16 @@ export const COMMON_STYLES = createStyles(
   maxHeight(650,{
     headerText:{
       fontSize:20
-    }
+    },
+    fontSizeLarge:{
+      fontSize:18
+    },
+    fontSizeNormal:{
+      fontSize:14
+    },
+    fontSizeSmall:{
+      fontSize:10
+    },
   }),
   // iphone 6
 )
