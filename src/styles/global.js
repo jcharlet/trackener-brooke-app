@@ -98,6 +98,12 @@ const base ={
         borderStyle: 'solid',
         borderRightWidth: 1,
     },
+    infoBoxArrowTracker: {
+        alignSelf: 'center',
+        width: 40,
+        height: 40,
+    },
+
     infoBoxArrow: {
         alignSelf: 'center',
         width: 15,
@@ -247,9 +253,9 @@ const base ={
 export const COMMON_STYLES = createStyles(
   base,
   //iphone 5s
-  maxHeight(960,{
+  maxHeight(650,{
     headerText:{
-      fontSize:22
+      fontSize:20
     }
   }),
   // iphone 6

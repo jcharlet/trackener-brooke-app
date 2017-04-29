@@ -141,12 +141,6 @@ export default class LiveTrackerScreen extends Component {
                             Speed {"\n"} {speed} mph
                         </Text>
                     </View>
-                    {/*<Text*/}
-                    {/*style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.maxSpeed))}*/}
-                    {/*mph</Text>*/}
-                    {/*<Text*/}
-                    {/*style={[globalStyles.COMMON_STYLES.infoBoxText]}>AVG {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.avgSpeed))}*/}
-                    {/*mph</Text>*/}
                 </View>
             </View>
         );
@@ -183,9 +177,12 @@ export default class LiveTrackerScreen extends Component {
                                 {totalDistance} mi ridden
                             </Text>
                     </View>
-                    <View>
+                    <View style={{
+                        flex:0,
+                        flexDirection:'row',
+                        alignItems:'center'}}>
                         <Image source={require('../../../img/ic_navigate_next_green.png')}
-                               style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
+                               style={globalStyles.COMMON_STYLES.infoBoxArrowTracker}/>
                     </View>
                 </TouchableOpacity>
 

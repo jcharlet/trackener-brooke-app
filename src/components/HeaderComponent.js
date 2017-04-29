@@ -38,10 +38,18 @@ export default class Header extends Component {
                   />
                       </View>
                 </View>
-                <View style={[globalStyles.COMMON_STYLES.headerView,
-                        {alignItems:'flex-start'}]}>
+                <View style={[globalStyles.COMMON_STYLES.headerView]}>
                     <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
                         <Text style={globalStyles.COMMON_STYLES.headerText}>{this.props.title}</Text>
+                    </View>
+                </View>
+                <View style={globalStyles.COMMON_STYLES.headerImageView}
+                      activeOpacity={globalStyles.ACTIVE_OPACITY}>
+                    <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
+                        {/*<Image*/}
+                        {/*source={require('../../img/header-settings.png')}*/}
+                        {/*style={globalStyles.COMMON_STYLES.headerImage}*/}
+                        {/*/>*/}
                     </View>
                 </View>
             </View>
