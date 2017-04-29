@@ -12,6 +12,7 @@ import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
 import Pie from './chartsComponents/Pie';
 import Theme from "./chartsComponents/theme";
+import HeaderComponent from '../../components/HeaderComponent'
 
 
 export default class HackDetailsScreen extends Component {
@@ -126,14 +127,8 @@ export default class HackDetailsScreen extends Component {
             let avgSpeed = utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.avgSpeed));
             let duration = utils.secondsToHourMinSec(Math.round(ride.analytics.duration));
             return (
-
-                <View
-                    style={{
-
-        flex: 1,
-        alignItems: 'flex-start'
-                    }}
-                >
+                <View style={{flex: 1,alignItems: 'stretch'}}>
+                    <HeaderComponent title={"Ride Details"}/>
                     {this.renderHackBrowserTopBar()}
                     <View style={globalStyles.COMMON_STYLES.container}>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>

@@ -12,6 +12,7 @@ import * as globalStyles from '../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
 import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
+import HeaderComponent from '../../components/HeaderComponent'
 
 
 export default class HistoryScreen extends Component {
@@ -35,7 +36,7 @@ export default class HistoryScreen extends Component {
     }
 
     _navigate(index) {
-        this.props.navigation.navigate(NAV_HACK_DETAILS, {index:index});
+        this.props.navigation.navigate(NAV_HACK_DETAILS, {index: index});
     }
 
     renderRow(rowData, ...rest) {
@@ -111,23 +112,26 @@ export default class HistoryScreen extends Component {
     }
 
     render() {
-        if (this.props.history.rides &&  this.props.history.rides.length > 0){
+        if (this.props.history.rides && this.props.history.rides.length > 0) {
             return (
-                <View style={[globalStyles.COMMON_STYLES.container,{
-        alignItems: 'stretch',
-                    flex:1,
-                marginTop:5,
-                marginBottom:5,
-        //justifyContent: 'space-between',
-        //flexDirection: 'column',
-            }]}>
 
-                    <ListView
-                        enableEmptySections
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderRow.bind(this)}
-                    />
-                </View>);
+                <View style={{flex: 1,alignItems: 'stretch',}}>
+                    <HeaderComponent title={"History"}/>
+                    <View style={[globalStyles.COMMON_STYLES.container,{
+                        alignItems: 'stretch',
+                        flex:1,
+                        marginTop:5,
+                        marginBottom:5,
+                        }]}>
+
+                        <ListView
+                            enableEmptySections
+                            dataSource={this.state.dataSource}
+                            renderRow={this.renderRow.bind(this)}
+                        />
+                    </View>
+                </View>
+            );
         }
         return (
             <View style={[globalStyles.COMMON_STYLES.container,{

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {AppRegistry,View, AsyncStorage} from 'react-native';
-import Header from './navigation/HeaderComponent'
 import * as globalStyles from './styles/global';
 import {
     addNavigationHelpers,
@@ -29,7 +28,6 @@ export default class App extends Component {
     render() {
         return (
             <View style={[globalStyles.COMMON_STYLES.main]}>
-                <Header/>
                 <Provider store={this.store}>
                     <AppWithNavigationState/>
                 </Provider>

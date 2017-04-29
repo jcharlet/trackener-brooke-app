@@ -15,8 +15,13 @@ import {
 } from 'react-native';
 import * as globalStyles from '../styles/global';
 
+
+type Props = {
+    title:String
+};
+
 export default class Header extends Component {
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
     }
 
@@ -34,7 +39,7 @@ export default class Header extends Component {
                 </View>
                 <View style={[globalStyles.COMMON_STYLES.headerView]}>
                     <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
-                        <Text style={globalStyles.COMMON_STYLES.headerText}>My Hackathon</Text>
+                        <Text style={globalStyles.COMMON_STYLES.headerText}>{this.props.title}</Text>
                     </View>
                 </View>
                 <View style={globalStyles.COMMON_STYLES.headerImageView}
