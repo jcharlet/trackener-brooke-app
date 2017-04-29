@@ -185,6 +185,8 @@ export default class HackDetailsScreen extends Component {
             );
         }
         return (
+        <View style={{flex: 1,alignItems: 'stretch'}}>
+            <HeaderComponent title={"Ride Details"}/>
             <View style={[globalStyles.COMMON_STYLES.container,{
 
                     flex:1,
@@ -205,6 +207,7 @@ export default class HackDetailsScreen extends Component {
                 }}
                 >No hack recorded</Text>
             </View>
+        </View>
         );
     }
 }

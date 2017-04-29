@@ -134,6 +134,8 @@ export default class HistoryScreen extends Component {
             );
         }
         return (
+        <View style={{flex: 1,alignItems: 'stretch',}}>
+            <HeaderComponent title={"History"}/>
             <View style={[globalStyles.COMMON_STYLES.container,{
 
                     flex:1,
@@ -154,6 +156,7 @@ export default class HistoryScreen extends Component {
                 }}
                 >No hack recorded</Text>
             </View>
+        </View>
         );
     }
 
