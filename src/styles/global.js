@@ -2,7 +2,7 @@ import {
     StyleSheet,
     Platform,
 } from 'react-native';
-
+import {createStyles, maxHeight } from 'react-native-media-queries'
 export const ACTIVE_OPACITY = 0.6;
 
 export const RED = '#e54242';
@@ -10,7 +10,7 @@ export const GREEN = '#619b64';
 export const WHITE = 'white';
 export const GRAY = '#d9d9d9';
 
-export const COMMON_STYLES = StyleSheet.create({
+const base ={
     main: {
         flex: 1,
         backgroundColor: WHITE,
@@ -47,9 +47,10 @@ export const COMMON_STYLES = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+
     headerText: {
         color: WHITE,
-        fontSize: 25,
+          fontSize: 25,
     },
 
 
@@ -221,6 +222,36 @@ export const COMMON_STYLES = StyleSheet.create({
         borderStyle: 'solid',
         borderColor: 'red',
         borderWidth: 1,
+    },
+
+    footerLabel : {
+          margin: 4,
+          marginBottom: 0,
+          fontSize: 12,
+    },
+    footerImage: {
+        width: 24,
+        height: 24,
+    },
+    footerStyle:{
+        backgroundColor: GREEN,
+        paddingBottom: 0,
+    },
+    footerIndicatorStyle:{
+        backgroundColor: WHITE,
+        height: 4,
     }
 
-});
+};
+
+
+export const COMMON_STYLES = createStyles(
+  base,
+  //iphone 5s
+  maxHeight(960,{
+    headerText:{
+      fontSize:22
+    }
+  }),
+  // iphone 6
+)

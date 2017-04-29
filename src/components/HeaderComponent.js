@@ -27,22 +27,32 @@ export default class Header extends Component {
     }
 
     render() {
-        let icon=(
-            <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
-            </View>);
         if (this.props.showLeftIcon){
-            icon = (
-                <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}><Image
-                source={require('../../img/logo_white.png')}
-                style={globalStyles.COMMON_STYLES.headerImage}
-            />
-                </View>);
+          return (
+            <View style={globalStyles.COMMON_STYLES.header}>
+                <View style={[globalStyles.COMMON_STYLES.headerImageView]}
+                      activeOpacity={globalStyles.ACTIVE_OPACITY}>
+                      <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}><Image
+                      source={require('../../img/logo_white.png')}
+                      style={globalStyles.COMMON_STYLES.headerImage}
+                  />
+                      </View>
+                </View>
+                <View style={[globalStyles.COMMON_STYLES.headerView,
+                        {alignItems:'flex-start'}]}>
+                    <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
+                        <Text style={globalStyles.COMMON_STYLES.headerText}>{this.props.title}</Text>
+                    </View>
+                </View>
+            </View>
+          );
         }
         return (
             <View style={globalStyles.COMMON_STYLES.header}>
                 <View style={[globalStyles.COMMON_STYLES.headerImageView]}
                       activeOpacity={globalStyles.ACTIVE_OPACITY}>
-                        {icon}
+                      <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
+                      </View>
                 </View>
                 <View style={[globalStyles.COMMON_STYLES.headerView]}>
                     <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
