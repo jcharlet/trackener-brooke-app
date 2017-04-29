@@ -8,6 +8,7 @@ import LiveTrackerContainer from "../screens/liveTracker/LiveTrackerContainer";
 import HistoryContainer from "../screens/history/HistoryContainer";
 import * as globalStyles from "../styles/global"
 import HackDetailsContainer from "../screens/hackDetails/HackDetailsContainer";
+import TabView from "react-navigation/src/views/TabView/TabView";
 
 //FIXME calendar icon is cropped
 
@@ -52,6 +53,7 @@ export default AppNavigator = TabNavigator({
     HackDetails: {screen: HackDetailsContainer},
     History: {screen: HistoryContainer},
 }, {
+    tabBarComponent:TabView.TabBarTop,
     tabBarPosition: 'bottom',
     tabBarOptions: {
         activeTintColor: globalStyles.WHITE,
