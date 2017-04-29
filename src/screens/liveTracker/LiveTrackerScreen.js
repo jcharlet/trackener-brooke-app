@@ -96,6 +96,9 @@ export default class LiveTrackerScreen extends Component {
     }
 
     renderTrackingStartedScreen() {
+        let distance = utils.roundWithOneDecimals(this.props.liveTracker.ride.analytics.distance * utils.ONE_METER_IN_MILES);
+        let speed = utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.lastSpeed));
+        let duration = utils.secondsToHourMinSec(Math.round(this.state.timer));
         return (
             <View style={globalStyles.COMMON_STYLES.container}>
                 {/*<Text>totalDistance {((this.state.totalDistance))}{"\n"}*/}
@@ -109,12 +112,12 @@ export default class LiveTrackerScreen extends Component {
                     <View
                         style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
                         <Text
-                            style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(this.state.timer))}</Text>
+                            style={[globalStyles.COMMON_STYLES.infoBoxText]}>Time {"\n"} {duration}</Text>
                     </View>
                     <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
-                        <Text
-                            style={[globalStyles.COMMON_STYLES.infoBoxText]}>DISTANCE {"\n"} {utils.roundWithOneDecimals(this.props.liveTracker.ride.analytics.distance * utils.ONE_METER_IN_MILES)}
-                            mi</Text>
+                        <Text style={[globalStyles.COMMON_STYLES.infoBoxText]}>
+                            Distance {"\n"} {distance} mi
+                        </Text>
                     </View>
                 </View>
 
@@ -134,9 +137,9 @@ export default class LiveTrackerScreen extends Component {
 
                 <View style={globalStyles.COMMON_STYLES.infoBox}>
                     <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
-                        <Text
-                            style={[globalStyles.COMMON_STYLES.infoBoxText]}>SPEED {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.lastSpeed))}
-                            mph</Text>
+                        <Text style={[globalStyles.COMMON_STYLES.infoBoxText]}>
+                            Speed {"\n"} {speed} mph
+                        </Text>
                     </View>
                     {/*<Text*/}
                     {/*style={[globalStyles.COMMON_STYLES.infoBoxText,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>MAX {"\n"} {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(this.props.liveTracker.ride.analytics.maxSpeed))}*/}
@@ -152,33 +155,54 @@ export default class LiveTrackerScreen extends Component {
     renderDefaultScreen() {
         let totalDistance = utils.roundWithOneDecimals(this.props.liveTracker.totalDistance * utils.ONE_METER_IN_MILES);
         return (
-                <View style={[globalStyles.COMMON_STYLES.container]}>
-                    <TouchableOpacity style={globalStyles.COMMON_STYLES.infoBox}
-                                      activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                      onPress={() => this.props.navigation.navigate(NAV_HACK_DETAILS)}>
-                        <Text style={globalStyles.COMMON_STYLES.infoBoxStartText}>
-                            {totalDistance} mi ridden
-                        </Text>
+            <View style={[globalStyles.COMMON_STYLES.container]}>
+                <TouchableOpacity style={globalStyles.COMMON_STYLES.infoBox}
+                                  activeOpacity={globalStyles.ACTIVE_OPACITY}
+                                  onPress={() => this.props.navigation.navigate(NAV_HACK_DETAILS)}>
+                    <View style={{
+                        flex:1,
+                        flexDirection:'row',
+                        justifyContent: 'flex-start',
+                    }}>
                         <View>
-                            <Image source={require('../../../img/ic_navigate_next_green.png')}
-                                   style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
+                        <Image source={require('../../../img/trophy.png')} style={{
+                            height: 40,
+                            width: 40,
+                            alignSelf: 'center',
+                            flexGrow: 2,
+                            resizeMode:'contain',
+                            marginLeft:10,
+                        }}/>
                         </View>
-                    </TouchableOpacity>
+                        <Text style={[globalStyles.COMMON_STYLES.infoBoxStartText,{
+                        /*fontSize:16,
+                        alignSelf:'center',
+                        flex:1,
+                        textAlign: 'center',*/
+                        }]}>
+                                {totalDistance} mi ridden
+                            </Text>
+                    </View>
+                    <View>
+                        <Image source={require('../../../img/ic_navigate_next_green.png')}
+                               style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
+                    </View>
+                </TouchableOpacity>
 
-                    <TouchableOpacity style={globalStyles.COMMON_STYLES.startRideButton}
-                                      activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                      onPress={()=>{
+                <TouchableOpacity style={globalStyles.COMMON_STYLES.startRideButton}
+                                  activeOpacity={globalStyles.ACTIVE_OPACITY}
+                                  onPress={()=>{
                                     this.props.startTracking();
                                     this.startTimer();
                                 }}>
-                        <Text style={globalStyles.COMMON_STYLES.startRideButtonText}>Start Ride</Text>
-                    </TouchableOpacity>
+                    <Text style={globalStyles.COMMON_STYLES.startRideButtonText}>Start Ride</Text>
+                </TouchableOpacity>
 
 
-                    <View style={[globalStyles.COMMON_STYLES.social]}>
-                    </View>
-
+                <View style={[globalStyles.COMMON_STYLES.social]}>
                 </View>
+
+            </View>
         );
     }
 
@@ -187,7 +211,7 @@ export default class LiveTrackerScreen extends Component {
             case STATUS.STOP:
                 return (
                     <View style={{flex: 1,alignItems: 'flex-start',}}>
-                        <HeaderComponent title={"Tracker"}/>
+                        <HeaderComponent title={"My Hackathon"} showLeftIcon={true}/>
                         {this.renderDefaultScreen()}
                     </View>
                 )

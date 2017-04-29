@@ -25,7 +25,7 @@ LiveTrackerContainer.navigationOptions = {
 };
 
 HackDetailsContainer.navigationOptions = {
-    title: 'Hack details',
+    title: 'Ride details',
     tabBar: {
         icon: ({tintColor}) => (
             <Image

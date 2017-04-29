@@ -17,7 +17,8 @@ import * as globalStyles from '../styles/global';
 
 
 type Props = {
-    title:String
+    title:String,
+    showLeftIcon:boolean,
 };
 
 export default class Header extends Component {
@@ -26,16 +27,22 @@ export default class Header extends Component {
     }
 
     render() {
+        let icon=(
+            <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
+            </View>);
+        if (this.props.showLeftIcon){
+            icon = (
+                <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}><Image
+                source={require('../../img/logo_white.png')}
+                style={globalStyles.COMMON_STYLES.headerImage}
+            />
+                </View>);
+        }
         return (
             <View style={globalStyles.COMMON_STYLES.header}>
                 <View style={[globalStyles.COMMON_STYLES.headerImageView]}
-                                  activeOpacity={globalStyles.ACTIVE_OPACITY}>
-                    <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
-                        {/*<Image*/}
-                            {/*source={require('../../img/header-horse.png')}*/}
-                            {/*style={globalStyles.COMMON_STYLES.headerImage}*/}
-                        {/*/>*/}
-                    </View>
+                      activeOpacity={globalStyles.ACTIVE_OPACITY}>
+                        {icon}
                 </View>
                 <View style={[globalStyles.COMMON_STYLES.headerView]}>
                     <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
@@ -43,11 +50,11 @@ export default class Header extends Component {
                     </View>
                 </View>
                 <View style={globalStyles.COMMON_STYLES.headerImageView}
-                                  activeOpacity={globalStyles.ACTIVE_OPACITY}>
+                      activeOpacity={globalStyles.ACTIVE_OPACITY}>
                     <View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
                         {/*<Image*/}
-                            {/*source={require('../../img/header-settings.png')}*/}
-                            {/*style={globalStyles.COMMON_STYLES.headerImage}*/}
+                        {/*source={require('../../img/header-settings.png')}*/}
+                        {/*style={globalStyles.COMMON_STYLES.headerImage}*/}
                         {/*/>*/}
                     </View>
                 </View>

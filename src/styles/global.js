@@ -29,7 +29,7 @@ export const COMMON_STYLES = StyleSheet.create({
     },
     headerImageView: {
         height: 50,
-        width: 50
+        width: 90
     },
     verticallyAligned: {
         flex: 1,
@@ -38,7 +38,7 @@ export const COMMON_STYLES = StyleSheet.create({
         alignItems: 'center',
     },
     headerImage: {
-        width: 32, height: 32, backgroundColor: GREEN,
+        width: 62, height: 32, backgroundColor: GREEN,
     },
 
     headerView: {
@@ -75,9 +75,9 @@ export const COMMON_STYLES = StyleSheet.create({
         padding: 10,
         color: GREEN,
         alignItems: 'center',
-        flexGrow: 3,
+        flexGrow: 2,
         textAlign: 'center',
-        paddingLeft: 30,
+        paddingLeft: 10,
     },
     infoBoxView: {
         padding: 10,
@@ -101,7 +101,8 @@ export const COMMON_STYLES = StyleSheet.create({
         alignSelf: 'center',
         flexGrow: 2,
         width: 30,
-        height: 30
+        height: 30,
+        marginRight:10,
     },
 
     startRideButton: {
