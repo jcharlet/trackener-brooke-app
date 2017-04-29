@@ -42,3 +42,7 @@ export const formatDateToDisplay = (dateTime) =>{
 export const formatTimeToDisplay = (dateTime) => {
     return moment(dateTime).format("HH:mm");
 }
+
+export const capitalizeFirstLetter = (string: String) => {
+    return string.toLowerCase().charAt(0).toUpperCase() + string.slice(1);
+}
