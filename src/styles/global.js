@@ -232,6 +232,7 @@ const base ={
     footerImage: {
         width: 24,
         height: 24,
+        resizeMode:'contain' , 
     },
     footerStyle:{
         backgroundColor: GREEN,
