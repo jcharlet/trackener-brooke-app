@@ -166,7 +166,7 @@ export default class HackDetailsScreen extends Component {
                                 pieHeight={130}
                                 onItemSelected={this._onPieItemSelected}
                                 colors={Theme.colors}
-                                width={200}
+                                width={190}
                                 height={170}
                                 data={timeSpentByGaitTable}/>
                         </View>
