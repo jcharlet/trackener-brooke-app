@@ -196,15 +196,14 @@ export default class HackDetailsScreen extends Component {
 
             }]}>
                 <Text
-                    style={{
+                    style={[globalStyles.COMMON_STYLES.fontSizeLarge,{
                     textAlign:"center",
-        fontSize: 20,
         padding: 20,
         color: globalStyles.GREEN,
         //borderStyle: 'solid',
         //borderColor: 'red',
         //borderWidth: 1
-                }}
+      }]}
                 >No hack recorded</Text>
             </View>
         </View>
