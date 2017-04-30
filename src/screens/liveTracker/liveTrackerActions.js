@@ -31,6 +31,8 @@ export const restartRide = () =>{
     return {type: RESTART_RIDE}
 }
 
+
+
 export const checkLocationServicesIsEnabled = () => {
     if(Platform.OS === 'android'){
         return LocationServicesDialogBox.checkLocationServicesIsEnabled({
@@ -41,9 +43,11 @@ export const checkLocationServicesIsEnabled = () => {
             ok: "YES",
             cancel: "NO"
         })
+    }else{
+      //done by default on iOS
+      Location.requestAlwaysAuthorization();
+      return Promise.resolve();
     }
-    //done by default on iOS
-    return Promise.resolve();
 };
 
 export const watchGPS = (time = GPS_TIME_INTERVAL) => {

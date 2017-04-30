@@ -23,6 +23,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        checkLocationServicesIsEnabled:()=>{
+          checkLocationServicesIsEnabled();
+        },
         load:() => {
             dispatch(loadTotalDistance());
         },
@@ -55,4 +58,3 @@ const LiveTrackerContainer = connect(
 )(LiveTrackerPage);
 
 export default LiveTrackerContainer
-

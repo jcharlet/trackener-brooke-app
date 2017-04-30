@@ -30,6 +30,9 @@ export default class LiveTrackerScreen extends Component {
         this.state = this.initialState;
     }
 
+    componentDidMount(){
+      this.props.checkLocationServicesIsEnabled();
+    }
 
     startTimer() {
         let timerIntervalId = BackgroundTimer.setInterval(() => {
