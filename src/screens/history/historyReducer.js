@@ -24,6 +24,7 @@ export default (state = initialState, action = {}) => {
 
 const loadRides = (state, payload) =>{
     let rides =payload || [];
+    rides = rides.reverse();
     return {
         ...state,
         rides:rides,
@@ -32,17 +33,14 @@ const loadRides = (state, payload) =>{
 };
 
 const addRide = (state, ride) => {
-    let historyRide = {
+    let historyRide = [{
         ...ride.analytics,
         date:ride.date
-
-    };
+    }];
+    let rides = historyRide.concat(state.rides);
     return {
         ...state,
-        rides:[
-            ...state.rides,
-            historyRide
-        ],
+        rides:rides,
         index:state.rides.length
     };
 };

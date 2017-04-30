@@ -40,7 +40,8 @@ export default class HistoryScreen extends Component {
     }
 
     renderRow(rowData, ...rest) {
-        const index = parseInt(rest[1], 10);
+        let index = parseInt(rest[1], 10);
+        index = this.props.history.rides.length-index-1;
         return (
             <TouchableOpacity style={{
                 flex:1,

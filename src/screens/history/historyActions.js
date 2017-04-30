@@ -8,7 +8,7 @@ export const loadRides = () => ({
     payload: AsyncStorage.getItem('rides').then((ridesString) => {
         if (ridesString) {
             let completeRides = JSON.parse(ridesString);
-            let rides = completeRides.map(ride => {
+            return completeRides.map(ride => {
                 delete ride.analytics.timeSpentByGait;
                 delete ride.positions;
                 return {
@@ -16,7 +16,6 @@ export const loadRides = () => ({
                     date:ride.date
                 }
             })
-            return rides.reverse();
         }
         return [];
     })
