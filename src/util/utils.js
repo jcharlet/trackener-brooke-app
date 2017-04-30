@@ -46,3 +46,11 @@ export const formatTimeToDisplay = (dateTime) => {
 export const capitalizeFirstLetter = (string: String) => {
     return string.toLowerCase().charAt(0).toUpperCase() + string.slice(1);
 }
+
+export const wait=(mseconds)=>{
+  var start = new Date().getTime();
+  var end = start;
+  while(end<start + mseconds){
+    end = new Date().getTime();
+  }
+}
