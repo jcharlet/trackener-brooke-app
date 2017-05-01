@@ -108,11 +108,6 @@ export const clearWatchGps = () => {
     }
 };
 
-export const loadTotalDistance = () => ({
-    type: UPDATE_TOTAL_DISTANCE,
-    payload: localStorageService.loadTotalDistance()
-});
-
 export const updateTotalDistance = (rideDistance) =>{
     return (dispatch)=>{
         localStorageService.updateTotalDistance(rideDistance)

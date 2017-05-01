@@ -23,9 +23,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        load:() => {
-            dispatch(loadTotalDistance());
-        },
         startTracking: () => {
                 checkLocationServicesIsEnabled().then(()=>{
                     dispatch(startRide());

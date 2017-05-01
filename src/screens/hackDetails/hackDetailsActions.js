@@ -1,11 +1,6 @@
 
-import {LOAD_RIDES, SHOW_PREVIOUS_HACK, SHOW_NEXT_HACK, REMOVE_HACK} from "../../actions/actionTypes";
+import {SHOW_PREVIOUS_HACK, SHOW_NEXT_HACK, REMOVE_HACK} from "../../actions/actionTypes";
 import * as localStorageService from "../../modules/localStorage/localStorageService";
-
-export const loadRides = () => ({
-    type: LOAD_RIDES,
-    payload: localStorageService.loadRides()
-});
 
 export const removeRide = (date: string) => {
     localStorageService.removeRide(date);

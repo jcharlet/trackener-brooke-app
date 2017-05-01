@@ -25,7 +25,6 @@ export default class LiveTrackerScreen extends Component{
 
     constructor(props) {
         super(props);
-        this.props.load();
         this.state= this.initialState;
     }
 
@@ -188,7 +187,6 @@ export default class LiveTrackerScreen extends Component{
 
 LiveTrackerScreen.propTypes = {
     liveTracker:PropTypes.any,
-    load: PropTypes.func,
     startTracking: PropTypes.func,
     stopTracking: PropTypes.func,
     pauseTracking: PropTypes.func,

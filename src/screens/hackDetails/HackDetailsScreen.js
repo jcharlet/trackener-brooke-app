@@ -18,7 +18,6 @@ export default class HackDetailsScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.props.load();
     }
 
     renderBrowsingButton(side) {
@@ -208,7 +207,6 @@ export default class HackDetailsScreen extends Component {
 
 HackDetailsScreen.propTypes = {
     hackDetails: PropTypes.any,
-    load: PropTypes.func,
     showPreviousRide: PropTypes.func,
     showNextRide: PropTypes.func,
     hasPreviousRide: PropTypes.func,
