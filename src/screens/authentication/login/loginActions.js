@@ -2,7 +2,7 @@ import {LOGIN_SUCCESS, LOGIN_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV, LOAD_RIDES
 import * as trackenerApiService from "../../../modules/trackenerApi/trackenerApiService";
 import {checksum} from "../../../util/utils";
 import {migrate} from "../../../modules/migration/migrateData";
-import * as localStorageService from "../../../modules/localStorage/localStorageService";
+import * as totalDistanceRepository from "../../../modules/localStorage/totalDistanceRepository";
 import * as localRidesRepository from "../../../modules/localStorage/localRidesRepository";
 
 //FIXME JC to move in actionTypes in a enum object
@@ -57,16 +57,17 @@ const loginSuccess = (dispatch,
 export const initStorageFromInitialState = (state) => {
     if(state.hackDetails.rides.length>0){
         localRidesRepository.saveRides(state.hackDetails.rides)
-        localStorageService.saveTotalDistance(state.liveTracker.totalDistance)
+        totalDistanceRepository.saveTotalDistance(state.liveTracker.totalDistance)
     }
 }
 export const initApplication = (dispatch) => {
+
         dispatch({
             type: LOAD_RIDES,
-            payload: localStorageService.loadRides()
+            payload: localRidesRepository.loadRides()
         })
         dispatch({
             type: UPDATE_TOTAL_DISTANCE,
-            payload: localStorageService.loadTotalDistance()
+            payload: totalDistanceRepository.loadTotalDistance()
         })
 };

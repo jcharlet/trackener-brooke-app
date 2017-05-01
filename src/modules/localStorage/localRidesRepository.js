@@ -1,7 +1,6 @@
 import {
     AsyncStorage
 } from 'react-native';
-import {loadRides} from "./localStorageService";
 
 export const saveRides = (rides) => {
     return AsyncStorage.setItem('rides', JSON.stringify(rides));
@@ -34,3 +33,43 @@ export const flagAsSynced = () => {
         return AsyncStorage.setItem('rides', JSON.stringify(rides));
     });
 }
+
+export const loadRides = () => {
+    return AsyncStorage.getItem('rides')
+        .then((rides) => {
+            if (rides) {
+                return JSON.parse(rides);
+            }
+            return [];
+        });
+};
+
+export const addRide = (ride) => {
+    loadRides()
+        .then((rideArray) => {
+            return AsyncStorage.setItem('rides', JSON.stringify([...rideArray, ride]));
+        });
+}
+
+export const removeRide = (date: string) => {
+    loadRides()
+        .then((rideArray) => {
+            let newRideArray = rideArray.filter(function (item) {
+                return item.date !== date;
+            });
+            return AsyncStorage.setItem('rides', JSON.stringify(newRideArray));
+        });
+}
+
+export const loadRidesHistory = () => {
+    return loadRides()
+        .then((completeRides) => {
+            return completeRides.map(ride => {
+                delete ride.analytics.timeSpentByGait;
+                return {
+                    ...ride.analytics,
+                    date: ride.date
+                }
+            })
+        })
+};

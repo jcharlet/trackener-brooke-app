@@ -10,7 +10,8 @@ import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../../util/utils'
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
-import * as localStorageService from "../../modules/localStorage/localStorageService";
+import * as totalDistanceRepository from "../../modules/localStorage/totalDistanceRepository";
+import * as localRidesRepository from "../../modules/localStorage/localRidesRepository";
 
 // speed thresholds in mph
 export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
@@ -110,7 +111,7 @@ export const clearWatchGps = () => {
 
 export const updateTotalDistance = (rideDistance) =>{
     return (dispatch)=>{
-        localStorageService.addToTotalDistanceAndSave(rideDistance)
+        totalDistanceRepository.addToTotalDistanceAndSave(rideDistance)
             .then((totalDistance) =>{
                 dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
             });
@@ -129,7 +130,7 @@ export const addRide = () =>{
             }
         };
 
-        localStorageService.addRide(ride);
+        localRidesRepository.addRide(ride);
         dispatch({type: ADD_RIDE, payload: ride});
     }
 };

@@ -1,9 +1,8 @@
-import {loadRides} from "../localStorage/localStorageService";
-import {saveRides} from "../localStorage/localRidesRepository";
 import * as storageService from "../storageService";
+import * as localRidesRepository from "../localStorage/localRidesRepository";
 
 export const migrate = (deviceId) => {
-    return loadRides()
+    return localRidesRepository.loadRides()
         .then((rides)=>{
             if(rides.length==0 || rides[0].deviceId){
                 return;
@@ -20,7 +19,7 @@ export const migrate = (deviceId) => {
             }
             if(nbOfMigratedRides>0){
                 console.log('migrated ' + nbOfMigratedRides + ' rides');
-                saveRides(newRides);
+                localRidesRepository.saveRides(newRides);
                 storageService.sync()
             }
         })
