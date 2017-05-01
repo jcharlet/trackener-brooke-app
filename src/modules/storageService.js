@@ -4,7 +4,6 @@ import * as localRidesRepository from "./localStorage/localRidesRepository";
 import BackgroundTimer from 'react-native-background-timer';
 
 export const sync = () => {
-    return (dispatch, getState) => {
         BackgroundTimer.setTimeout(()=>{
             let syncDate = moment();
             // let newRides = ridesRepository.findAllWithSyncDateGtThan(syncDate)
@@ -31,7 +30,7 @@ export const sync = () => {
                     return rides;
                 })
 
-            //localGlobalStatsRepository.updateTotalDistance(totalDistance);
+            //localGlobalStatsRepository.addToTotalDistanceAndSave(totalDistance);
 
             //if(newRides || removedRides || ridesToPush){
             //    localSyncInfoRepository.updateSyncInfo(syncDate);
@@ -39,6 +38,4 @@ export const sync = () => {
             //    localSyncInfoRepository.updateSyncInfoCheckDate(syncDate);
             //}
         },3000);
-
-    }
 }

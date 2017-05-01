@@ -110,7 +110,7 @@ export const clearWatchGps = () => {
 
 export const updateTotalDistance = (rideDistance) =>{
     return (dispatch)=>{
-        localStorageService.updateTotalDistance(rideDistance)
+        localStorageService.addToTotalDistanceAndSave(rideDistance)
             .then((totalDistance) =>{
                 dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
             });

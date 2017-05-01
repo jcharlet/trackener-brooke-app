@@ -1,4 +1,5 @@
 import {LOGIN_ERROR, LOGIN_SUCCESS} from "../../../actions/actionTypes";
+import {checksum} from "../../../util/utils";
 const initialState = {
     username: '',
     password: '',
@@ -32,19 +33,3 @@ export function displayFeedback(state, feedback) {
         feedback: feedback
     }
 }
-
-const checksum = function(s) {
-    let hash = 0,
-        strlen = s.length,
-        i,
-        c;
-    if ( strlen === 0 ) {
-        return hash;
-    }
-    for ( i = 0; i < strlen; i++ ) {
-        c = s.charCodeAt( i );
-        hash  = ((hash << 5) - hash) + c;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
-};

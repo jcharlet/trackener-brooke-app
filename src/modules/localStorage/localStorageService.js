@@ -51,13 +51,16 @@ export const loadTotalDistance = () => {
     })
 };
 
-export const updateTotalDistance = (rideDistance) => {
+export const addToTotalDistanceAndSave = (rideDistance) => {
     return loadTotalDistance()
         .then((totalDistance) => {
             totalDistance += rideDistance;
             AsyncStorage.setItem('totalDistance', totalDistance.toString());
             return totalDistance;
         })
+};
+export const saveTotalDistance = (totalDistance) => {
+    AsyncStorage.setItem('totalDistance', totalDistance.toString());
 };
 
 export const emptyLocalStorage = () => {

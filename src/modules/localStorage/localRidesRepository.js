@@ -3,11 +3,8 @@ import {
 } from 'react-native';
 import {loadRides} from "./localStorageService";
 
-export const addRides = (rides) => {
-    loadRides()
-        .then((rideArray) => {
-            return AsyncStorage.setItem('rides', JSON.stringify([...rideArray, ...rides]));
-        });
+export const saveRides = (rides) => {
+    return AsyncStorage.setItem('rides', JSON.stringify(rides));
 }
 
 export const findAllUnsynced = (rides) => {
@@ -36,5 +33,4 @@ export const flagAsSynced = () => {
         }).then((rides) => {
         return AsyncStorage.setItem('rides', JSON.stringify(rides));
     });
-
 }
