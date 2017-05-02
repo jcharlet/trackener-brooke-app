@@ -1,4 +1,4 @@
-import {LOGIN_ERROR, LOGIN_SUCCESS} from "../../../actions/actionTypes";
+import {LOGIN_ERROR, LOGIN_SUCCESS, AUTO_LOGIN} from "../../../actions/actionTypes";
 import {checksum} from "../../../util/utils";
 const initialState = {
     username: '',
@@ -10,6 +10,8 @@ const initialState = {
 
 export default (state = initialState, action = {}) => {
     switch (action.type) {
+        case AUTO_LOGIN:
+            return autoLogin(state,action.payload);
         case LOGIN_SUCCESS:
             return updateLoginStateOnSuccess(state);
         case LOGIN_ERROR:
@@ -19,6 +21,13 @@ export default (state = initialState, action = {}) => {
     }
 };
 
+export function autoLogin(state, credentials) {
+    return {
+        ...state,
+        username:credentials.username,
+        password:credentials.password,
+    }
+}
 export function updateLoginStateOnSuccess(state) {
     let deviceId=checksum(state.username);
     return {

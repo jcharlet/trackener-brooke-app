@@ -11,6 +11,7 @@ export const NAV_AUTHENT_LOGIN = 'Login';
 ///////////////////////
 // API actions
 ///////////////////////
+export const AUTO_LOGIN = 'login/AUTO_LOGIN';
 export const LOGIN_SUCCESS = 'login/SUCCESS';
 export const LOGIN_ERROR = 'login/ERROR';
 export const REGISTER_SUCCESS = 'register/SUCCESS';

@@ -25,6 +25,7 @@ export default class LoginScreen extends Component {
 
     constructor(props) {
         super(props);
+        this.props.loginOnStartup();
     }
 
     render() {
@@ -109,6 +110,7 @@ export default class LoginScreen extends Component {
                         }}
                             placeholder='Username'
                             onChangeText={(text) => this.props.login.username=text}
+                            defaultValue={this.props.login.username}
                         />
                         <TextInput
                             style={{
@@ -123,6 +125,7 @@ export default class LoginScreen extends Component {
                             secureTextEntry={true}
                             placeholder='Password'
                             onChangeText={(text) => this.props.login.password=text}
+                            defaultValue={this.props.login.password}
                         />
                         <Text style={{
                                 color:globalStyles.RED,
@@ -173,5 +176,6 @@ export default class LoginScreen extends Component {
 
 LoginScreen.propTypes = {
     Login: PropTypes.any,
+    loginOnStartup: PropTypes.func,
     doLogin: PropTypes.func,
 };

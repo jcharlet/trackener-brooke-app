@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {connect} from "react-redux";
 import LoginScreen from "./LoginScreen";
-import {login} from "./loginActions";
+import {login, loginOnStartup} from "./loginActions";
 
 const mapStateToProps = (state) => {
     return {
@@ -19,6 +19,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        loginOnStartup: () =>{
+            dispatch(loginOnStartup());
+        },
         doLogin: (username:string, password:string) => {
             dispatch(login(username,password));
         },
