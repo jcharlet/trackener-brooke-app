@@ -15,11 +15,12 @@ const initialNavState = {
 };
 
 export default (state = initialNavState, action) => {
+    let nextState = BottomTabNavigator.router.getStateForAction(action, state);
     // if (action.type === 'DetailedSession') {
     //     return BottomTabNavigator.router.getStateForAction(NavigationActions.back(), state);
     // }
-    // if (action.type === 'LiveTrackerContainer') {
-    //     return BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DetailedSession' }), state);
+    // if (action.type === "Navigation/NAVIGATE" && action.routeName==="History") {
+    //     console.log('going to History');
     // }
     // if (action.type === 'HistoryContainer') {
     //     return BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DetailedSession' }), state);
@@ -27,5 +28,7 @@ export default (state = initialNavState, action) => {
     // if (action.type === 'Logout') {
     //     return BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Login'}), state);
     // }
-    return BottomTabNavigator.router.getStateForAction(action, state);
+
+    // Simply return `state` if `nextState` is null or undefined
+    return nextState || state;
 };
