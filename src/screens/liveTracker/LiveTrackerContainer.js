@@ -13,6 +13,7 @@ import {startRide, stopRide, pauseRide, restartRide, watchGPS, clearWatchGps, up
     loadTotalDistance, checkLocationServicesIsEnabled
 } from "./liveTrackerActions";
 import {sync} from "../../modules/storageService";
+import {NAV_NAVIGATE, NAV_HACK_DETAILS} from "../../actions/actionTypes";
 
 
 const mapStateToProps = (state) => {
@@ -34,6 +35,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(updateTotalDistance(distance));
             dispatch(stopRide());
             dispatch(addRide());
+            dispatch({type:NAV_NAVIGATE,routeName:NAV_HACK_DETAILS});
             sync();
         },
         pauseTracking: () => {
