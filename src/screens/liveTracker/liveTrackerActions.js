@@ -1,6 +1,7 @@
 
 import {
-    Platform
+    Platform,
+    DeviceEventEmitter
 } from 'react-native';
 import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
     UPDATE_TOTAL_DISTANCE
@@ -10,6 +11,7 @@ import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../../util/utils'
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
+import { RNLocation as Location } from 'NativeModules'
 import * as totalDistanceRepository from "../../modules/localStorage/totalDistanceRepository";
 import * as localRidesRepository from "../../modules/localStorage/localRidesRepository";
 
@@ -45,33 +47,50 @@ export const checkLocationServicesIsEnabled = () => {
             ok: "YES",
             cancel: "NO"
         })
+    }else{
+      //done by default on iOS
+      Location.requestAlwaysAuthorization();
+      return Promise.resolve();
     }
-    //done by default on iOS
-    return Promise.resolve();
 };
 
 export const watchGPS = (time = GPS_TIME_INTERVAL) => {
     return (dispatch) => {
+        let watchId=null;
+        if(Platform.OS === 'android'){
+          //start the GPS into full time watching. Drains battery but brings best accuracy (required for our needs)
+          watchId = navigator.geolocation.watchPosition((position) => {
+                   // if (global.__DEV__) {
+                   //     console.log(position);
+                   // }
+              }
+              , (error) => {
+                  console.log(error);
+              }
+              , {
+                  enableHighAccuracy: true,
+                  timeout: GPS_TIMEOUT_WATCH,
+                  maximumAge: GPS_MAX_AGE,
+                  distanceFilter: GPS_DISTANCE_FILTER
+              });
+          } else{
+            Location.requestAlwaysAuthorization();
+            Location.startUpdatingLocation();
+            Location.setDistanceFilter(0);
+            //Location.setDesiredAccuracy(distanceInMeters);
 
-        //start the GPS into full time watching. Drains battery but brings best accuracy (required for our needs)
-        let watchId = navigator.geolocation.watchPosition((position) => {
-                // if (global.__DEV__) {
-                //     console.log(position);
-                // }
-            }
-            , (error) => {
-                console.log(error);
-            }
-            , {
-                enableHighAccuracy: true,
-                timeout: GPS_TIMEOUT_WATCH,
-                maximumAge: GPS_MAX_AGE,
-                distanceFilter: GPS_DISTANCE_FILTER
-            });
-
+            var subscription = DeviceEventEmitter.addListener(
+                'locationUpdated',
+                (location) => {
+                }
+            );
+          }
         //check GPS every X milliseconds)
         let intervalId = BackgroundTimer.setInterval(() => {
             navigator.geolocation.getCurrentPosition((geoPosition) => {
+              // if (global.__DEV__) {
+              //     console.log(geoPosition);
+              // }
                     if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY) {
                         let position = createPositionObjectFromGeoPosition(geoPosition);
                         dispatch({type: GPS_UPDATE_LOC, payload: position})
@@ -103,7 +122,11 @@ export const clearWatchGps = () => {
     return (dispatch, getState) => {
         if(getState().liveTracker.ride.geoIds){
             let geoIds = getState().liveTracker.ride.geoIds;
-            navigator.geolocation.clearWatch(geoIds.watchId);
+            if(Platform.OS === 'android'){
+              navigator.geolocation.clearWatch(geoIds.watchId);
+            }else {
+              Location.stopUpdatingLocation();
+            }
             BackgroundTimer.clearInterval(geoIds.intervalId);
         }
     }
@@ -126,7 +149,7 @@ export const addRide = () =>{
             ...ride,
             analytics:{
                 ...ride.analytics,
-                timeSpentByGait
+                timeSpentByGait,
             }
         };
 
@@ -134,28 +157,6 @@ export const addRide = () =>{
         dispatch({type: ADD_RIDE, payload: ride});
     }
 };
-
-function createTimeSpentByGaitAnalytics(positions) {
-    let nbOfMeasures = positions.length;
-
-    let analytics = positions.reduce((reduction,position)=>{
-        let element = reduction.filter(analytics=>analytics["name"]===position.gait)[0];
-        //if(position.duration){
-        reduction[element["index"]]["number"]= reduction[element["index"]]["number"] + 1*100/nbOfMeasures;
-        //}
-        return reduction;
-    }, [
-        {"index":0, "number": 0, "name": GAIT.STOP},
-        {"index":1, "number": 0, "name": GAIT.WALK},
-        {"index":2, "number": 0, "name": GAIT.TROT},
-        {"index":3, "number": 0, "name": GAIT.CANTER},
-    ]);
-
-    return analytics.map((analytic)=>{
-        analytic["number"]=Math.round(analytic["number"]);
-        return analytic
-    })
-}
 
 let createPositionObjectFromGeoPosition = function (position) {
     let speed = undefined;
@@ -187,4 +188,26 @@ function getGaitFromSpeed(speedKmh) {
         gaitType = GAIT.CANTER;
     }
     return gaitType;
+}
+
+function createTimeSpentByGaitAnalytics(positions) {
+    let nbOfMeasures = positions.length;
+
+    let analytics = positions.reduce((reduction,position)=>{
+        let element = reduction.filter(analytics=>analytics["name"]===position.gait)[0];
+        //if(position.duration){
+        reduction[element["index"]]["number"]= reduction[element["index"]]["number"] + 1*100/nbOfMeasures;
+        //}
+        return reduction;
+    }, [
+        {"index":0, "number": 0, "name": GAIT.STOP},
+        {"index":1, "number": 0, "name": GAIT.WALK},
+        {"index":2, "number": 0, "name": GAIT.TROT},
+        {"index":3, "number": 0, "name": GAIT.CANTER},
+    ]);
+
+    return analytics.map((analytic)=>{
+        analytic["number"]=Math.round(analytic["number"]);
+        return analytic
+    })
 }

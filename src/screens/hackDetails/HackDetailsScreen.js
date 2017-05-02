@@ -12,6 +12,7 @@ import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
 import Pie from './chartsComponents/Pie';
 import Theme from "./chartsComponents/theme";
+import HeaderComponent from '../../components/HeaderComponent'
 
 
 export default class HackDetailsScreen extends Component {
@@ -115,27 +116,30 @@ export default class HackDetailsScreen extends Component {
     render() {
         if (this.props.hackDetails.rides && this.props.hackDetails.rides.length > 0) {
             let ride = this.props.hackDetails.rides[this.props.hackDetails.index];
+            let timeSpentByGaitTable = ride.analytics.timeSpentByGait;
+            timeSpentByGaitTable.map((element) => {
+                element.name = utils.capitalizeFirstLetter(element.name);
+                return element;
+            })
+            let distance = utils.roundWithOneDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES);
+            let maxSpeed = utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.maxSpeed));
+            let avgSpeed = utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.avgSpeed));
+            let duration = utils.secondsToHourMinSec(Math.round(ride.analytics.duration));
             return (
-
-                <View
-                    style={{
-
-        flex: 1,
-        alignItems: 'flex-start'
-                    }}
-                >
+                <View style={{flex: 1,alignItems: 'stretch'}}>
+                    <HeaderComponent title={"Ride Details"}/>
                     {this.renderHackBrowserTopBar()}
                     <View style={globalStyles.COMMON_STYLES.container}>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
                             <View
                                 style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
                                 <Text
-                                    style={[globalStyles.COMMON_STYLES.infoBoxText]}>TIME {"\n"} {utils.secondsToHourMinSec(Math.round(ride.analytics.duration))}</Text>
+                                    style={[globalStyles.COMMON_STYLES.infoBoxText]}>Time {"\n"} {duration}</Text>
                             </View>
                             <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
-                                <Text
-                                    style={globalStyles.COMMON_STYLES.infoBoxText}>DISTANCE {"\n"} {utils.roundWithOneDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES)}
-                                    mi</Text>
+                                <Text style={globalStyles.COMMON_STYLES.infoBoxText}>
+                                    Distance {"\n"} {distance} mi
+                                </Text>
                             </View>
 
 
@@ -143,16 +147,15 @@ export default class HackDetailsScreen extends Component {
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
                             <View
                                 style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
-                                <Text
-                                    style={[globalStyles.COMMON_STYLES.infoBoxText]}>MAX SPEED {"\n"}
-                                    {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.maxSpeed))}
-                                    mph</Text>
+                                <Text style={[globalStyles.COMMON_STYLES.infoBoxText]}>
+                                    Max speed {"\n"} {maxSpeed} mph
+                                </Text>
                             </View>
                             <View style={[globalStyles.COMMON_STYLES.infoBoxView]}>
                                 <Text
-                                    style={[globalStyles.COMMON_STYLES.infoBoxText]}>AVG SPEED {"\n"}
-                                    {utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.avgSpeed))}
-                                    mph</Text>
+                                    style={[globalStyles.COMMON_STYLES.infoBoxText]}>Avg speed {"\n"}
+                                    {avgSpeed} mph
+                                </Text>
                             </View>
                         </View>
 
@@ -162,9 +165,9 @@ export default class HackDetailsScreen extends Component {
                                 pieHeight={130}
                                 onItemSelected={this._onPieItemSelected}
                                 colors={Theme.colors}
-                                width={200}
+                                width={190}
                                 height={170}
-                                data={ride.analytics.timeSpentByGait} />
+                                data={timeSpentByGaitTable}/>
                         </View>
 
                         <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
@@ -181,6 +184,8 @@ export default class HackDetailsScreen extends Component {
             );
         }
         return (
+        <View style={{flex: 1,alignItems: 'stretch'}}>
+            <HeaderComponent title={"Ride Details"}/>
             <View style={[globalStyles.COMMON_STYLES.container,{
 
                     flex:1,
@@ -190,17 +195,17 @@ export default class HackDetailsScreen extends Component {
 
             }]}>
                 <Text
-                    style={{
+                    style={[globalStyles.COMMON_STYLES.fontSizeLarge,{
                     textAlign:"center",
-        fontSize: 20,
         padding: 20,
         color: globalStyles.GREEN,
         //borderStyle: 'solid',
         //borderColor: 'red',
         //borderWidth: 1
-                }}
+      }]}
                 >No hack recorded</Text>
             </View>
+        </View>
         );
     }
 }

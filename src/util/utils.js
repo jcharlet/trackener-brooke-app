@@ -35,13 +35,26 @@ export const secondsToMin = (input) => {
 
 export const formatDateToDisplay = (dateTime) =>{
     if (moment(dateTime).format("YYYY MM DD") == moment().format("YYYY MM DD")) {
-        return "TODAY"
+        return "Today"
     }
     return moment(dateTime).format("MMMM Do");
 }
 export const formatTimeToDisplay = (dateTime) => {
     return moment(dateTime).format("HH:mm");
 }
+
+export const capitalizeFirstLetter = (string: String) => {
+    return string.toLowerCase().charAt(0).toUpperCase() + string.slice(1);
+}
+
+export const wait=(mseconds)=>{
+  var start = new Date().getTime();
+  var end = start;
+  while(end<start + mseconds){
+    end = new Date().getTime();
+  }
+}
+
 
 export const checksum = function(s) {
     let hash = 0,

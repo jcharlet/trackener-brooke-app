@@ -12,6 +12,7 @@ import * as globalStyles from '../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
 import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
+import HeaderComponent from '../../components/HeaderComponent'
 
 
 export default class HistoryScreen extends Component {
@@ -35,11 +36,12 @@ export default class HistoryScreen extends Component {
     }
 
     _navigate(index) {
-        this.props.navigation.navigate(NAV_HACK_DETAILS, {index:index});
+        this.props.navigation.navigate(NAV_HACK_DETAILS, {index: index});
     }
 
     renderRow(rowData, ...rest) {
-        const index = parseInt(rest[1], 10);
+        let index = parseInt(rest[1], 10);
+        index = this.props.history.rides.length-index-1;
         return (
             <TouchableOpacity style={{
                 flex:1,
@@ -60,15 +62,12 @@ export default class HistoryScreen extends Component {
         justifyContent: 'space-between',
         marginRight:20,
             }}>
-                    <Text style={{
-                        fontSize:16,
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal,{
                         alignSelf:'center',
-                    }}>{utils.formatDateToDisplay(rowData.date)}</Text>
-                    <Text style={{
-                        fontSize:12,
-                        alignSelf:'center',
-
-                    }}>{utils.formatTimeToDisplay(rowData.date)}</Text>
+                    }]}>{utils.formatDateToDisplay(rowData.date)}</Text>
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeSmall,{
+                        alignSelf:'flex-end',
+                    }]}>{utils.formatTimeToDisplay(rowData.date)}</Text>
                 </View>
 
                 <View style={{
@@ -77,15 +76,16 @@ export default class HistoryScreen extends Component {
         justifyContent: 'space-between',
             }}>
                     <Image source={require('../../../img/ic_timer_purple.png')} style={{
-                        width:22,height:22,
+                        width:22,height:30,
+                            alignSelf: 'center',
+                            resizeMode:'contain' ,
                     }}/>
 
-                    <Text style={{
-                        fontSize:16,
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal,{
                         alignSelf:'center',
                     flex:1,
         textAlign: 'center',
-            }}>{utils.secondsToMin(rowData.duration)} min</Text>
+      }]}>{utils.secondsToMin(rowData.duration)} min</Text>
                 </View>
 
                 <View style={{
@@ -93,13 +93,15 @@ export default class HistoryScreen extends Component {
                     flexDirection:'row',
         justifyContent: 'flex-start',
             }}>
-                    <Image source={require('../../../img/distance_blue.png')} style={{width:25,height:25}}/>
-                    <Text style={{
-                        fontSize:16,
+                    <Image source={require('../../../img/distance_blue.png')}
+                    style={{width:25,height:30,
+                    resizeMode:'contain' ,
+                        alignSelf: 'center',}}/>
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal,{
                         alignSelf:'center',
                     flex:1,
         textAlign: 'center',
-            }}>{utils.roundWithOneDecimals(rowData.distance * utils.ONE_METER_IN_MILES)} mi</Text>
+      }]}>{utils.roundWithOneDecimals(rowData.distance * utils.ONE_METER_IN_MILES)} mi</Text>
                 </View>
                 <View><Image source={require('../../../img/ic_navigate_next_green.png')}
                              style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
@@ -111,25 +113,30 @@ export default class HistoryScreen extends Component {
     }
 
     render() {
-        if (this.props.history.rides &&  this.props.history.rides.length > 0){
+        if (this.props.history.rides && this.props.history.rides.length > 0) {
             return (
-                <View style={[globalStyles.COMMON_STYLES.container,{
-        alignItems: 'stretch',
-                    flex:1,
-                marginTop:5,
-                marginBottom:5,
-        //justifyContent: 'space-between',
-        //flexDirection: 'column',
-            }]}>
 
-                    <ListView
-                        enableEmptySections
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderRow.bind(this)}
-                    />
-                </View>);
+                <View style={{flex: 1,alignItems: 'stretch',}}>
+                    <HeaderComponent title={"History"}/>
+                    <View style={[globalStyles.COMMON_STYLES.container,{
+                        alignItems: 'stretch',
+                        flex:1,
+                        marginTop:5,
+                        marginBottom:5,
+                        }]}>
+
+                        <ListView
+                            enableEmptySections
+                            dataSource={this.state.dataSource}
+                            renderRow={this.renderRow.bind(this)}
+                        />
+                    </View>
+                </View>
+            );
         }
         return (
+        <View style={{flex: 1,alignItems: 'stretch',}}>
+            <HeaderComponent title={"History"}/>
             <View style={[globalStyles.COMMON_STYLES.container,{
 
                     flex:1,
@@ -139,17 +146,17 @@ export default class HistoryScreen extends Component {
 
             }]}>
                 <Text
-                    style={{
+                    style={[globalStyles.COMMON_STYLES.fontSizeLarge,{
                     textAlign:"center",
-        fontSize: 20,
         padding: 20,
         color: globalStyles.GREEN,
         //borderStyle: 'solid',
         //borderColor: 'red',
         //borderWidth: 1
-                }}
+      }]}
                 >No hack recorded</Text>
             </View>
+        </View>
         );
     }
 

@@ -12,6 +12,7 @@ import HackDetailsScreen from "./HackDetailsScreen";
 import {connect} from "react-redux";
 import {loadRides, showPreviousRide, showNextRide, removeRide} from "./hackDetailsActions";
 import {updateTotalDistance} from "../liveTracker/liveTrackerActions";
+import {wait} from "../../util/utils.js";
 
 const mapStateToProps = (state) => {
     return {
@@ -36,6 +37,7 @@ const mapDispatchToProps = (dispatch) => {
         remove: (date:number, distance:number) => {
             dispatch(removeRide(date))
             dispatch(updateTotalDistance(-distance));
+            wait(500);
         },
     }
 };
@@ -54,4 +56,3 @@ const HackDetailsContainer = connect(
 )(HackDetailsScreen);
 
 export default HackDetailsContainer
-

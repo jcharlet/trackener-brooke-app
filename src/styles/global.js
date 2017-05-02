@@ -2,7 +2,7 @@ import {
     StyleSheet,
     Platform,
 } from 'react-native';
-
+import {createStyles, maxHeight } from 'react-native-media-queries'
 export const ACTIVE_OPACITY = 0.6;
 
 export const RED = '#e54242';
@@ -10,7 +10,18 @@ export const GREEN = '#619b64';
 export const WHITE = 'white';
 export const GRAY = '#d9d9d9';
 
-export const COMMON_STYLES = StyleSheet.create({
+
+const base ={
+    fontSizeLarge:{
+      fontSize:20
+    },
+    fontSizeNormal:{
+      fontSize:16
+    },
+    fontSizeSmall:{
+      fontSize:12
+    },
+
     main: {
         flex: 1,
         backgroundColor: WHITE,
@@ -29,7 +40,7 @@ export const COMMON_STYLES = StyleSheet.create({
     },
     headerImageView: {
         height: 50,
-        width: 50
+        width: 90
     },
     verticallyAligned: {
         flex: 1,
@@ -38,7 +49,7 @@ export const COMMON_STYLES = StyleSheet.create({
         alignItems: 'center',
     },
     headerImage: {
-        width: 32, height: 32, backgroundColor: GREEN,
+        width: 62, height: 32, backgroundColor: GREEN,
     },
 
     headerView: {
@@ -47,9 +58,10 @@ export const COMMON_STYLES = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+
     headerText: {
         color: WHITE,
-        fontSize: 25,
+          fontSize: 25,
     },
 
 
@@ -75,9 +87,9 @@ export const COMMON_STYLES = StyleSheet.create({
         padding: 10,
         color: GREEN,
         alignItems: 'center',
-        flexGrow: 3,
+        flexGrow: 2,
         textAlign: 'center',
-        paddingLeft: 30,
+        paddingLeft: 10,
     },
     infoBoxView: {
         padding: 10,
@@ -97,11 +109,16 @@ export const COMMON_STYLES = StyleSheet.create({
         borderStyle: 'solid',
         borderRightWidth: 1,
     },
+    infoBoxArrowTracker: {
+        alignSelf: 'center',
+        width: 40,
+        height: 40,
+    },
+
     infoBoxArrow: {
         alignSelf: 'center',
-        flexGrow: 2,
-        width: 30,
-        height: 30
+        width: 15,
+        height: 30,
     },
 
     startRideButton: {
@@ -227,6 +244,46 @@ export const COMMON_STYLES = StyleSheet.create({
         borderStyle: 'solid',
         borderColor: 'red',
         borderWidth: 1,
+    },
+
+    footerLabel : {
+          margin: 4,
+          marginBottom: 0,
+          fontSize: 12,
+    },
+    footerImage: {
+        width: 24,
+        height: 24,
+        resizeMode:'contain' ,
+    },
+    footerStyle:{
+        backgroundColor: GREEN,
+        paddingBottom: 0,
+    },
+    footerIndicatorStyle:{
+        backgroundColor: WHITE,
+        height: 4,
     }
 
-});
+};
+
+
+export const COMMON_STYLES = createStyles(
+  base,
+  //iphone 5s
+  maxHeight(650,{
+    headerText:{
+      fontSize:20
+    },
+    fontSizeLarge:{
+      fontSize:18
+    },
+    fontSizeNormal:{
+      fontSize:14
+    },
+    fontSizeSmall:{
+      fontSize:10
+    },
+  }),
+  // iphone 6
+)

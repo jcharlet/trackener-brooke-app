@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry, View} from 'react-native';
-import * as globalStyles from './styles/global';
+import {AppRegistry,View, AsyncStorage} from 'react-native';
 import {
     Provider,
 } from 'react-redux';
