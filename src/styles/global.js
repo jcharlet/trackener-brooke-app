@@ -49,7 +49,10 @@ const base ={
         alignItems: 'center',
     },
     headerImage: {
-        width: 62, height: 32, backgroundColor: GREEN,
+        width: 62,
+        height: 32,
+        backgroundColor: GREEN,
+        resizeMode:'contain' ,
     },
 
     headerView: {

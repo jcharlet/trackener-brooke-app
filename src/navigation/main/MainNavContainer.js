@@ -5,7 +5,7 @@ import React from 'react'
 
 // Navigation
 import {addNavigationHelpers} from 'react-navigation'
-import {MainNavigator} from './MainNavConfiguration'
+import {MainNavNavigator} from "./MainNavConfiguration"
 
 //Redux
 import {connect} from 'react-redux'
@@ -21,7 +21,7 @@ class MainNavComponent extends React.Component {
     render() {
         const {dispatch, navigationState} = this.props
         return (
-            <MainNavigator
+            <MainNavNavigator
                 navigation={
           addNavigationHelpers({
             dispatch: dispatch,

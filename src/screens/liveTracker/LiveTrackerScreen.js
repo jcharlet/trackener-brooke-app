@@ -11,7 +11,7 @@ import * as globalStyles from '../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
 import {STATUS} from "./liveTrackerReducer";
-import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
+import {NAV_HACK_DETAILS, NAV_LIVE_TRACKER} from "../../actions/actionTypes";
 import BackgroundTimer from 'react-native-background-timer';
 import moment from "moment";
 import HeaderComponent from '../../components/HeaderComponent'
@@ -210,7 +210,11 @@ export default class LiveTrackerScreen extends Component {
             case STATUS.STOP:
                 return (
                     <View style={{flex: 1,alignItems: 'flex-start',}}>
-                        <HeaderComponent title={"My Hackathon"} showLeftIcon={true}/>
+                        <HeaderComponent
+                            title={"My Hackathon"}
+                            leftElement={HeaderComponent.leftIconType.TRACKENER_ICON}
+                            rightElement={HeaderComponent.rightIconType.SETTINGS}
+                            navigation={this.props.navigation}/>
                         {this.renderDefaultScreen()}
                     </View>
                 )
@@ -219,7 +223,10 @@ export default class LiveTrackerScreen extends Component {
             case STATUS.START:
                 return (
                     <View style={{flex: 1,alignItems: 'flex-start',}}>
-                        <HeaderComponent title={"Tracker"}/>
+                        <HeaderComponent
+                            title={"Tracker"}
+                            navigation={this.props.navigation}
+                        />
                         {this.renderTrackingStartedScreen()}
                     </View>
                 )

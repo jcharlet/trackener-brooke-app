@@ -13,6 +13,7 @@ import * as utils from "../../util/utils";
 import Pie from './chartsComponents/Pie';
 import Theme from "./chartsComponents/theme";
 import HeaderComponent from '../../components/HeaderComponent'
+import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
 
 
 export default class HackDetailsScreen extends Component {
@@ -127,7 +128,11 @@ export default class HackDetailsScreen extends Component {
             let duration = utils.secondsToHourMinSec(Math.round(ride.analytics.duration));
             return (
                 <View style={{flex: 1,alignItems: 'stretch'}}>
-                    <HeaderComponent title={"Ride Details"}/>
+                    <HeaderComponent
+                        title={"Ride Details"}
+                        navigation={this.props.navigation}
+                        rightElement={HeaderComponent.rightIconType.SETTINGS}
+                    />
                     {this.renderHackBrowserTopBar()}
                     <View style={globalStyles.COMMON_STYLES.container}>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
@@ -185,7 +190,11 @@ export default class HackDetailsScreen extends Component {
         }
         return (
         <View style={{flex: 1,alignItems: 'stretch'}}>
-            <HeaderComponent title={"Ride Details"}/>
+            <HeaderComponent
+                title={"Ride Details"}
+                navigation={this.props.navigation}
+                rightElement={HeaderComponent.rightIconType.SETTINGS}
+            />
             <View style={[globalStyles.COMMON_STYLES.container,{
 
                     flex:1,

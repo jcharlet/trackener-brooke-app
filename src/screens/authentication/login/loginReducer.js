@@ -1,4 +1,4 @@
-import {LOGIN_ERROR, LOGIN_SUCCESS, AUTO_LOGIN} from "../../../actions/actionTypes";
+import {LOGIN_ERROR, LOGIN_SUCCESS, AUTO_LOGIN, LOGOUT} from "../../../actions/actionTypes";
 import {checksum} from "../../../util/utils";
 const initialState = {
     username: '',
@@ -16,6 +16,8 @@ export default (state = initialState, action = {}) => {
             return updateLoginStateOnSuccess(state);
         case LOGIN_ERROR:
             return displayFeedback(state, action.payload);
+        case LOGOUT:
+            return logout(state);
         default:
             return state;
     }
@@ -41,4 +43,8 @@ export function displayFeedback(state, feedback) {
         ...state,
         feedback: feedback
     }
+}
+
+export const logout =() =>{
+    return initialState;
 }

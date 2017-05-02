@@ -3,9 +3,10 @@ import { StackNavigator} from 'react-navigation'
 import BottomTabNavContainer from "../bottomBar/BottomTabNavContainer";
 import LoginContainer from "../../screens/authentication/login/LoginContainer";
 import RegisterContainer from "../../screens/authentication/register/RegisterContainer";
+import SettingsContainer from "../../screens/settings/SettingsContainer";
 
 
-export const MainNavigator = StackNavigator({
+export const MainNavNavigator = StackNavigator({
     Login: {
         screen: LoginContainer,
     },
@@ -15,11 +16,10 @@ export const MainNavigator = StackNavigator({
     BottomTabNavContainer: {
         screen: BottomTabNavContainer,
     },
+    Settings: {
+        screen: SettingsContainer,
+    },
 },{
     headerMode:'none',
 });
 
-
-export const mainNavReducer = (state,action) => {
-        return MainNavigator.router.getStateForAction(action,state)
-}
