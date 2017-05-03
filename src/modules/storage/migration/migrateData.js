@@ -1,7 +1,8 @@
 import * as storageService from "../storageService";
+import * as localRidesRepository from "../localStorage/localRidesRepository";
 
 export const migrate = (deviceId) => {
-    return storageService.loadRidesByDeviceId()
+    return localRidesRepository.loadAllRides()
         .then((rides)=>{
             if(rides.length==0 || rides[0].deviceId){
                 return;
