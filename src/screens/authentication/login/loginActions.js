@@ -1,4 +1,4 @@
-import {LOGIN_SUCCESS, LOGIN_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV, LOAD_RIDES, UPDATE_TOTAL_DISTANCE, AUTO_LOGIN} from "../../../actions/actionTypes";
+import {LOGIN_SUCCESS, LOGIN_ERROR, LOAD_RIDES, UPDATE_TOTAL_DISTANCE, AUTO_LOGIN} from "../../../actions/actionTypes";
 import * as trackenerApiService from "../../../modules/trackenerApi/trackenerApiService";
 import {checksum} from "../../../util/utils";
 import {migrate} from "../../../modules/migration/migrateData";
@@ -63,10 +63,6 @@ const loginSuccess = (dispatch,
         dispatch({
             type: LOGIN_SUCCESS,
             payload: username,
-        });
-        dispatch({
-            type: NAV_NAVIGATE,
-            routeName: NAV_BOTTOM_TAB_NAV,
         });
     });
 };

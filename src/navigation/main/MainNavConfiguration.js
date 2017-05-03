@@ -4,6 +4,7 @@ import BottomTabNavContainer from "../bottomBar/BottomTabNavContainer";
 import LoginContainer from "../../screens/authentication/login/LoginContainer";
 import RegisterContainer from "../../screens/authentication/register/RegisterContainer";
 import SettingsContainer from "../../screens/settings/SettingsContainer";
+import LiveTrackerStartedContainer from "../../screens/liveTracker/LiveTrackerStartedContainer";
 
 
 export const MainNavNavigator = StackNavigator({
@@ -19,6 +20,9 @@ export const MainNavNavigator = StackNavigator({
     Settings: {
         screen: SettingsContainer,
     },
+    LiveTrackerStartedContainer:{
+        screen: LiveTrackerStartedContainer
+    }
 },{
     headerMode:'none',
 });

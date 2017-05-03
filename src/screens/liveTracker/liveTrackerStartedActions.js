@@ -3,14 +3,13 @@ import {
     Platform,
     DeviceEventEmitter
 } from 'react-native';
-import {PAUSE_RIDE, START_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
+import {PAUSE_RIDE, STOP_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH, ADD_RIDE,
     UPDATE_TOTAL_DISTANCE
 } from "../../actions/actionTypes";
 import {GPS_TIME_INTERVAL, GPS_TIMEOUT_WATCH, GPS_MAX_AGE, GPS_DISTANCE_FILTER, GPS_TIMEOUT_GET, GPS_MIN_ACCURACY} from "../../config/config";
 import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../../util/utils'
-import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 import { RNLocation as Location } from 'NativeModules'
 import * as totalDistanceRepository from "../../modules/localStorage/totalDistanceRepository";
 import * as localRidesRepository from "../../modules/localStorage/localRidesRepository";
@@ -19,31 +18,15 @@ import * as localRidesRepository from "../../modules/localStorage/localRidesRepo
 export const SPEED_THRESHOLD = {STOP:1,WALK:7,TROT:13}
 export const GAIT = {STOP:"STOP",WALK:"WALK",TROT:"TROT",CANTER:"CANTER"}
 
-export const startRide = () =>{
-    return (dispatch, getState) =>{
-        dispatch({
-            type: START_RIDE,
-            payload: getState().login.deviceId
-        });
-    }
+export const stopRide = () =>{
+    return {type: STOP_RIDE}
 }
-
-export const checkLocationServicesIsEnabled = () => {
-    if(Platform.OS === 'android'){
-        return LocationServicesDialogBox.checkLocationServicesIsEnabled({
-            message: "<h2>Use Location?</h2> \
-                            This app wants to change your device settings:<br/><br/>\
-                            - Use GPS for location<br/><br/>\
-                            <p>Your location is used to track your position during a ride and get feedback (distance ridden, duration, speed, etc) in real time and afterwards.</p>",
-            ok: "YES",
-            cancel: "NO"
-        })
-    }else{
-      //done by default on iOS
-      Location.requestAlwaysAuthorization();
-      return Promise.resolve();
-    }
-};
+export const pauseRide = () =>{
+    return {type: PAUSE_RIDE}
+}
+export const restartRide = () =>{
+    return {type: RESTART_RIDE}
+}
 
 export const watchGPS = (time = GPS_TIME_INTERVAL) => {
     return (dispatch) => {
@@ -109,12 +92,43 @@ export const watchGPS = (time = GPS_TIME_INTERVAL) => {
 };
 
 
+export const clearWatchGps = () => {
+    return (dispatch, getState) => {
+        if(getState().liveTracker.ride.geoIds){
+            let geoIds = getState().liveTracker.ride.geoIds;
+            if(Platform.OS === 'android'){
+              navigator.geolocation.clearWatch(geoIds.watchId);
+            }else {
+              Location.stopUpdatingLocation();
+            }
+            BackgroundTimer.clearInterval(geoIds.intervalId);
+        }
+    }
+};
+
 export const updateTotalDistance = (rideDistance) =>{
     return (dispatch)=>{
         totalDistanceRepository.addToTotalDistanceAndSave(rideDistance)
             .then((totalDistance) =>{
                 dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
             });
+    }
+};
+
+export const addRide = () =>{
+    return (dispatch,getState)=>{
+        let ride = getState().liveTracker.ride;
+        let timeSpentByGait = createTimeSpentByGaitAnalytics(ride.positions);
+        ride = {
+            ...ride,
+            analytics:{
+                ...ride.analytics,
+                timeSpentByGait,
+            }
+        };
+
+        localRidesRepository.addRide(ride);
+        dispatch({type: ADD_RIDE, payload: ride});
     }
 };
 
@@ -148,4 +162,26 @@ function getGaitFromSpeed(speedKmh) {
         gaitType = GAIT.CANTER;
     }
     return gaitType;
+}
+
+function createTimeSpentByGaitAnalytics(positions) {
+    let nbOfMeasures = positions.length;
+
+    let analytics = positions.reduce((reduction,position)=>{
+        let element = reduction.filter(analytics=>analytics["name"]===position.gait)[0];
+        //if(position.duration){
+        reduction[element["index"]]["number"]= reduction[element["index"]]["number"] + 1*100/nbOfMeasures;
+        //}
+        return reduction;
+    }, [
+        {"index":0, "number": 0, "name": GAIT.STOP},
+        {"index":1, "number": 0, "name": GAIT.WALK},
+        {"index":2, "number": 0, "name": GAIT.TROT},
+        {"index":3, "number": 0, "name": GAIT.CANTER},
+    ]);
+
+    return analytics.map((analytic)=>{
+        analytic["number"]=Math.round(analytic["number"]);
+        return analytic
+    })
 }

@@ -11,7 +11,7 @@ import {
 import * as globalStyles from '../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
-import {NAV_HACK_DETAILS, NAV_HISTORY} from "../../actions/actionTypes";
+import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
 import HeaderComponent from '../../components/HeaderComponent'
 
 
@@ -142,8 +142,8 @@ export default class HistoryScreen extends Component {
         <View style={{flex: 1,alignItems: 'stretch',}}>
             <HeaderComponent
                 title={"History"}
-                navigation={this.props.navigation}
-                rightElement={HeaderComponent.rightIconType.SETTINGS}
+                 navigation={this.props.navigation}
+                 rightElement={HeaderComponent.rightIconType.SETTINGS}
             />
             <View style={[globalStyles.COMMON_STYLES.container,{
 
