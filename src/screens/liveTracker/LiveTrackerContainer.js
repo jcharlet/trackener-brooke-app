@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import LiveTrackerScreen from "./LiveTrackerScreen";
 import {connect} from "react-redux";
-import {startRide, watchGPS,
+import {
+    startRide, watchGPS,
     checkLocationServicesIsEnabled
 } from "./liveTrackerActions";
 
@@ -22,14 +23,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkLocationServicesIsEnabled:()=>{
-          checkLocationServicesIsEnabled();
+        checkLocationServicesIsEnabled: () => {
+            checkLocationServicesIsEnabled();
         },
         startTracking: () => {
-                checkLocationServicesIsEnabled().then(()=>{
-                    dispatch(startRide());
-                    dispatch(watchGPS());
-                })
+            checkLocationServicesIsEnabled().then(() => {
+                dispatch(startRide());
+                dispatch(watchGPS());
+            })
         },
     }
 };
