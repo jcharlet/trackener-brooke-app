@@ -2,7 +2,7 @@ import {LOGIN_SUCCESS, LOGIN_ERROR, LOAD_RIDES, UPDATE_TOTAL_DISTANCE, AUTO_LOGI
 import * as trackenerAuthentApi from "../../../modules/authent/trackenerAuthentApi";
 import {checksum} from "../../../util/utils";
 import {migrate} from "../../../modules/storage/migration/migrateData";
-import * as totalDistanceRepository from "../../../modules/storage/localStorage/totalDistanceRepository";
+import * as userConfigRepository from "../../../modules/storage/localStorage/userConfigRepository";
 import * as localRidesRepository from "../../../modules/storage/localStorage/localRidesRepository";
 import * as credentialsRepository from "../../../modules/storage/localStorage/credentialsRepository";
 
@@ -70,7 +70,7 @@ const loginSuccess = (dispatch,
 export const initStorageFromInitialState = (state) => {
     if(state.hackDetails.rides.length>0){
         localRidesRepository.saveRides(state.hackDetails.rides)
-        totalDistanceRepository.saveTotalDistance(state.liveTracker.totalDistance)
+        userConfigRepository.saveTotalDistance(state.liveTracker.totalDistance)
     }
 };
 export const initApplication = (dispatch) => {
@@ -81,6 +81,6 @@ export const initApplication = (dispatch) => {
         });
         dispatch({
             type: UPDATE_TOTAL_DISTANCE,
-            payload: totalDistanceRepository.loadTotalDistance()
+            payload: userConfigRepository.loadTotalDistance()
         })
 };

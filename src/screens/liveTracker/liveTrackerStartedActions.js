@@ -5,7 +5,7 @@ import {
 import {PAUSE_RIDE, STOP_RIDE, RESTART_RIDE, ADD_RIDE,
     UPDATE_TOTAL_DISTANCE
 } from "../../actions/actionTypes";
-import * as totalDistanceRepository from "../../modules/storage/localStorage/totalDistanceRepository";
+import * as userConfigRepository from "../../modules/storage/localStorage/userConfigRepository";
 import * as localRidesRepository from "../../modules/storage/localStorage/localRidesRepository";
 import * as geolocService from "../../modules/geoloc/geolocService";
 
@@ -30,7 +30,7 @@ export const clearWatchGps = () => {
 
 export const updateTotalDistance = (rideDistance) =>{
     return (dispatch)=>{
-        totalDistanceRepository.addToTotalDistanceAndSave(rideDistance)
+        userConfigRepository.addToTotalDistanceAndSave(rideDistance)
             .then((totalDistance) =>{
                 dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
             });

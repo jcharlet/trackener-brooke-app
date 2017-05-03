@@ -7,7 +7,7 @@ import {
     UPDATE_TOTAL_DISTANCE
 } from "../../actions/actionTypes";
 import moment from "moment";
-import * as totalDistanceRepository from "../../modules/storage/localStorage/totalDistanceRepository";
+import * as userConfigRepository from "../../modules/storage/localStorage/userConfigRepository";
 import * as geolocService from "../../modules/geoloc/geolocService";
 
 
@@ -53,7 +53,7 @@ export const watchGPS = () => {
 
 export const updateTotalDistance = (rideDistance) => {
     return (dispatch) => {
-        totalDistanceRepository.addToTotalDistanceAndSave(rideDistance)
+        userConfigRepository.addToTotalDistanceAndSave(rideDistance)
             .then((totalDistance) => {
                 dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
             });

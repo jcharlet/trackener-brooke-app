@@ -2,9 +2,40 @@ import {
     AsyncStorage
 } from 'react-native';
 
+export const RIDES_COLL='rides';
+export const DEVICE_ID = 'g';
+
 export const saveRides = (rides) => {
-    return AsyncStorage.setItem('rides', JSON.stringify(rides));
+    return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(rides));
 }
+
+export const loadAllRides = () => {
+    return AsyncStorage.getItem(RIDES_COLL)
+        .then((rides) => {
+            if (rides) {
+                return JSON.parse(rides);
+            }
+            return [];
+        });
+};
+
+export const loadRides = () => {
+    return loadAllRides()
+        .then((rides) => {
+            return rides.map(ride => {
+                if (ride.deviceId==DEVICE_ID) {
+                    return ride
+                }
+            })
+        }).then((rides)=>{
+            return rides.filter(function(e){return e});
+        }).then((rides)=>{
+            if(rides.length>0){
+                return rides
+            }
+            return [];
+        })
+};
 
 export const findAllUnsynced = (rides) => {
     return loadRides()
@@ -16,9 +47,10 @@ export const findAllUnsynced = (rides) => {
                 }
             })
         }).then((rides)=>{
-            let nonEmptyRides = rides.filter(function(e){return e});
-            console.log('found ' + nonEmptyRides.length + ' unsynced ride(s)');
-            return nonEmptyRides;
+            return rides.filter(function(e){return e});
+        }).then((rides)=>{
+            console.log('found ' + rides.length + ' unsynced ride(s)');
+            return rides;
         })
 }
 
@@ -30,24 +62,15 @@ export const flagAsSynced = () => {
                 return ride;
             })
         }).then((rides) => {
-        return AsyncStorage.setItem('rides', JSON.stringify(rides));
+        return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(rides));
     });
 }
 
-export const loadRides = () => {
-    return AsyncStorage.getItem('rides')
-        .then((rides) => {
-            if (rides) {
-                return JSON.parse(rides);
-            }
-            return [];
-        });
-};
 
 export const addRide = (ride) => {
     loadRides()
         .then((rideArray) => {
-            return AsyncStorage.setItem('rides', JSON.stringify([...rideArray, ride]));
+            return AsyncStorage.setItem(RIDES_COLL, JSON.stringify([...rideArray, ride]));
         });
 }
 
@@ -57,7 +80,7 @@ export const removeRide = (date: string) => {
             let newRideArray = rideArray.filter(function (item) {
                 return item.date !== date;
             });
-            return AsyncStorage.setItem('rides', JSON.stringify(newRideArray));
+            return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(newRideArray));
         });
 }
 

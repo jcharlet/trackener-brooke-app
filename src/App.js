@@ -5,8 +5,7 @@ import {
 } from 'react-redux';
 import createStore from "./store";
 import MainNavContainer from "./navigation/main/MainNavContainer";
-import * as localRidesRepository from "./modules/storage/localStorage/localRidesRepository";
-import * as totalDistanceRepository from "./modules/storage/localStorage/totalDistanceRepository";
+import * as storageService from "./modules/storage/storageService";
 
 
 export default class App extends Component {
@@ -14,9 +13,8 @@ export default class App extends Component {
 
     constructor(props) {
         super(props);
-        // localRidesRepository.saveRides([]);
-        // totalDistanceRepository.saveTotalDistance(0);
         // storageService.sync();
+        // storageService.emptyStorage();
     }
 
     render() {

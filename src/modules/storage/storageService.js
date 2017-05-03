@@ -2,6 +2,7 @@ import moment from "moment";
 import * as ridesRepository from "./trackenerApi/ridesRepository";
 import * as localRidesRepository from "./localStorage/localRidesRepository";
 import BackgroundTimer from 'react-native-background-timer';
+import * as userConfigRepository from "./localStorage/userConfigRepository";
 
 export const sync = () => {
         BackgroundTimer.setTimeout(()=>{
@@ -38,4 +39,9 @@ export const sync = () => {
             //    localSyncInfoRepository.updateSyncInfoCheckDate(syncDate);
             //}
         },3000);
+}
+
+export const emptyStorage = () => {
+    localRidesRepository.saveRides([]);
+    userConfigRepository.emptyUserConfigs();
 }
