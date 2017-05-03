@@ -1,6 +1,6 @@
 import {LOGOUT} from "../../actions/actionTypes";
-import * as userRepository from "../../modules/localStorage/userRepository";
+import * as credentialsRepository from "../../modules/localStorage/credentialsRepository";
 export const logout = () =>{
-    userRepository.resetCredentials();
+    credentialsRepository.resetCredentials();
     return {type: LOGOUT}
 }
