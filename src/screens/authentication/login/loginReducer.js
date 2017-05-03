@@ -17,7 +17,7 @@ export default (state = initialState, action = {}) => {
         case LOGIN_ERROR:
             return displayFeedback(state, action.payload);
         case LOGOUT:
-            return logout(state);
+            return initState(state);
         default:
             return state;
     }
@@ -45,6 +45,11 @@ export function displayFeedback(state, feedback) {
     }
 }
 
-export const logout =() =>{
-    return initialState;
+export const initState =() =>{
+    return {
+        username: '',
+        password: '',
+        feedback: '',
+        deviceId: '',
+    };
 }
