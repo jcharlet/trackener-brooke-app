@@ -3,14 +3,12 @@
 ///////////////////////
 export const NAV_NAVIGATE = 'Navigation/NAVIGATE';
 export const NAV_HACK_DETAILS = 'HackDetails';
-export const NAV_LIVE_TRACKER = 'LiveTracker';
-export const NAV_HISTORY = 'History';
 export const NAV_SETTINGS = 'Settings';
 export const NAV_BOTTOM_TAB_NAV = 'BottomTabNavContainer';
 export const NAV_AUTHENT_REGISTER = 'Register';
 export const NAV_AUTHENT_LOGIN = 'Login';
 export const NAV_TRACKER_STARTED = 'LiveTrackerStartedContainer';
-export const NAV_TRACKER = 'LiveTrackerContainer';
+export const NAV_TRACKER = 'LiveTracker';
 
 
 ///////////////////////

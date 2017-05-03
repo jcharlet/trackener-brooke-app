@@ -22,6 +22,7 @@ export default (state = initialState, action = {}) => {
         case REMOVE_HACK:
             return removeHack(state, action.payload);
         case NAV_NAVIGATE:
+            //FIXME better to use nav routing to show correct hack details
             if(action.routeName==NAV_HACK_DETAILS){
                 return showRide(state, action.params);
             }
