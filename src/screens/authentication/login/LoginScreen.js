@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
-import * as utils from "../../../util/utils";
 import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNAVAILABLE} from "./loginActions";
 import {NAV_AUTHENT_REGISTER} from "../../../actions/actionTypes";
 export default class LoginScreen extends Component {
@@ -28,23 +27,13 @@ export default class LoginScreen extends Component {
         this.props.loginOnStartup();
     }
 
+
     render() {
-        switch (this.props.login.feedback){
-            case ERROR_UNKNOWN:
-                this.state.feedback="An error occurred"
-                break;
-            case ERROR_SERVER:
-                this.state.feedback="An error occurred"
-                break;
-            case ERROR_FORBIDDEN:
-                this.state.feedback="Incorrect username/password"
-                break;
-            case ERROR_UNAVAILABLE:
-                this.state.feedback="Service is unavailable"
-                break;
-            default:
-                this.state.feedback='';
-        }
+        let feedback = this.getFeedbackToDisplay();
+        this.state ={
+            feedback:feedback,
+        };
+
         const Dimensions = require('Dimensions');
         const window = Dimensions.get('window');
         return (
@@ -172,6 +161,22 @@ export default class LoginScreen extends Component {
             </Image>
         );
     }
+
+    getFeedbackToDisplay() {
+        switch (this.props.login.feedback) {
+            case ERROR_UNKNOWN:
+                return "An error occurred"
+            case ERROR_SERVER:
+                return "An error occurred"
+            case ERROR_FORBIDDEN:
+                return "Incorrect username/password"
+            case ERROR_UNAVAILABLE:
+                return "Service is unavailable"
+            default:
+                return '';
+        }
+    }
+
 }
 
 LoginScreen.propTypes = {

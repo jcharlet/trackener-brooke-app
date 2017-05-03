@@ -25,7 +25,8 @@ export const loginOnStartup = () => {
             }
         })
     }
-}
+};
+
 export const login = (username: string, password: string) => {
     return (dispatch, getState) => {
         trackenerApiService.login(username, password)
@@ -42,14 +43,14 @@ export const login = (username: string, password: string) => {
                 }
             });
     }
-}
+};
 
 const loginError = (dispatch, errorType) => {
     dispatch({
         type: LOGIN_ERROR,
         payload: errorType,
     });
-}
+};
 const loginSuccess = (dispatch,
                         getState,
                       // loginResponse,
@@ -61,26 +62,27 @@ const loginSuccess = (dispatch,
         initApplication(dispatch);
         dispatch({
             type: LOGIN_SUCCESS,
+            payload: username,
         });
         dispatch({
             type: NAV_NAVIGATE,
             routeName: NAV_BOTTOM_TAB_NAV,
         });
     });
-}
+};
 
 export const initStorageFromInitialState = (state) => {
     if(state.hackDetails.rides.length>0){
         localRidesRepository.saveRides(state.hackDetails.rides)
         totalDistanceRepository.saveTotalDistance(state.liveTracker.totalDistance)
     }
-}
+};
 export const initApplication = (dispatch) => {
 
         dispatch({
             type: LOAD_RIDES,
             payload: localRidesRepository.loadRides()
-        })
+        });
         dispatch({
             type: UPDATE_TOTAL_DISTANCE,
             payload: totalDistanceRepository.loadTotalDistance()

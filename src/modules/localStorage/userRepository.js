@@ -1,10 +1,10 @@
 import * as Keychain from 'react-native-keychain';
 
-const server="trackenerApi";
+const SERVER="trackenerApi";
 
 export const saveCredentials= (username, password) =>{
     Keychain
-        .setInternetCredentials(server, username, password)
+        .setInternetCredentials(SERVER, username, password)
         .then(function() {
             console.log('Credentials saved successfully!');
         });
@@ -12,7 +12,7 @@ export const saveCredentials= (username, password) =>{
 
 export const getCredentials= () => {
     return Keychain
-        .getInternetCredentials(server)
+        .getInternetCredentials(SERVER)
         .then((credentials) =>{
             if (credentials) {
                 console.log('Credentials successfully loaded for user ' + credentials.username);
@@ -23,7 +23,7 @@ export const getCredentials= () => {
 
 export const resetCredentials= () => {
     Keychain
-        .resetInternetCredentials(server)
+        .resetInternetCredentials(SERVER)
         .then(function () {
             console.log('Credentials successfully deleted');
         });

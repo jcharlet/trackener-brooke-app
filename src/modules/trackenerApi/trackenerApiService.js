@@ -27,13 +27,11 @@ export const register = (email: string, username: string, password: string) => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
                 } else if (response.status == 500) {
-                    console.error(response);
                     return {
                         type: REGISTER_ERROR,
                         errorType: ERROR_SERVER,
                     }
                 } else {
-                    console.error(response);
                     return {
                         type: REGISTER_ERROR,
                         errorType: ERROR_UNKNOWN,
@@ -84,22 +82,25 @@ export const login = (username: string, password: string) => {
     )
         .then((response) => {
                 if (response.status >= 200 && response.status < 300) {
+                    console.log('api/login success');
                     return {
                         type: LOGIN_SUCCESS,
+                        payload:username,
                     }
                 } else if (response.status == 403) {
+                    console.log('api/login 403 forbidden');
                     return {
                         type: LOGIN_ERROR,
                         errorType: ERROR_FORBIDDEN,
                     }
                 } else if (response.status == 500) {
-                    console.error(response);
+                    console.error('api/login ERROR 500 ' + response);
                     return {
                         type: LOGIN_ERROR,
                         errorType: ERROR_SERVER,
                     }
                 } else {
-                    console.error(response);
+                    console.error('api/login ERROR ' + response);
                     return {
                         type: LOGIN_ERROR,
                         errorType: ERROR_UNKNOWN,
@@ -108,7 +109,7 @@ export const login = (username: string, password: string) => {
             }
         )
         .catch((error) => {
-            console.error(error);
+            console.error('api/login ERROR ' + error.message);
             if (error.message == "Network request failed") {
                 return {
                     type: LOGIN_ERROR,

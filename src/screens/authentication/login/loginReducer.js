@@ -13,7 +13,7 @@ export default (state = initialState, action = {}) => {
         case AUTO_LOGIN:
             return autoLogin(state,action.payload);
         case LOGIN_SUCCESS:
-            return updateLoginStateOnSuccess(state);
+            return updateLoginStateOnSuccess(state, action.payload);
         case LOGIN_ERROR:
             return displayFeedback(state, action.payload);
         case LOGOUT:
@@ -30,8 +30,8 @@ export function autoLogin(state, credentials) {
         password:credentials.password,
     }
 }
-export function updateLoginStateOnSuccess(state) {
-    let deviceId=checksum(state.username);
+export function updateLoginStateOnSuccess(state, username) {
+    let deviceId=checksum(username);
     return {
         ...state,
         deviceId:deviceId,
