@@ -5,9 +5,9 @@ import {
 import {PAUSE_RIDE, STOP_RIDE, RESTART_RIDE, ADD_RIDE,
     UPDATE_TOTAL_DISTANCE
 } from "../../actions/actionTypes";
-import * as totalDistanceRepository from "../../modules/localStorage/totalDistanceRepository";
-import * as localRidesRepository from "../../modules/localStorage/localRidesRepository";
-import * as geolocService from "../../modules/geolocService";
+import * as totalDistanceRepository from "../../modules/storage/localStorage/totalDistanceRepository";
+import * as localRidesRepository from "../../modules/storage/localStorage/localRidesRepository";
+import * as geolocService from "../../modules/geoloc/geolocService";
 
 export const stopRide = () =>{
     return {type: STOP_RIDE}

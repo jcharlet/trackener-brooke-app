@@ -1,6 +1,6 @@
-import {TRACKENER_API} from "../../config/config";
-import {ERROR_UNKNOWN} from "../../screens/authentication/login/loginActions";
-import {RIDES_POST_SUCCESS, RIDES_POST_ERROR} from "../../actions/actionTypes";
+import {TRACKENER_API} from "../../../config/config";
+import {ERROR_UNKNOWN} from "../../../screens/authentication/login/loginActions";
+import {RIDES_POST_SUCCESS, RIDES_POST_ERROR} from "../../../actions/actionTypes";
 export const findAllWithSyncDateGtThan = () => {
 
 }

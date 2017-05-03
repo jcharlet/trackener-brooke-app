@@ -1,10 +1,10 @@
 import {LOGIN_SUCCESS, LOGIN_ERROR, LOAD_RIDES, UPDATE_TOTAL_DISTANCE, AUTO_LOGIN} from "../../../actions/actionTypes";
-import * as trackenerAuthentApi from "../../../modules/trackenerApi/trackenerAuthentApi";
+import * as trackenerAuthentApi from "../../../modules/authent/trackenerAuthentApi";
 import {checksum} from "../../../util/utils";
-import {migrate} from "../../../modules/migration/migrateData";
-import * as totalDistanceRepository from "../../../modules/localStorage/totalDistanceRepository";
-import * as localRidesRepository from "../../../modules/localStorage/localRidesRepository";
-import * as credentialsRepository from "../../../modules/localStorage/credentialsRepository";
+import {migrate} from "../../../modules/storage/migration/migrateData";
+import * as totalDistanceRepository from "../../../modules/storage/localStorage/totalDistanceRepository";
+import * as localRidesRepository from "../../../modules/storage/localStorage/localRidesRepository";
+import * as credentialsRepository from "../../../modules/storage/localStorage/credentialsRepository";
 
 //FIXME JC to move in actionTypes in a enum object
 export const ERROR_FORBIDDEN = 'FORBIDDEN';

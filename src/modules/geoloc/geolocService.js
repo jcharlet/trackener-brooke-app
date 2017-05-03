@@ -6,10 +6,10 @@ import {
     GPS_DISTANCE_FILTER,
     GPS_TIMEOUT_GET,
     GPS_MIN_ACCURACY
-} from "../config/config";
+} from "../../config/config";
 import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
-import * as utils from '../util/utils'
+import * as utils from '../../util/utils'
 import { RNLocation as Location } from 'NativeModules'
 
 import {

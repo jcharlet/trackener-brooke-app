@@ -10,7 +10,7 @@ import {
 import {connect} from "react-redux";
 import {stopRide, pauseRide, restartRide, clearWatchGps, updateTotalDistance, addRide
 } from "./liveTrackerStartedActions";
-import {sync} from "../../modules/storageService";
+import {sync} from "../../modules/storage/storageService";
 import LiveTrackerStartedScreen from "./LiveTrackerStartedScreen";
 import {watchGPS} from "./liveTrackerActions";
 

@@ -1,5 +1,5 @@
 import {REGISTER_SUCCESS, REGISTER_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV} from "../../../actions/actionTypes";
-import * as trackenerAuthentApi from "../../../modules/trackenerApi/trackenerAuthentApi";
+import * as trackenerAuthentApi from "../../../modules/authent/trackenerAuthentApi";
 
 //FIXME JC to move in actionTypes in a enum object
 export const ERROR_PASSWORD_MISMATCH = 'ERROR_PASSWORD_MISMATCH';

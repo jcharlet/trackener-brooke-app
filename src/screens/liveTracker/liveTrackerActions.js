@@ -7,8 +7,8 @@ import {
     UPDATE_TOTAL_DISTANCE
 } from "../../actions/actionTypes";
 import moment from "moment";
-import * as totalDistanceRepository from "../../modules/localStorage/totalDistanceRepository";
-import * as geolocService from "../../modules/geolocService";
+import * as totalDistanceRepository from "../../modules/storage/localStorage/totalDistanceRepository";
+import * as geolocService from "../../modules/geoloc/geolocService";
 
 
 export const startRide = () => {

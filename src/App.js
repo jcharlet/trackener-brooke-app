@@ -5,8 +5,8 @@ import {
 } from 'react-redux';
 import createStore from "./store";
 import MainNavContainer from "./navigation/main/MainNavContainer";
-import * as localRidesRepository from "./modules/localStorage/localRidesRepository";
-import * as totalDistanceRepository from "./modules/localStorage/totalDistanceRepository";
+import * as localRidesRepository from "./modules/storage/localStorage/localRidesRepository";
+import * as totalDistanceRepository from "./modules/storage/localStorage/totalDistanceRepository";
 
 
 export default class App extends Component {
