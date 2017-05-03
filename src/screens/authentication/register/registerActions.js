@@ -1,5 +1,5 @@
 import {REGISTER_SUCCESS, REGISTER_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV} from "../../../actions/actionTypes";
-import * as trackenerApiService from "../../../modules/trackenerApi/trackenerApiService";
+import * as trackenerAuthentApi from "../../../modules/trackenerApi/trackenerAuthentApi";
 
 //FIXME JC to move in actionTypes in a enum object
 export const ERROR_PASSWORD_MISMATCH = 'ERROR_PASSWORD_MISMATCH';
@@ -49,7 +49,7 @@ export const register = (email: string, username: string, password: string, repe
             return;
         }
 
-        trackenerApiService.register(email, username, password)
+        trackenerAuthentApi.register(email, username, password)
             .then((registerResponse) => {
                 switch (registerResponse.type) {
                     case REGISTER_SUCCESS:

@@ -1,5 +1,5 @@
 import {LOGIN_SUCCESS, LOGIN_ERROR, LOAD_RIDES, UPDATE_TOTAL_DISTANCE, AUTO_LOGIN} from "../../../actions/actionTypes";
-import * as trackenerApiService from "../../../modules/trackenerApi/trackenerApiService";
+import * as trackenerAuthentApi from "../../../modules/trackenerApi/trackenerAuthentApi";
 import {checksum} from "../../../util/utils";
 import {migrate} from "../../../modules/migration/migrateData";
 import * as totalDistanceRepository from "../../../modules/localStorage/totalDistanceRepository";
@@ -29,7 +29,7 @@ export const loginOnStartup = () => {
 
 export const login = (username: string, password: string) => {
     return (dispatch, getState) => {
-        trackenerApiService.login(username, password)
+        trackenerAuthentApi.login(username, password)
             .then((loginResponse) => {
                 switch (loginResponse.type) {
                     case LOGIN_SUCCESS:
