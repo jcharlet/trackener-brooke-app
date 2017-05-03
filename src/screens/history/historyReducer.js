@@ -1,5 +1,5 @@
 import {
-    LOAD_RIDES_SUMMARY, ADD_RIDE, REMOVE_HACK
+    ADD_RIDE, REMOVE_HACK, LOAD_RIDES
 } from '../../actions/actionTypes';
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
 export default (state = initialState, action = {}) => {
     switch (action.type) {
 
-        case LOAD_RIDES_SUMMARY:
+        case LOAD_RIDES:
             return loadRides(state, action.payload);
         case ADD_RIDE:
             return addRide(state, action.payload);
@@ -24,6 +24,13 @@ export default (state = initialState, action = {}) => {
 
 const loadRides = (state, payload) =>{
     let rides =payload || [];
+    rides = rides.map(ride => {
+        return {
+            ...ride.analytics,
+            timeSpentByGait:null,
+            date: ride.date
+        }
+    });
     rides = rides.reverse();
     return {
         ...state,

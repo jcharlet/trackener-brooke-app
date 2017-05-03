@@ -23,7 +23,6 @@ export default class HistoryScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.props.load();
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         // this.state.dataSource=ds.cloneWithRows(['row 1', 'row 2'];
         this.state.dataSource = ds.cloneWithRows(this.props.history.rides);
@@ -175,7 +174,6 @@ HistoryScreen.navigationOptions = {
 };
 HistoryScreen.propTypes = {
     history: PropTypes.any,
-    load: PropTypes.func,
 };
 
 const COMMON_STYLES = StyleSheet.create({

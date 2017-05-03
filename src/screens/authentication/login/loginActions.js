@@ -2,9 +2,8 @@ import {LOGIN_SUCCESS, LOGIN_ERROR, LOAD_RIDES, UPDATE_TOTAL_DISTANCE, AUTO_LOGI
 import * as trackenerAuthentApi from "../../../modules/authent/trackenerAuthentApi";
 import {checksum} from "../../../util/utils";
 import {migrate} from "../../../modules/storage/migration/migrateData";
-import * as userConfigRepository from "../../../modules/storage/localStorage/userConfigRepository";
-import * as localRidesRepository from "../../../modules/storage/localStorage/localRidesRepository";
 import * as credentialsRepository from "../../../modules/storage/localStorage/credentialsRepository";
+import * as storageService from "../../../modules/storage/storageService";
 
 //FIXME JC to move in actionTypes in a enum object
 export const ERROR_FORBIDDEN = 'FORBIDDEN';
@@ -57,7 +56,8 @@ const loginSuccess = (dispatch,
                       username: string,password: string) => {
     credentialsRepository.saveCredentials(username,password);
     let deviceId = checksum(username);
-    initStorageFromInitialState(getState());
+    storageService.initApp(username,deviceId);
+    // initStorageFromInitialState(getState());
     migrate(deviceId).then(() => {
         initApplication(dispatch);
         dispatch({
@@ -69,18 +69,18 @@ const loginSuccess = (dispatch,
 
 export const initStorageFromInitialState = (state) => {
     if(state.hackDetails.rides.length>0){
-        localRidesRepository.saveRides(state.hackDetails.rides)
-        userConfigRepository.saveTotalDistance(state.liveTracker.totalDistance)
+        storageService.saveRides(state.hackDetails.rides)
+        storageService.saveTotalDistance(state.liveTracker.totalDistance)
     }
 };
 export const initApplication = (dispatch) => {
 
         dispatch({
             type: LOAD_RIDES,
-            payload: localRidesRepository.loadRides()
+            payload: storageService.loadRidesByDeviceId()
         });
         dispatch({
             type: UPDATE_TOTAL_DISTANCE,
-            payload: userConfigRepository.loadTotalDistance()
+            payload: storageService.loadTotalDistance()
         })
 };

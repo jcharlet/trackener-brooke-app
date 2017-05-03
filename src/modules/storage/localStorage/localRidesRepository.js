@@ -3,7 +3,6 @@ import {
 } from 'react-native';
 
 export const RIDES_COLL='rides';
-export const DEVICE_ID = 'g';
 
 export const saveRides = (rides) => {
     return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(rides));
@@ -19,11 +18,11 @@ export const loadAllRides = () => {
         });
 };
 
-export const loadRides = () => {
+export const loadRidesByDeviceId = (deviceId) => {
     return loadAllRides()
         .then((rides) => {
             return rides.map(ride => {
-                if (ride.deviceId==DEVICE_ID) {
+                if (ride.deviceId==deviceId) {
                     return ride
                 }
             })
@@ -38,7 +37,7 @@ export const loadRides = () => {
 };
 
 export const findAllUnsynced = (rides) => {
-    return loadRides()
+    return loadRidesByDeviceId()
         .then((rides) => {
             console.log('found ' + rides.length + ' ride(s)');
             return rides.map(ride => {
@@ -55,7 +54,7 @@ export const findAllUnsynced = (rides) => {
 }
 
 export const flagAsSynced = () => {
-    loadRides()
+    loadRidesByDeviceId()
         .then((rides) => {
             return rides.map(ride => {
                 ride.synced=true;
@@ -68,14 +67,14 @@ export const flagAsSynced = () => {
 
 
 export const addRide = (ride) => {
-    loadRides()
+    loadAllRides()
         .then((rideArray) => {
             return AsyncStorage.setItem(RIDES_COLL, JSON.stringify([...rideArray, ride]));
         });
 }
 
 export const removeRide = (date: string) => {
-    loadRides()
+    loadRidesByDeviceId()
         .then((rideArray) => {
             let newRideArray = rideArray.filter(function (item) {
                 return item.date !== date;
@@ -83,16 +82,3 @@ export const removeRide = (date: string) => {
             return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(newRideArray));
         });
 }
-
-export const loadRidesHistory = () => {
-    return loadRides()
-        .then((completeRides) => {
-            return completeRides.map(ride => {
-                delete ride.analytics.timeSpentByGait;
-                return {
-                    ...ride.analytics,
-                    date: ride.date
-                }
-            })
-        })
-};

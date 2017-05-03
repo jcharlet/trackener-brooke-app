@@ -19,9 +19,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        load: () => {
-            dispatch(loadRides());
-        },
     }
 };
 

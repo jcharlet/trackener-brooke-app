@@ -3,7 +3,6 @@ import {
 } from 'react-native';
 
 export const USER_CONFIG_COLL = 'userConfig';
-export const DEVICE_ID = 'g';
 
 export const loadAllUserConfigs=()=>{
     return AsyncStorage.getItem(USER_CONFIG_COLL)
@@ -32,8 +31,8 @@ export const loadUserConfig=(username)=>{
         })
 }
 
-export const loadTotalDistance = () => {
-    return loadUserConfig(DEVICE_ID)
+export const loadTotalDistance = (username) => {
+    return loadUserConfig(username)
         .then((userConfig) => {
             if (userConfig && userConfig.totalDistance && !isNaN(userConfig.totalDistance)) {
                 return Number(userConfig.totalDistance);
@@ -62,11 +61,11 @@ export const saveUserConfig =(userConfig) => {
     })
 }
 
-export const addToTotalDistanceAndSave = (rideDistance) => {
-    return loadUserConfig(DEVICE_ID)
+export const addToTotalDistanceAndSave = (rideDistance, username) => {
+    return loadUserConfig(username)
         .then((userConfig) => {
             if(!userConfig || !userConfig.totalDistance || isNaN(userConfig.totalDistance)){
-                userConfig = {totalDistance:0,username:DEVICE_ID}
+                userConfig = {totalDistance:0,username:username}
             }
             userConfig.totalDistance += rideDistance;
             return userConfig;
@@ -75,11 +74,11 @@ export const addToTotalDistanceAndSave = (rideDistance) => {
             return userConfig.totalDistance;
         })
 };
-export const saveTotalDistance = (totalDistance) => {
-    return loadUserConfig(DEVICE_ID)
+export const saveTotalDistance = (totalDistance, username) => {
+    return loadUserConfig(username)
         .then((userConfig) => {
             if(!userConfig || !userConfig.totalDistance || isNaN(userConfig.totalDistance)){
-                userConfig = {totalDistance:0,username:DEVICE_ID}
+                userConfig = {totalDistance:0,username:username}
             }
             userConfig.totalDistance += totalDistance;
             return userConfig;

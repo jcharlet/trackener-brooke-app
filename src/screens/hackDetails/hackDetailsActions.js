@@ -1,9 +1,9 @@
 
 import {SHOW_PREVIOUS_HACK, SHOW_NEXT_HACK, REMOVE_HACK} from "../../actions/actionTypes";
-import * as localRidesRepository from "../../modules/storage/localStorage/localRidesRepository";
+import * as storageService from "../../modules/storage/storageService";
 
 export const removeRide = (date: string) => {
-    localRidesRepository.removeRide(date);
+    storageService.removeRide(date);
 
     return ({
         type: REMOVE_HACK,
