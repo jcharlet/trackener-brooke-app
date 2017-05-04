@@ -14,7 +14,7 @@ export const ERROR_UNAVAILABLE = 'ERROR_UNAVAILABLE';
 
 export const loginOnStartup = () => {
     return (dispatch) => {
-        credentialsRepository.getCredentials().then((storedCredentials) =>{
+        credentialsRepository.getCredentials().then((storedCredentials) => {
             if (storedCredentials) {
                 dispatch({
                     type: AUTO_LOGIN,
@@ -51,29 +51,30 @@ const loginError = (dispatch, errorType) => {
     });
 };
 const loginSuccess = (dispatch,
-                        getState,
+                      getState,
                       // loginResponse,
-                      username: string,password: string) => {
-    credentialsRepository.saveCredentials(username,password);
+                      username: string, password: string) => {
+    credentialsRepository.saveCredentials(username, password);
     let deviceId = checksum(username);
-    storageService.initApp(username,deviceId);
-    migrate(deviceId).then(() => {
+    storageService.initApp(username, deviceId);
+    migrate(deviceId)
+        .then(() => {
         initApplication(dispatch);
-        dispatch({
-            type: LOGIN_SUCCESS,
-            payload: username,
-        });
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: username,
+            });
     });
 };
 
 export const initApplication = (dispatch) => {
 
+    dispatch({
+        type: UPDATE_TOTAL_DISTANCE,
+        payload: storageService.loadTotalDistance()
+    })
         dispatch({
             type: LOAD_RIDES,
             payload: storageService.loadRidesByDeviceId()
         });
-        dispatch({
-            type: UPDATE_TOTAL_DISTANCE,
-            payload: storageService.loadTotalDistance()
-        })
 };
