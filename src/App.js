@@ -6,6 +6,7 @@ import {
 import createStore from "./store";
 import MainNavContainer from "./navigation/main/MainNavContainer";
 import * as storageService from "./modules/storage/storageService";
+import {generateFakeData} from "./modules/storage/migration/generateFakeData";
 
 
 export default class App extends Component {
@@ -14,7 +15,8 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         // storageService.sync();
-        // storageService.emptyStorage();
+        storageService.emptyStorage();
+        generateFakeData()
     }
 
     render() {
