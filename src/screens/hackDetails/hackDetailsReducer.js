@@ -30,7 +30,7 @@ export default (state = initialState, action = {}) => {
 };
 
 const showRide = (state, index) => {
-    if (index) {
+    if (index!=null) {
         return {
             ...state,
             index: index
