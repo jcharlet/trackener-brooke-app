@@ -57,7 +57,6 @@ const loginSuccess = (dispatch,
     credentialsRepository.saveCredentials(username,password);
     let deviceId = checksum(username);
     storageService.initApp(username,deviceId);
-    // initStorageFromInitialState(getState());
     migrate(deviceId).then(() => {
         initApplication(dispatch);
         dispatch({
@@ -67,12 +66,6 @@ const loginSuccess = (dispatch,
     });
 };
 
-export const initStorageFromInitialState = (state) => {
-    if(state.hackDetails.rides.length>0){
-        storageService.saveRides(state.hackDetails.rides)
-        storageService.saveTotalDistance(state.liveTracker.totalDistance)
-    }
-};
 export const initApplication = (dispatch) => {
 
         dispatch({
