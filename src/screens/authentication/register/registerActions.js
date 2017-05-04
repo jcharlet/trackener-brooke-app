@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS, REGISTER_ERROR, NAV_NAVIGATE, NAV_BOTTOM_TAB_NAV} from "../../../actions/actionTypes";
+import {REGISTER_SUCCESS, REGISTER_ERROR} from "../../../actions/actionTypes";
 import * as trackenerAuthentApi from "../../../modules/authent/trackenerAuthentApi";
 
 //FIXME JC to move in actionTypes in a enum object
@@ -55,10 +55,6 @@ export const register = (email: string, username: string, password: string, repe
                     case REGISTER_SUCCESS:
                         dispatch({
                             type: REGISTER_SUCCESS,
-                        });
-                        dispatch({
-                            type: NAV_NAVIGATE,
-                            routeName: NAV_BOTTOM_TAB_NAV,
                         });
                         break;
                     case REGISTER_ERROR:

@@ -21,20 +21,16 @@ export default (state = initialState, action = {}) => {
             return showNextHack(state);
         case REMOVE_HACK:
             return removeHack(state, action.payload);
-        case NAV_NAVIGATE:
+        case NAV_HACK_DETAILS:
             //FIXME better to use nav routing to show correct hack details
-            if(action.routeName==NAV_HACK_DETAILS){
-                return showRide(state, action.params);
-            }
-            return state;
+            return showRide(state, action.payload);
         default:
             return state;
     }
 };
 
-const showRide = (state, params) => {
-    if (params) {
-        let index=params.index;
+const showRide = (state, index) => {
+    if (index) {
         return {
             ...state,
             index: index

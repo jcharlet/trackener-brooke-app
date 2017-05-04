@@ -3,14 +3,14 @@ import BottomTabNavigator from "./BottomTabNavConfiguration"
 import {
     NavigationActions,
 } from 'react-navigation';
-import {NAV_HACK_DETAILS, LOGOUT, NAV_TRACKER, LOGIN_SUCCESS, STOP_RIDE} from "../../actions/actionTypes";
+import {NAV_HACK_DETAILS, LOGOUT, NAV_TRACKER, LOGIN_SUCCESS, STOP_RIDE, NAV_HISTORY, REGISTER_SUCCESS} from "../../actions/actionTypes";
 
 const initialNavState = {
     index: 0,
     routes: [
-        { key: 'InitA', routeName: 'LiveTracker' },
+        { key: 'InitA', routeName: NAV_TRACKER },
         { key: 'InitB', routeName: NAV_HACK_DETAILS },
-        { key: 'InitC', routeName: 'History' },
+        { key: 'InitC', routeName: NAV_HISTORY },
     ],
 };
 
@@ -22,25 +22,19 @@ export default (state = initialNavState, action) => {
             nextState = BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({routeName:NAV_TRACKER}), state);
             break;
         case LOGIN_SUCCESS:
+        case REGISTER_SUCCESS:
             nextState = BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({routeName:NAV_TRACKER}), state);
             break;
         case STOP_RIDE:
             nextState = BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({routeName:NAV_HACK_DETAILS}), state);
             break;
+        case NAV_HACK_DETAILS:
+            nextState = BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({routeName:NAV_HACK_DETAILS}), state);
+            break;
+        case NAV_HISTORY:
+            nextState = BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({routeName:NAV_HISTORY}), state);
+            break;
     }
-    // if (action.type === 'DetailedSession') {
-    //     return BottomTabNavigator.router.getStateForAction(NavigationActions.back(), state);
-    // }
-    // if (action.type === "Navigation/NAVIGATE" && action.routeName==="History") {
-    //     console.log('going to History');
-    // }
-    // if (action.type === 'HistoryContainer') {
-    //     return BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DetailedSession' }), state);
-    // }
-    // if (action.type === 'Logout') {
-    //     return BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Login'}), state);
-    // }
-
     // Simply return `state` if `nextState` is null or undefined
     return nextState || state;
 };

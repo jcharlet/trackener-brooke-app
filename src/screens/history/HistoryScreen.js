@@ -35,7 +35,7 @@ export default class HistoryScreen extends Component {
     }
 
     _navigate(index) {
-        this.props.navigation.navigate(NAV_HACK_DETAILS, {index: index});
+        this.props.navigateToHackDetails(index);
     }
 
     renderRow(rowData, ...rest) {
@@ -174,11 +174,5 @@ HistoryScreen.navigationOptions = {
 };
 HistoryScreen.propTypes = {
     history: PropTypes.any,
+    navigateToHackDetails: PropTypes.func,
 };
-
-const COMMON_STYLES = StyleSheet.create({
-    main: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-});

@@ -10,6 +10,7 @@ import {
 import {connect} from "react-redux";
 import HistoryScreen from "./HistoryScreen";
 import {loadRides} from "./historyActions";
+import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
 
 const mapStateToProps = (state) => {
     return {
@@ -19,6 +20,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        navigateToHackDetails : (index) =>{
+            dispatch({
+                type: NAV_HACK_DETAILS,
+                payload: index,
+            });
+        }
     }
 };
 
