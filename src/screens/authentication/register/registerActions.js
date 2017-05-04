@@ -1,5 +1,6 @@
 import {REGISTER_SUCCESS, REGISTER_ERROR} from "../../../actions/actionTypes";
 import * as trackenerAuthentApi from "../../../modules/authent/trackenerAuthentApi";
+import * as credentialsRepository from "../../../modules/storage/localStorage/credentialsRepository";
 
 //FIXME JC to move in actionTypes in a enum object
 export const ERROR_PASSWORD_MISMATCH = 'ERROR_PASSWORD_MISMATCH';
@@ -53,9 +54,7 @@ export const register = (email: string, username: string, password: string, repe
             .then((registerResponse) => {
                 switch (registerResponse.type) {
                     case REGISTER_SUCCESS:
-                        dispatch({
-                            type: REGISTER_SUCCESS,
-                        });
+                        endRegistration(dispatch, username, password);
                         break;
                     case REGISTER_ERROR:
                         dispatch({
@@ -65,6 +64,14 @@ export const register = (email: string, username: string, password: string, repe
                         break;
                 }
             })
+    }
+
+    function endRegistration(dispatch, username,password) {
+        credentialsRepository.saveCredentials(username,password).then(()=>{
+            dispatch({
+                type: REGISTER_SUCCESS,
+            });
+        })
     }
 
     function validateEmail(email) {

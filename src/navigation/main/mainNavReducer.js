@@ -11,7 +11,6 @@ export default (state, action) => {
 
     switch (action.type) {
         case LOGIN_SUCCESS:
-        case REGISTER_SUCCESS:
             nextState = MainNavNavigator.router.getStateForAction(NavigationActions.navigate({routeName:NAV_BOTTOM_TAB_NAV}), state);
             break;
         case LOGOUT:
@@ -22,6 +21,9 @@ export default (state, action) => {
             break;
         case STOP_RIDE:
             nextState = MainNavNavigator.router.getStateForAction(NavigationActions.back(), state);
+            break;
+        case REGISTER_SUCCESS:
+            nextState = MainNavNavigator.router.getStateForAction(NavigationActions.navigate({routeName: NAV_AUTHENT_LOGIN}), state);
             break;
         default:
             nextState = MainNavNavigator.router.getStateForAction(action, state);

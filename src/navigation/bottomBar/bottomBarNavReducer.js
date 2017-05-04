@@ -3,7 +3,7 @@ import BottomTabNavigator from "./BottomTabNavConfiguration"
 import {
     NavigationActions,
 } from 'react-navigation';
-import {NAV_HACK_DETAILS, LOGOUT, NAV_TRACKER, LOGIN_SUCCESS, STOP_RIDE, NAV_HISTORY, REGISTER_SUCCESS} from "../../actions/actionTypes";
+import {NAV_HACK_DETAILS, LOGOUT, NAV_TRACKER, LOGIN_SUCCESS, STOP_RIDE, NAV_HISTORY} from "../../actions/actionTypes";
 
 const initialNavState = {
     index: 0,
@@ -22,7 +22,6 @@ export default (state = initialNavState, action) => {
             nextState = BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({routeName:NAV_TRACKER}), state);
             break;
         case LOGIN_SUCCESS:
-        case REGISTER_SUCCESS:
             nextState = BottomTabNavigator.router.getStateForAction(NavigationActions.navigate({routeName:NAV_TRACKER}), state);
             break;
         case STOP_RIDE:

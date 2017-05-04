@@ -3,7 +3,7 @@ import * as Keychain from 'react-native-keychain';
 const SERVER="trackenerApi";
 
 export const saveCredentials= (username, password) =>{
-    Keychain
+    return Keychain
         .setInternetCredentials(SERVER, username, password)
         .then(function() {
             // console.log('Credentials saved successfully!');

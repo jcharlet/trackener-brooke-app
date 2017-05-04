@@ -1,5 +1,6 @@
-import {LOGIN_ERROR, LOGIN_SUCCESS, AUTO_LOGIN, LOGOUT} from "../../../actions/actionTypes";
+import {LOGIN_ERROR, LOGIN_SUCCESS, AUTO_LOGIN, LOGOUT, REGISTER_SUCCESS} from "../../../actions/actionTypes";
 import {checksum} from "../../../util/utils";
+import {loginOnStartup} from "./loginActions";
 const initialState = {
     username: '',
     password: '',
@@ -18,6 +19,8 @@ export default (state = initialState, action = {}) => {
             return displayFeedback(state, action.payload);
         case LOGOUT:
             return initState(state);
+        case REGISTER_SUCCESS:
+            return loginOnStartup();
         default:
             return state;
     }
