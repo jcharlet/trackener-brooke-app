@@ -4,6 +4,7 @@ module.exports = require('react-native-mock');
 // const ReactTestRenderer = require('react-test-renderer');
 const localRidesRepository = require("../localRidesRepository")
 import {RIDE_TO_ADD, RIDES} from "../__mocks__/fakeRides"
+import {RIDES_COLL} from "../localRidesRepository";
 
 import MockStorage from '../__mocks__/MockStorage';
 
@@ -16,7 +17,7 @@ const AsyncStorage = new MockStorage(storageCache);
 jest.setMock('AsyncStorage', AsyncStorage)
 
 beforeEach(() => {
-    return localRidesRepository.saveRides(RIDES)
+    return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(RIDES))
 });
 
 describe('localRidesRepository', () => {
@@ -111,16 +112,16 @@ describe('localRidesRepository', () => {
                 expect(rides.length).toBe(0)
             })
     });
-    // it('save rides correctly', () => {
-    //     let username = 'arthur';
-    //     let deviceId = '003';
-    //     return localRidesRepository.save(username, deviceId)
-    //         .then(() => {
-    //             return localRidesRepository.saveRides()
-    //         }).then((rides) => {
-    //             expect(JSON.stringify(rides)).toBe(storageCache.rides)
-    //             AsyncStorage.clear();
-    //         })
-    // });
+    it('save rides correctly', () => {
+        let username = 'arthur';
+        let deviceId = '003';
+        return localRidesRepository.saveRides([RIDE_TO_ADD])
+            .then(() => {
+                return localRidesRepository.loadAllRides()
+            }).then((rides) => {
+                expect(JSON.stringify(rides)).toBe(JSON.stringify([RIDE_TO_ADD]))
+                AsyncStorage.clear();
+            })
+    });
 
 });

@@ -5,6 +5,7 @@ module.exports = require('react-native-mock');
 const appConfigRepository = require("../appConfigRepository")
 
 import MockStorage from '../__mocks__/MockStorage';
+import {APP_CONFIG_COLL} from "../appConfigRepository";
 
 const appConfigJson = {
     username: 'jeanMichel',
@@ -18,7 +19,7 @@ const AsyncStorage = new MockStorage(storageCache);
 jest.setMock('AsyncStorage', AsyncStorage)
 
 beforeEach(() => {
-    return appConfigRepository.save(appConfigJson.username, appConfigJson.deviceId)
+    return AsyncStorage.setItem(APP_CONFIG_COLL, JSON.stringify(appConfigJson))
 });
 
 describe('appConfigRepository', () => {

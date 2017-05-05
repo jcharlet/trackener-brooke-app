@@ -3,10 +3,6 @@ export default class MockStorage {
         this.storageCache = cache;
     }
 
-    setMockStorage(cache){
-        this.storageCache = cache;
-    }
-
     setItem = jest.fn((key, value) => {
         return new Promise((resolve, reject) => {
             return (typeof key !== 'string' || typeof value !== 'string')
