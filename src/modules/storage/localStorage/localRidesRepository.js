@@ -37,7 +37,7 @@ export const loadRidesByDeviceId = (deviceId) => {
 };
 
 export const findAllUnsynced = (rides) => {
-    return loadRidesByDeviceId()
+    return loadAllRides()
         .then((rides) => {
             console.log('found ' + rides.length + ' ride(s)');
             return rides.map(ride => {
@@ -54,7 +54,7 @@ export const findAllUnsynced = (rides) => {
 }
 
 export const flagAsSynced = () => {
-    loadRidesByDeviceId()
+    return loadAllRides()
         .then((rides) => {
             return rides.map(ride => {
                 ride.synced=true;
@@ -67,17 +67,17 @@ export const flagAsSynced = () => {
 
 
 export const addRide = (ride) => {
-    loadAllRides()
+    return loadAllRides()
         .then((rideArray) => {
             return AsyncStorage.setItem(RIDES_COLL, JSON.stringify([...rideArray, ride]));
         });
 }
 
-export const removeRide = (date: string) => {
-    loadRidesByDeviceId()
+export const removeRide = (date: string, deviceId: string) => {
+    return loadAllRides()
         .then((rideArray) => {
             let newRideArray = rideArray.filter(function (item) {
-                return item.date !== date;
+                return !(item.date === date & item.deviceId === deviceId) ;
             });
             return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(newRideArray));
         });

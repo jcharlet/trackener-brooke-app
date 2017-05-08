@@ -27,12 +27,18 @@
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "babel-jest": "19.0.0",
+    "babel-jest": "^19.0.0",
     "babel-preset-react-native": "1.9.1",
     "jest": "19.0.2",
+    "jest-cli": "^19.0.2",
+    "react-native-mock": "^0.3.1",
     "react-test-renderer": "15.4.2"
   },
   "jest": {
-    "preset": "react-native"
+    "automock": false,
+    "preset": "react-native",
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|native-base|react-clone-referenced-element|react-navigation)"
+    ]
   }
 }

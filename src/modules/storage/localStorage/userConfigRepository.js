@@ -42,7 +42,7 @@ export const loadTotalDistance = (username) => {
 };
 
 export const saveUserConfig =(userConfig) => {
-    loadAllUserConfigs()
+    return loadAllUserConfigs()
         .then((userConfigs) =>{
             let wasFound=false;
             userConfigs = userConfigs.map(currentUserConfig => {
@@ -80,7 +80,7 @@ export const saveTotalDistance = (totalDistance, username) => {
             if(!userConfig || !userConfig.totalDistance || isNaN(userConfig.totalDistance)){
                 userConfig = {totalDistance:0,username:username}
             }
-            userConfig.totalDistance += totalDistance;
+            userConfig.totalDistance = totalDistance;
             return userConfig;
         }).then((userConfig) =>{
             return saveUserConfig(userConfig);
