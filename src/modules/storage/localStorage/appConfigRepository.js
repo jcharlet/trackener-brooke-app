@@ -56,7 +56,7 @@ export const getUsername = () => {
             return null
         })
 }
-export const getAppVersion = () => {
+export const getStorageVersion = () => {
     return load()
         .then((appConfig) => {
             if(appConfig){

@@ -6,14 +6,26 @@ import {
 // import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall.json';
 import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall5doc60minMinified.json';
 import moment from "moment";
+import * as migrateData from "./migrateData";
+import * as utils from "../../../util/utils";
 
-const NB_OF_COPIES = 1;
+const NB_OF_COPIES = 3;
+const STORAGE_VERSION = 1;
+// const STORAGE_VERSION = 0;
+const username = 'gg';
 
 
 export const generateFakeData = () => {
     let rides = generateRidesFromJsonFile(FAKE_RIDES_JSON_FILE_PATH, NB_OF_COPIES);
-    AsyncStorage.setItem('rides', JSON.stringify(rides));
-    AsyncStorage.setItem('totalDistance', '70829.0611293194');
+
+    if(STORAGE_VERSION===0){
+        return Promise.all([
+            AsyncStorage.setItem('rides', JSON.stringify(rides)),
+            AsyncStorage.setItem('totalDistance', '70829.0611293194')
+            ])
+    }else if (STORAGE_VERSION===1){
+        return migrateData.migrateDataFromV0ToV1(username,utils.checksum(username),rides);
+    }
 }
 
 export const generateRidesFromJsonFile= (rides, nbOfCopies) =>{
