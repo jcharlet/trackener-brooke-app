@@ -5,21 +5,18 @@ module.exports = require('react-native-mock');
 const appConfigRepository = require("../appConfigRepository")
 
 import MockStorage from '../__mocks__/MockStorage';
+import {APP_CONFIG_MOCK} from "../__mocks__/appConfigs";
 import {APP_CONFIG_COLL} from "../appConfigRepository";
 
-const appConfigJson = {
-    username: 'jeanMichel',
-    deviceId: '007'
-};
 const storageCache = {
-    appConfig: JSON.stringify(appConfigJson)
+    appConfig: JSON.stringify(APP_CONFIG_MOCK)
 };
 
 const AsyncStorage = new MockStorage(storageCache);
 jest.setMock('AsyncStorage', AsyncStorage)
 
 beforeEach(() => {
-    return AsyncStorage.setItem(APP_CONFIG_COLL, JSON.stringify(appConfigJson))
+    return AsyncStorage.setItem(APP_CONFIG_COLL, JSON.stringify(APP_CONFIG_MOCK))
 });
 
 describe('appConfigRepository', () => {
@@ -27,7 +24,7 @@ describe('appConfigRepository', () => {
         expect.assertions(1);
         return appConfigRepository.load()
             .then((value) => {
-                expect(JSON.stringify(value)).toBe(JSON.stringify(appConfigJson))
+                expect(JSON.stringify(value)).toBe(JSON.stringify(APP_CONFIG_MOCK))
             })
     });
     it('saves config correctly', () => {
@@ -46,14 +43,14 @@ describe('appConfigRepository', () => {
         expect.assertions(1);
         return appConfigRepository.getDeviceId()
             .then((value) => {
-                expect(value).toBe(appConfigJson.deviceId)
+                expect(value).toBe(APP_CONFIG_MOCK.deviceId)
             })
     });
     it('returns username correctly', () => {
         expect.assertions(1);
         return appConfigRepository.getUsername()
             .then((value) => {
-                expect(value).toBe(appConfigJson.username)
+                expect(value).toBe(APP_CONFIG_MOCK.username)
             })
     });
 

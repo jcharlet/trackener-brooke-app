@@ -4,6 +4,7 @@ module.exports = require('react-native-mock');
 // const ReactTestRenderer = require('react-test-renderer');
 const localRidesRepository = require("../localRidesRepository")
 import {RIDE_TO_ADD, RIDES} from "../__mocks__/fakeRides"
+import * as utils from "../../../../util/utils";
 import {RIDES_COLL} from "../localRidesRepository";
 
 import MockStorage from '../__mocks__/MockStorage';
@@ -94,7 +95,7 @@ describe('localRidesRepository', () => {
             })
     });
     it('remove ride correctly', () => {
-        return localRidesRepository.removeRide(RIDES[2].date, RIDES[2].deviceId)
+        return localRidesRepository.removeRide(RIDES[2].id)
         /*
          Then I have 2 rides in total
          */

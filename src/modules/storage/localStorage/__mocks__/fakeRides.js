@@ -2,6 +2,7 @@ export const RIDES = [{
     "date": "2017-05-04T11:20:14+01:00",
     "geoIds": {"intervalId": 2, "watchId": 0, "startTime": 1493853614897},
     "pastDuration": 31.73,
+    "id":"gg.007.2017-05-04T11:20:14+01:00",
     "deviceId":"007",
     "synced":true,
     "positions": [{
@@ -151,6 +152,7 @@ export const RIDES = [{
         }, {"index": 2, "number": 0, "name": "TROT"}, {"index": 3, "number": 0, "name": "CANTER"}]
     }
 }, {
+    "id":"gg.007.2017-05-04T00:21:31+01:00",
     "date": "2017-05-04T00:21:31+01:00",
     "geoIds": {"intervalId": 4, "watchId": 0, "startTime": 1493853691293},
     "pastDuration": 60.892,
@@ -437,6 +439,7 @@ export const RIDES = [{
         }, {"index": 2, "number": 0, "name": "TROT"}, {"index": 3, "number": 0, "name": "CANTER"}]
     }
 }, {
+    "id":"gg.003.2017-05-04T18:21:31+01:00",
     "date": "2017-05-04T18:21:31+01:00",
     "geoIds": {"intervalId": 4, "watchId": 0, "startTime": 1493853691293},
     "pastDuration": 60.892,
@@ -725,6 +728,7 @@ export const RIDES = [{
 }]
 
 export const RIDE_TO_ADD = {
+    "id":"gg.003.2017-06-04T20:20:14+01:00",
     "date": "2017-06-04T20:20:14+01:00",
     "geoIds": {"intervalId": 2, "watchId": 0, "startTime": 1493853614897},
     "pastDuration": 24.73,

@@ -4,6 +4,8 @@ import {
 
 export const RIDES_COLL='rides';
 
+
+
 export const saveRides = (rides) => {
     return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(rides));
 }
@@ -73,11 +75,11 @@ export const addRide = (ride) => {
         });
 }
 
-export const removeRide = (date: string, deviceId: string) => {
+export const removeRide = (id: string) => {
     return loadAllRides()
         .then((rideArray) => {
             let newRideArray = rideArray.filter(function (item) {
-                return !(item.date === date & item.deviceId === deviceId) ;
+                return !(item.id === id) ;
             });
             return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(newRideArray));
         });

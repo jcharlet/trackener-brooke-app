@@ -71,3 +71,7 @@ export const checksum = function(s) {
     }
     return hash;
 };
+
+export const createRideId = function (username, deviceId, date) {
+    return username + "." + deviceId + "." + date;
+};

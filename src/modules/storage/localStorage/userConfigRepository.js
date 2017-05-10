@@ -4,6 +4,15 @@ import {
 
 export const USER_CONFIG_COLL = 'userConfig';
 
+export const create= (username, totalDistance, rideIds) =>{
+    return {
+        "username": username,
+        "totalDistance": totalDistance,
+        "rideIds": rideIds,
+        // "lastSync":"2017-05-04T00:20:14+01:00"
+    }
+}
+
 export const loadAllUserConfigs=()=>{
     return AsyncStorage.getItem(USER_CONFIG_COLL)
     .then((userConfigs) => {

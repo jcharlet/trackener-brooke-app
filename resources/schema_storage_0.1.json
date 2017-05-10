@@ -1,0 +1,67 @@
+{
+  "appConfig": {
+    "username": "jeanMichel",
+    "deviceId": "007"
+  },
+  "userConfig": [
+    {
+      "username": "gg",
+      "totalDistance": 12,
+      "rideIds":["gg.1493853617533"]
+    }
+  ],
+  "ridesPositions":[
+    {
+      "rideId":"gg.1493853617533",
+      "positions":[
+        {
+      "timestamp": 1493853617533,
+      "loc":{
+        "x": -0.3342833333333333,
+        "y": 51.3751
+      },
+      "speed": 0,
+      "gait": "STOP",
+      "accuracy": 20
+        },
+        {}
+      ]
+    }
+  ],
+  "rides": [
+    {
+      "id":"gg.1493853617533",
+      "userId":"gg",
+      "date": "2017-05-04T00:20:14+01:00",
+      "analytics": {
+        "distance": 22485.370193225124,
+        "duration": 31.73,
+        "lastSpeed": 0,
+        "avgSpeed": 708.6470278356484,
+        "maxSpeed": 0,
+        "timeSpentByGait": [
+          {
+            "index": 0,
+            "number": 100,
+            "name": "STOP"
+          },
+          {
+            "index": 1,
+            "number": 0,
+            "name": "WALK"
+          },
+          {
+            "index": 2,
+            "number": 0,
+            "name": "TROT"
+          },
+          {
+            "index": 3,
+            "number": 0,
+            "name": "CANTER"
+          }
+        ]
+      }
+    }
+  ]
+}

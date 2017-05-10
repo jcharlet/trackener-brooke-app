@@ -16,23 +16,53 @@ export const load = () => {
 }
 
 export const save = (username, deviceId) => {
-    let appConfig = {
-        username: username,
-        deviceId: deviceId
-    }
-    return AsyncStorage.setItem(APP_CONFIG_COLL, JSON.stringify(appConfig));
+    return load()
+        .then((appConfig) => {
+            appConfig = {
+                ...appConfig,
+                username: username,
+                deviceId: deviceId,
+            }
+            return AsyncStorage.setItem(APP_CONFIG_COLL, JSON.stringify(appConfig));
+        })
+}
+
+export const saveStorageVersion = (storageVersion) => {
+    return load()
+        .then((appConfig) => {
+            appConfig = {
+                ...appConfig,
+                storageVersion: storageVersion,
+            }
+            return AsyncStorage.setItem(APP_CONFIG_COLL, JSON.stringify(appConfig));
+        })
 }
 
 export const getDeviceId = () => {
     return load()
         .then((appConfig) => {
-            return appConfig.deviceId
+            if(appConfig){
+                return appConfig.deviceId
+            }
+            return null
         })
 }
 export const getUsername = () => {
     return load()
         .then((appConfig) => {
-            return appConfig.username
+            if(appConfig){
+                return appConfig.username
+            }
+            return null
+        })
+}
+export const getAppVersion = () => {
+    return load()
+        .then((appConfig) => {
+            if(appConfig){
+                return appConfig.storageVersion
+            }
+            return null
         })
 }
 

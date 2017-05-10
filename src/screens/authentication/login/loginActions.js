@@ -57,7 +57,7 @@ const loginSuccess = (dispatch,
     credentialsRepository.saveCredentials(username, password);
     let deviceId = checksum(username);
     storageService.initApp(username, deviceId);
-    migrate(deviceId)
+    migrate(username,deviceId)
         .then(() => {
         initApplication(dispatch);
             dispatch({

@@ -15,8 +15,8 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         // storageService.sync();
-        storageService.emptyStorage();
-        generateFakeData()
+        // storageService.emptyStorage();
+        // generateFakeData()
     }
 
     render() {
