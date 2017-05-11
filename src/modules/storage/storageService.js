@@ -34,13 +34,6 @@ export const saveTotalDistance = (totalDistance) => {
         })
 };
 
-
-export const saveRides = (rides) => {
-    return appConfigRepository.getDeviceId()
-        .then((deviceId) => {
-            return localRidesRepository.saveRides(rides, deviceId);
-        })
-}
 export const loadRidesByDeviceId = () => {
     return appConfigRepository.getDeviceId()
         .then((deviceId) => {
@@ -84,7 +77,7 @@ export const removeRide = (date: string) => {
             let id = appConfig.username + "." + appConfig.deviceId + "." + date;
 
             let removeRidePromise =  localRidesRepository.removeRide(id);
-            let removeRidePositionsPromise =  localRidesRepository.removeRide(id);
+            let removeRidePositionsPromise =  localRidePositionsRepository.removeRide(id);
 
             return Promise.all([removeRidePromise,removeRidePositionsPromise])
         })
@@ -132,6 +125,7 @@ export const sync = () => {
 
 export const emptyStorage = () => {
     localRidesRepository.saveRides([]);
+    localRidePositionsRepository.save([]);
     userConfigRepository.emptyUserConfigs();
     appConfigRepository.empty();
 }
