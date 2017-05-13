@@ -75,3 +75,13 @@ export const checksum = function(s) {
 export const createRideId = function (username, deviceId, date) {
     return username + "." + deviceId + "." + date;
 };
+
+
+export const calculateTotalDistanceFromRides = function (rides) {
+    return rides.map(function (ride) {
+        return ride.analytics.distance;
+    })
+        .reduce(function (last, now) {
+            return last + now;
+        }, 0);
+};

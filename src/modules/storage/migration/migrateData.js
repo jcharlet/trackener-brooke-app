@@ -64,12 +64,7 @@ export const migrateDataFromV0ToV1 = function (username, deviceId, rides) {
 
 
     //Create userConfig
-    let totalDistance = rides.map(function (ride) {
-        return ride.analytics.distance;
-    })
-        .reduce(function (last, now) {
-            return last + now;
-        }, 0);
+    let totalDistance = utils.calculateTotalDistanceFromRides(rides);
 
     let rideIds = rides.map(function (ride) {
         return utils.createRideId(username, deviceId, ride.date);

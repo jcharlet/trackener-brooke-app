@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import HackDetailsScreen from "./HackDetailsScreen";
 import {connect} from "react-redux";
-import {loadRides, showPreviousRide, showNextRide, removeRide} from "./hackDetailsActions";
-import {updateTotalDistance} from "../liveTracker/liveTrackerActions";
+import {showPreviousRide, showNextRide, removeRide} from "./hackDetailsActions";
 import {wait} from "../../util/utils.js";
 
 const mapStateToProps = (state) => {
@@ -35,8 +34,7 @@ const mapDispatchToProps = (dispatch) => {
             return hasNextRide(index,length)
         },
         remove: (date:number, distance:number) => {
-            dispatch(removeRide(date))
-            dispatch(updateTotalDistance(-distance));
+            dispatch(removeRide(date, distance))
             wait(500);
         },
     }

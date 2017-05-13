@@ -20,11 +20,19 @@ export const loadTotalDistance = () => {
             return userConfigRepository.loadTotalDistance(username);
         })
 };
-
 export const addToTotalDistanceAndSave = (rideDistance) => {
-    return appConfigRepository.getUsername()
-        .then((username) => {
-            return userConfigRepository.addToTotalDistanceAndSave(rideDistance, username);
+    return appConfigRepository.load()
+        .then((appConfig) => {
+            return userConfigRepository.addToTotalDistanceAndSave(rideDistance, appConfig.username)
+                .then((totalDistance)=>{
+                    if(totalDistance<0){
+                        return userConfigRepository.saveTotalDistance(0,appConfig.username)
+                            .then((totalDistance)=>{
+                                return totalDistance
+                            })
+                    }
+                    return totalDistance;
+                })
         })
 };
 export const saveTotalDistance = (totalDistance) => {

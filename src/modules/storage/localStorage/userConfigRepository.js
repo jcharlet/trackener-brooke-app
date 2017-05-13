@@ -77,6 +77,7 @@ export const addToTotalDistanceAndSave = (rideDistance, username) => {
                 userConfig = {totalDistance:0,username:username}
             }
             userConfig.totalDistance += rideDistance;
+
             return userConfig;
         }).then((userConfig) =>{
             saveUserConfig(userConfig);
