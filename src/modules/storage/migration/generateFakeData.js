@@ -9,7 +9,7 @@ import moment from "moment";
 import * as migrateData from "./migrateData";
 import * as utils from "../../../util/utils";
 
-const NB_OF_COPIES = 3;
+const NB_OF_COPIES = 1;
 const STORAGE_VERSION = 1;
 // const STORAGE_VERSION = 0;
 const username = 'gg';

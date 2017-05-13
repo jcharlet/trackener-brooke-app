@@ -4,7 +4,7 @@ module.exports = require('react-native-mock');
 // const ReactTestRenderer = require('react-test-renderer');
 const appConfigRepository = require("../appConfigRepository")
 
-import MockStorage from '../__mocks__/MockStorage';
+import {mockStorage} from '../__mocks__/MockStorage';
 import {APP_CONFIG_MOCK} from "../__mocks__/appConfigs";
 import {APP_CONFIG_COLL} from "../appConfigRepository";
 
@@ -12,11 +12,8 @@ const storageCache = {
     appConfig: JSON.stringify(APP_CONFIG_MOCK)
 };
 
-const AsyncStorage = new MockStorage(storageCache);
-jest.setMock('AsyncStorage', AsyncStorage)
-
 beforeEach(() => {
-    return AsyncStorage.setItem(APP_CONFIG_COLL, JSON.stringify(APP_CONFIG_MOCK))
+    return mockStorage.setItem(APP_CONFIG_COLL, JSON.stringify(APP_CONFIG_MOCK))
 });
 
 describe('appConfigRepository', () => {
@@ -35,8 +32,8 @@ describe('appConfigRepository', () => {
             .then(() => {
                 return appConfigRepository.load()
             }).then((value) => {
-                expect(JSON.stringify(value)).toBe(storageCache.appConfig)
-                AsyncStorage.clear();
+                expect(JSON.stringify(value)).toBe(JSON.stringify({username:username,deviceId:deviceId}))
+                mockStorage.clear();
             })
     });
     it('returns deviceId correctly', () => {

@@ -1,4 +1,4 @@
-export default class MockStorage {
+class MockStorage {
     constructor(cache = {}) {
         this.storageCache = cache;
     }
@@ -35,3 +35,5 @@ export default class MockStorage {
         return new Promise((resolve, reject) => resolve(Object.keys(this.storageCache)));
     });
 }
+export const mockStorage = new MockStorage();
+jest.setMock('AsyncStorage', mockStorage)

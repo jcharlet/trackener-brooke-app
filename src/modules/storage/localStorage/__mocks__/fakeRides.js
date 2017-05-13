@@ -1,4 +1,4 @@
-export const RIDES = [{
+export const RIDES_V0 = [{
     "date": "2017-05-04T11:20:14+01:00",
     "geoIds": {"intervalId": 2, "watchId": 0, "startTime": 1493853614897},
     "pastDuration": 31.73,
@@ -727,7 +727,7 @@ export const RIDES = [{
     }
 }]
 
-export const RIDE_TO_ADD = {
+export const RIDE_TO_ADD_V0 = {
     "id":"gg.003.2017-06-04T20:20:14+01:00",
     "date": "2017-06-04T20:20:14+01:00",
     "geoIds": {"intervalId": 2, "watchId": 0, "startTime": 1493853614897},
@@ -763,4 +763,83 @@ export const RIDE_TO_ADD = {
             "name": "WALK"
         }, {"index": 2, "number": 0, "name": "TROT"}, {"index": 3, "number": 0, "name": "CANTER"}]
     }
+}
+
+
+export const RIDE_TO_ADD_V1 = {
+    "id":"gg.003.2017-06-04T20:20:14+01:00",
+    "date": "2017-06-04T20:20:14+01:00",
+    "deviceId":"003",
+    "analytics": {
+        "distance": 20000,
+        "duration": 25.73,
+        "lastSpeed": 0,
+        "avgSpeed": 708.6470278356484,
+        "maxSpeed": 0,
+        "timeSpentByGait": [{"index": 0, "number": 100, "name": "STOP"}, {
+            "index": 1,
+            "number": 0,
+            "name": "WALK"
+        }, {"index": 2, "number": 0, "name": "TROT"}, {"index": 3, "number": 0, "name": "CANTER"}]
+    }
+}
+export const RIDES_V1 = [{
+    "id":"gg.003.2017-06-04T20:20:14+01:00",
+    "positions": [{
+        "loc":{
+            "x":-0.3342833333333333,
+            "y":51.3751
+        },
+        "timestamp": 1493853617533,
+        "speed": 0,
+        "gait": "STOP",
+        "accuracy": 20
+    }, {
+        "loc":{
+            "x":-0.3342833333333333,
+            "y":51.3751
+        },
+        "timestamp": 1493853645525,
+        "speed": 0,
+        "gait": "STOP",
+        "accuracy": 20,
+        "distance": 1124.3280278151917,
+        "duration": 1997
+    }],
+},{
+    "id":"gg.003.2017-07-04T20:20:14+01:00",
+    "positions": [{
+        "loc":{
+            "x":-0.3342833333333333,
+            "y":51.3751
+        },
+        "timestamp": 1493853617533,
+        "speed": 0,
+        "gait": "STOP",
+        "accuracy": 20
+    }],
+}]
+export const RIDE_POSITIONS_TO_ADD_V1 = {
+    "id":"gg.003.2017-06-05T20:20:14+01:00",
+    "positions": [{
+        "loc":{
+            "x":-0.3,
+            "y":51.3751
+        },
+        "timestamp": 1493853717533,
+        "speed": 10,
+        "gait": "STOP",
+        "accuracy": 20
+    }, {
+        "loc":{
+            "x":-0.3,
+            "y":51.3751
+        },
+        "timestamp": 1493853745525,
+        "speed": 10,
+        "gait": "STOP",
+        "accuracy": 20,
+        "distance": 1124.3280278151917,
+        "duration": 1997
+    }],
 }

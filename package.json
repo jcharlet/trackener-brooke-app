@@ -40,6 +40,9 @@
     "preset": "react-native",
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|native-base|react-clone-referenced-element|react-navigation)"
+    ],
+    "setupFiles": [
+      "./src/modules/storage/localStorage/__mocks__/MockStorage.js"
     ]
   }
 }

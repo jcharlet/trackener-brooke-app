@@ -10,17 +10,13 @@ import * as userConfigRepository from "../../localStorage/userConfigRepository";
 import * as localRidesRepository from "../../localStorage/localRidesRepository";
 import * as localRidePositionsRepository from "../../localStorage/localRidePositionsRepository";
 import RIDES from '../../../../../resources/fakeSmall.json';
-import MockStorage from '../../localStorage/__mocks__/MockStorage';
-
-const AsyncStorage = new MockStorage({
-    'rides': JSON.stringify(RIDES),
-    'totalDistance': '7829.0611293194'
-});
-jest.setMock('AsyncStorage', AsyncStorage)
+import {mockStorage} from '../../localStorage/__mocks__/MockStorage';
 
 jest.mock("../../../../../node_modules/react-native-background-timer")
 
 beforeEach(() => {
+    mockStorage.setItem('rides', JSON.stringify(RIDES))
+    mockStorage.setItem('totalDistance', '7829.0611293194')
 });
 
 describe('migrateData', () => {
@@ -63,7 +59,7 @@ describe('migrateData', () => {
     it('still runs if nothing to migrate', () => {
 
         //given mock dataset
-        AsyncStorage.setItem(RIDES_COLL, '')
+        mockStorage.setItem(RIDES_COLL, '')
 
         //when I migrate data
             .then(() => {

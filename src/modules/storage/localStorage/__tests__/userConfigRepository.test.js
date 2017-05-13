@@ -3,22 +3,14 @@ const React = require('react');
 module.exports = require('react-native-mock');
 // const ReactTestRenderer = require('react-test-renderer');
 const userConfigRepository = require("../userConfigRepository")
-import {RIDE_TO_ADD, RIDES} from "../__mocks__/fakeRides"
 import {USER_CONFIG_COLL} from "../userConfigRepository";
 import {USER_CONFIG_TO_UPDATE, USER_CONFIGS} from "../__mocks__/userConfigs";
 
-import MockStorage from '../__mocks__/MockStorage';
+import {mockStorage} from '../__mocks__/MockStorage';
 
-
-const storageCache = {
-    userConfigs: JSON.stringify(USER_CONFIGS)
-};
-
-const AsyncStorage = new MockStorage(storageCache);
-jest.setMock('AsyncStorage', AsyncStorage)
 
 beforeEach(() => {
-    return AsyncStorage.setItem(USER_CONFIG_COLL, JSON.stringify(USER_CONFIGS))
+    return mockStorage.setItem(USER_CONFIG_COLL, JSON.stringify(USER_CONFIGS))
 });
 
 describe('userConfigRepository', () => {

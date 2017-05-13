@@ -8,10 +8,8 @@ import {RIDES_COLL} from "../../localStorage/localRidesRepository";
 import * as userConfigRepository from "../../localStorage/userConfigRepository";
 import * as localRidesRepository from "../../localStorage/localRidesRepository";
 import * as localRidePositionsRepository from "../../localStorage/localRidePositionsRepository";
-import MockStorage from '../../localStorage/__mocks__/MockStorage';
+import {mockStorage} from '../../localStorage/__mocks__/MockStorage';
 import FAKE_RIDES_JSON_FILE_PATH from '../../../../../resources/fakeSmall.json';
-const AsyncStorage = new MockStorage({});
-jest.setMock('AsyncStorage', AsyncStorage)
 
 
 beforeEach(() => {

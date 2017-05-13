@@ -3,22 +3,18 @@ const React = require('react');
 module.exports = require('react-native-mock');
 // const ReactTestRenderer = require('react-test-renderer');
 const localRidesRepository = require("../localRidesRepository")
-import {RIDE_TO_ADD, RIDES} from "../__mocks__/fakeRides"
-import * as utils from "../../../../util/utils";
+import {RIDE_TO_ADD_V0, RIDES_V0} from "../__mocks__/fakeRides"
 import {RIDES_COLL} from "../localRidesRepository";
 
-import MockStorage from '../__mocks__/MockStorage';
+import {mockStorage} from '../__mocks__/MockStorage';
 
 
 const storageCache = {
-    rides: JSON.stringify(RIDES)
+    rides: JSON.stringify(RIDES_V0)
 };
 
-const AsyncStorage = new MockStorage(storageCache);
-jest.setMock('AsyncStorage', AsyncStorage)
-
 beforeEach(() => {
-    return AsyncStorage.setItem(RIDES_COLL, JSON.stringify(RIDES))
+    return mockStorage.setItem(RIDES_COLL, JSON.stringify(RIDES_V0))
 });
 
 describe('localRidesRepository', () => {
@@ -66,7 +62,7 @@ describe('localRidesRepository', () => {
             })
     });
     it('add ride correctly', () => {
-        return localRidesRepository.addRide(RIDE_TO_ADD)
+        return localRidesRepository.addRide(RIDE_TO_ADD_V0)
         /*
          Then I have 4 rides in total
          */
@@ -79,7 +75,7 @@ describe('localRidesRepository', () => {
              Then I have 2 rides for this deviceId
              */
             .then(() => {
-                return localRidesRepository.loadRidesByDeviceId(RIDE_TO_ADD.deviceId)
+                return localRidesRepository.loadRidesByDeviceId(RIDE_TO_ADD_V0.deviceId)
             }).then((rides) => {
                 expect(rides.length).toBe(2)
                 return rides
@@ -88,14 +84,14 @@ describe('localRidesRepository', () => {
              then those 2 rides are the ones I had before + the new one (from date and distance)
              */
             .then((rides) => {
-                expect(rides[0]['date']).toBe(RIDES[2]['date'])
-                expect(rides[1]['date']).toBe(RIDE_TO_ADD['date'])
-                expect(rides[0].analytics.distance).toBe(RIDES[2].analytics.distance)
-                expect(rides[1].analytics.distance).toBe(RIDE_TO_ADD.analytics.distance)
+                expect(rides[0]['date']).toBe(RIDES_V0[2]['date'])
+                expect(rides[1]['date']).toBe(RIDE_TO_ADD_V0['date'])
+                expect(rides[0].analytics.distance).toBe(RIDES_V0[2].analytics.distance)
+                expect(rides[1].analytics.distance).toBe(RIDE_TO_ADD_V0.analytics.distance)
             })
     });
     it('remove ride correctly', () => {
-        return localRidesRepository.removeRide(RIDES[2].id)
+        return localRidesRepository.removeRide(RIDES_V0[2].id)
         /*
          Then I have 2 rides in total
          */
@@ -108,7 +104,7 @@ describe('localRidesRepository', () => {
              Then I have no more ride for that deviceId
              */
             .then(() => {
-                return localRidesRepository.loadRidesByDeviceId(RIDES[2].deviceId)
+                return localRidesRepository.loadRidesByDeviceId(RIDES_V0[2].deviceId)
             }).then((rides) => {
                 expect(rides.length).toBe(0)
             })
@@ -116,12 +112,12 @@ describe('localRidesRepository', () => {
     it('save rides correctly', () => {
         let username = 'arthur';
         let deviceId = '003';
-        return localRidesRepository.saveRides([RIDE_TO_ADD])
+        return localRidesRepository.saveRides([RIDE_TO_ADD_V0])
             .then(() => {
                 return localRidesRepository.loadAllRides()
             }).then((rides) => {
-                expect(JSON.stringify(rides)).toBe(JSON.stringify([RIDE_TO_ADD]))
-                AsyncStorage.clear();
+                expect(JSON.stringify(rides)).toBe(JSON.stringify([RIDE_TO_ADD_V0]))
+                mockStorage.clear();
             })
     });
 

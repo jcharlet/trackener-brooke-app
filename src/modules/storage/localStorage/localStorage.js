@@ -1,12 +1,9 @@
 import { AsyncStorage } from 'react-native';
 import Storage from 'react-native-storage';
 
-var storage = new Storage({
+const localStorage = new Storage({
     // maximum capacity, default 1000
     size: 1000,
-
-    // Use AsyncStorage for RN, or window.localStorage for web.
-    // If not set, data would be lost after reload.
     storageBackend: AsyncStorage,
 
     // expire time, default 1 day(1000 * 3600 * 24 milliseconds).
@@ -24,4 +21,7 @@ var storage = new Storage({
     }
 })
 
-export default storage;
+export const storage=()=>{
+    return localStorage;
+}
+export default localStorage;
