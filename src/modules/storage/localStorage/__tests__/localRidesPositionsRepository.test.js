@@ -3,6 +3,7 @@ const React = require('react');
 module.exports = require('react-native-mock');
 // const ReactTestRenderer = require('react-test-renderer');
 import {RIDE_POSITIONS_TO_ADD_V1, RIDES_V1} from "../__mocks__/fakeRides"
+import {POSITION_FIELDS} from "../../../geoloc/geolocService";
 import {mockStorage} from "../__mocks__/MockStorage";
 import * as localRidesPositionsRepository from "../localRidePositionsRepository";
 
@@ -48,8 +49,8 @@ describe('localRidesPositionsRepository', () => {
                 return localRidesPositionsRepository.loadById(RIDE_POSITIONS_TO_ADD_V1.id)
             }).then((ridePosition) => {
                 expect(ridePosition.id).toBe(RIDE_POSITIONS_TO_ADD_V1.id)
-                expect(ridePosition['positions'][0]['timestamp'])
-                    .toBe(RIDE_POSITIONS_TO_ADD_V1['positions'][0]['timestamp'])
+                expect(ridePosition['positions'][0][POSITION_FIELDS.TIMESTAMP])
+                    .toBe(RIDE_POSITIONS_TO_ADD_V1['positions'][0][POSITION_FIELDS.TIMESTAMP])
                 return ridePosition
             })
     });

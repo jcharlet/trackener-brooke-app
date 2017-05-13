@@ -10,7 +10,7 @@ import {
 import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../../util/utils'
-import { RNLocation as Location } from 'NativeModules'
+import {RNLocation as Location} from 'NativeModules'
 
 import {
     DeviceEventEmitter
@@ -19,9 +19,18 @@ import {
 // speed thresholds in mph
 export const SPEED_THRESHOLD = {STOP: 1, WALK: 7, TROT: 13}
 export const GAIT = {STOP: "STOP", WALK: "WALK", TROT: "TROT", CANTER: "CANTER"}
+export const POSITION_FIELDS =
+    {
+        LONGITUDE: 0,
+        LATITUDE: 1,
+        TIMESTAMP: 2,
+        SPEED: 3,
+        GAIT: 4,
+        ACCURACY: 5
+    };
 
-export const checkLocationServicesIsEnabled = (platform:string) => {
-    if(platform === 'android'){
+export const checkLocationServicesIsEnabled = (platform: string) => {
+    if (platform === 'android') {
         return LocationServicesDialogBox.checkLocationServicesIsEnabled({
             message: "<h2>Use Location?</h2> \
                             This app wants to change your device settings:<br/><br/>\
@@ -30,13 +39,13 @@ export const checkLocationServicesIsEnabled = (platform:string) => {
             ok: "YES",
             cancel: "NO"
         })
-    }else{
+    } else {
         Location.requestAlwaysAuthorization();
         return Promise.resolve();
     }
 };
 
-export const startGPS = (platform:string) => {
+export const startGPS = (platform: string) => {
     if (platform === 'android') {
         //start the GPS into full time watching. Drains battery but brings best accuracy (required for our needs)
         return navigator.geolocation.watchPosition((position) => {
@@ -70,9 +79,9 @@ export const startGPS = (platform:string) => {
 
 
 export const clearWatchGps = function (platform, geoIds) {
-    if(platform === 'android'){
+    if (platform === 'android') {
         navigator.geolocation.clearWatch(geoIds.watchId);
-    }else {
+    } else {
         Location.stopUpdatingLocation();
     }
     BackgroundTimer.clearInterval(geoIds.intervalId);
@@ -83,7 +92,7 @@ export const watchGPSPositionsAtInterval = function (dispatchNewPositionFunction
     let intervalId = BackgroundTimer.setInterval(() => {
         navigator.geolocation.getCurrentPosition((geoPosition) => {
                 if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY) {
-                    let position = createPositionObjectFromGeoPosition(geoPosition);
+                    let position = createPositionArrayFromGeoPosition(geoPosition);
                     dispatchNewPositionFunction(position, dispatch);
                 }
             }
@@ -99,24 +108,26 @@ export const watchGPSPositionsAtInterval = function (dispatchNewPositionFunction
     return intervalId;
 };
 
-const createPositionObjectFromGeoPosition = function (position) {
+
+
+const createPositionArrayFromGeoPosition = function (geoPosition) {
     let speed = undefined;
     let gait = undefined;
-    if (position.coords.speed != undefined && position.coords.speed != "NaN") {
-        speed = position.coords.speed;
+    if (geoPosition.coords.speed != undefined && geoPosition.coords.speed != "NaN") {
+        speed = geoPosition.coords.speed;
         gait = getGaitFromSpeed(speed);
     }
-    return {
-        longitude: position.coords.longitude,
-        latitude: position.coords.latitude,
-        timestamp: moment().valueOf(),
-        speed: speed,
-        gait: gait,
-        accuracy: position.coords.accuracy,
-    };
+    return [
+        geoPosition.coords.longitude,
+        geoPosition.coords.latitude,
+        moment().valueOf(),
+        speed,
+        gait,
+        geoPosition.coords.accuracy,
+    ];
 };
 
-const getGaitFromSpeed = (speedKmh) =>{
+const getGaitFromSpeed = (speedKmh) => {
     let speed = utils.convertMeterPerSecondToMilesPerHour(speedKmh);
     let gaitType;
     if (speed < SPEED_THRESHOLD.STOP) {

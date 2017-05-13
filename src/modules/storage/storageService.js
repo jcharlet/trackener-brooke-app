@@ -59,21 +59,9 @@ export const addRide = (ride) => {
                 analytics: ride.analytics,
             });
 
-            let positions = ride.positions.map(function (position) {
-                return {
-                    timestamp: position.timestamp,
-                    speed: position.speed,
-                    gait: position.gait,
-                    accuracy: position.accuracy,
-                    loc: {
-                        x: position.longitude,
-                        y: position.latitude,
-                    },
-                };
-            });
             let addRidePositionsPromise = localRidePositionsRepository.addRide({
                 id: id,
-                positions: positions,
+                positions: ride.positions,
             });
 
             return Promise.all([addRidePromise,addRidePositionsPromise])

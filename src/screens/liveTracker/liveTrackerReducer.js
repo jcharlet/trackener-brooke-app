@@ -4,6 +4,7 @@ import {
 } from '../../actions/actionTypes';
 import moment from "moment";
 import {GPS_TIME_INTERVAL} from "../../config/config";
+import {POSITION_FIELDS} from "../../modules/geoloc/geolocService";
 
 export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 
@@ -67,15 +68,7 @@ const startRide = (state, deviceId) => {
             deviceId: deviceId,
             geoIds: null,
             pastDuration:0,
-            positions: [
-                // {
-                //     longitude:0,
-                //     latitude:0,
-                //     timestamp:0,
-                //     speed:0,
-                //     gait:"",
-                // }
-            ],
+            positions: [],
             analytics: {
                 distance: 0,
                 duration: 0,
@@ -144,10 +137,10 @@ const updateLocation = (state, newPosition) => {
         }
     }
     let lastPosition = state.ride.positions[state.ride.positions.length - 1];
-    if (newPosition.timestamp - lastPosition.timestamp < GPS_TIME_INTERVAL) {
+    if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] < GPS_TIME_INTERVAL) {
         return state;
     }
-    if (newPosition.timestamp - lastPosition.timestamp > GPS_TIME_INTERVAL + 5 * 1000) {
+    if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] > GPS_TIME_INTERVAL + 5 * 1000) {
         return {
             ...state,
             ride: {
@@ -160,15 +153,15 @@ const updateLocation = (state, newPosition) => {
         }
     }
 
-    let from = {lat: lastPosition.latitude, lon: lastPosition.longitude};
-    let to = {lat: newPosition.latitude, lon: newPosition.longitude};
+    let from = {lat: lastPosition[POSITION_FIELDS.LATITUDE], lon: lastPosition[POSITION_FIELDS.LONGITUDE]};
+    let to = {lat: newPosition[POSITION_FIELDS.LATITUDE], lon: newPosition[POSITION_FIELDS.LONGITUDE]};
     let distanceSinceLastPos = calculateDistance(from, to);
     let distance = state.ride.analytics.distance + distanceSinceLastPos;
     let totalDistance = state.totalDistance + distanceSinceLastPos;
-    let durationSinceLastPos = newPosition.timestamp - lastPosition.timestamp;
-    let duration = state.ride.pastDuration + (newPosition.timestamp - state.ride.geoIds.startTime) / 1000;
+    let durationSinceLastPos = newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP];
+    let duration = state.ride.pastDuration + (newPosition[POSITION_FIELDS.TIMESTAMP] - state.ride.geoIds.startTime) / 1000;
     let avgSpeed = distance / duration;
-    let speed = newPosition.speed;
+    let speed = newPosition[POSITION_FIELDS.SPEED];
 
     if(speed <0 || speed == undefined || speed == "NaN"){
       speed=distanceSinceLastPos/durationSinceLastPos;
@@ -214,7 +207,7 @@ export const updateTotalDistance= (state, totalDistance) =>{
 
 /**
  *
- var from = {lat: this.lastPosition.latitude, lon: this.lastPosition.longitude};
+ var from = {lat: this.lastPosition[POSITION_FIELDS.LATITUDE], lon: this.lastPosition[POSITION_FIELDS.LONGITUDE]};
  var to = {lat: latitude, lon: longitude};
  this.distance += this.calculateDistance(from, to);
  * @param a

@@ -8,8 +8,9 @@ import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall5doc60minM
 import moment from "moment";
 import * as migrateData from "./migrateData";
 import * as utils from "../../../util/utils";
+import {POSITION_FIELDS} from "../../geoloc/geolocService";
 
-const NB_OF_COPIES = 1;
+const NB_OF_COPIES = 3;
 const STORAGE_VERSION = 1;
 // const STORAGE_VERSION = 0;
 const username = 'gg';
@@ -39,14 +40,11 @@ export const generateRidesFromJsonFile= (rides, nbOfCopies) =>{
             date.add(i, 'days');
 
             let positions = ride.positions;
-            positions.map((position)=>{
-                let date = moment(position.timestamp);
+            positions.map((position)=> {
+                let date = moment(position[POSITION_FIELDS.TIMESTAMP]);
                 date.add(i, 'days');
-                return {
-                    ...position,
-                    timestamp:date.valueOf()
-                }
-
+                position[POSITION_FIELDS.TIMESTAMP]=date.valueOf();
+                return position;
             })
 
             newRides.push({

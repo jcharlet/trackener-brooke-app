@@ -2,9 +2,9 @@ export const RIDES_V0 = [{
     "date": "2017-05-04T11:20:14+01:00",
     "geoIds": {"intervalId": 2, "watchId": 0, "startTime": 1493853614897},
     "pastDuration": 31.73,
-    "id":"gg.007.2017-05-04T11:20:14+01:00",
-    "deviceId":"007",
-    "synced":true,
+    "id": "gg.007.2017-05-04T11:20:14+01:00",
+    "deviceId": "007",
+    "synced": true,
     "positions": [{
         "longitude": -0.3342833333333333,
         "latitude": 51.3751,
@@ -152,11 +152,11 @@ export const RIDES_V0 = [{
         }, {"index": 2, "number": 0, "name": "TROT"}, {"index": 3, "number": 0, "name": "CANTER"}]
     }
 }, {
-    "id":"gg.007.2017-05-04T00:21:31+01:00",
+    "id": "gg.007.2017-05-04T00:21:31+01:00",
     "date": "2017-05-04T00:21:31+01:00",
     "geoIds": {"intervalId": 4, "watchId": 0, "startTime": 1493853691293},
     "pastDuration": 60.892,
-    "deviceId":"007",
+    "deviceId": "007",
     "positions": [{
         "longitude": -0.3342833333333333,
         "latitude": 51.3751,
@@ -439,11 +439,11 @@ export const RIDES_V0 = [{
         }, {"index": 2, "number": 0, "name": "TROT"}, {"index": 3, "number": 0, "name": "CANTER"}]
     }
 }, {
-    "id":"gg.003.2017-05-04T18:21:31+01:00",
+    "id": "gg.003.2017-05-04T18:21:31+01:00",
     "date": "2017-05-04T18:21:31+01:00",
     "geoIds": {"intervalId": 4, "watchId": 0, "startTime": 1493853691293},
     "pastDuration": 60.892,
-    "deviceId":"003",
+    "deviceId": "003",
     "positions": [{
         "longitude": -0.3342833333333333,
         "latitude": 51.3751,
@@ -728,12 +728,12 @@ export const RIDES_V0 = [{
 }]
 
 export const RIDE_TO_ADD_V0 = {
-    "id":"gg.003.2017-06-04T20:20:14+01:00",
+    "id": "gg.003.2017-06-04T20:20:14+01:00",
     "date": "2017-06-04T20:20:14+01:00",
     "geoIds": {"intervalId": 2, "watchId": 0, "startTime": 1493853614897},
     "pastDuration": 24.73,
-    "deviceId":"003",
-    "synced":true,
+    "deviceId": "003",
+    "synced": true,
     "positions": [{
         "longitude": -0.3342833333333333,
         "latitude": 51.3751,
@@ -767,9 +767,9 @@ export const RIDE_TO_ADD_V0 = {
 
 
 export const RIDE_TO_ADD_V1 = {
-    "id":"gg.003.2017-06-04T20:20:14+01:00",
+    "id": "gg.003.2017-06-04T20:20:14+01:00",
     "date": "2017-06-04T20:20:14+01:00",
-    "deviceId":"003",
+    "deviceId": "003",
     "analytics": {
         "distance": 20000,
         "duration": 25.73,
@@ -784,62 +784,52 @@ export const RIDE_TO_ADD_V1 = {
     }
 }
 export const RIDES_V1 = [{
-    "id":"gg.003.2017-06-04T20:20:14+01:00",
-    "positions": [{
-        "loc":{
-            "x":-0.3342833333333333,
-            "y":51.3751
-        },
-        "timestamp": 1493853617533,
-        "speed": 0,
-        "gait": "STOP",
-        "accuracy": 20
-    }, {
-        "loc":{
-            "x":-0.3342833333333333,
-            "y":51.3751
-        },
-        "timestamp": 1493853645525,
-        "speed": 0,
-        "gait": "STOP",
-        "accuracy": 20,
-        "distance": 1124.3280278151917,
-        "duration": 1997
-    }],
-},{
-    "id":"gg.003.2017-07-04T20:20:14+01:00",
-    "positions": [{
-        "loc":{
-            "x":-0.3342833333333333,
-            "y":51.3751
-        },
-        "timestamp": 1493853617533,
-        "speed": 0,
-        "gait": "STOP",
-        "accuracy": 20
-    }],
+    "id": "gg.003.2017-06-04T20:20:14+01:00",
+    "positions": [[
+        -0.3342833333333333,
+        51.3751,
+        1493853617533,
+        0,
+        "STOP",
+        20
+    ], [
+        -0.3342833333333333,
+        51.3751,
+        1493853645525,
+        0,
+        "STOP",
+        20,
+        1124.3280278151917,
+        1997
+    ]],
+}, {
+    "id": "gg.003.2017-07-04T20:20:14+01:00",
+    "positions": [[
+        -0.3342833333333333,
+        51.3751,
+        1493853617533,
+        0,
+        "STOP",
+        20
+    ]],
 }]
 export const RIDE_POSITIONS_TO_ADD_V1 = {
-    "id":"gg.003.2017-06-05T20:20:14+01:00",
-    "positions": [{
-        "loc":{
-            "x":-0.3,
-            "y":51.3751
-        },
-        "timestamp": 1493853717533,
-        "speed": 10,
-        "gait": "STOP",
-        "accuracy": 20
-    }, {
-        "loc":{
-            "x":-0.3,
-            "y":51.3751
-        },
-        "timestamp": 1493853745525,
-        "speed": 10,
-        "gait": "STOP",
-        "accuracy": 20,
-        "distance": 1124.3280278151917,
-        "duration": 1997
-    }],
+    "id": "gg.003.2017-06-05T20:20:14+01:00",
+    "positions": [[
+        -0.3,
+        51.3751,
+        1493853717533,
+        10,
+        "STOP",
+        20
+    ], [
+        -0.3,
+        51.3751,
+        1493853745525,
+        10,
+        "STOP",
+        20,
+        1124.3280278151917,
+        1997
+    ]],
 }

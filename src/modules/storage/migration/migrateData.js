@@ -44,16 +44,14 @@ export const migrateDataFromV0ToV1 = function (username, deviceId, rides) {
     //Create ridePositions
     let newRidePositions = rides.map(function (ride) {
         let positions = ride.positions.map(function (position) {
-            return {
-                timestamp: position.timestamp,
-                speed: position.speed,
-                gait: position.gait,
-                accuracy: position.accuracy,
-                loc: {
-                    x: position.longitude,
-                    y: position.latitude,
-                },
-            };
+            return [
+                position.longitude,
+                position.latitude,
+                position.timestamp,
+                position.speed,
+                position.gait,
+                position.accuracy,
+            ];
         });
         return {
             id: utils.createRideId(username, deviceId, ride.date),
