@@ -119,7 +119,7 @@ export default class HistoryScreen extends Component {
                     <HeaderComponent
                         title={"History"}
                          navigation={this.props.navigation}
-                         rightElement={HeaderComponent.rightIconType.SETTINGS}
+                         rightElement={'SETTINGS'}
                     />
                     <View style={[globalStyles.COMMON_STYLES.container,{
                         alignItems: 'stretch',
@@ -142,7 +142,7 @@ export default class HistoryScreen extends Component {
             <HeaderComponent
                 title={"History"}
                  navigation={this.props.navigation}
-                 rightElement={HeaderComponent.rightIconType.SETTINGS}
+                 rightElement={'SETTINGS'}
             />
             <View style={[globalStyles.COMMON_STYLES.container,{
 

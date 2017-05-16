@@ -131,7 +131,7 @@ export default class HackDetailsScreen extends Component {
                     <HeaderComponent
                         title={"Ride Details"}
                         navigation={this.props.navigation}
-                        rightElement={HeaderComponent.rightIconType.SETTINGS}
+                        rightElement={'SETTINGS'}
                     />
                     {this.renderHackBrowserTopBar()}
                     <View style={globalStyles.COMMON_STYLES.container}>
@@ -193,7 +193,7 @@ export default class HackDetailsScreen extends Component {
             <HeaderComponent
                 title={"Ride Details"}
                 navigation={this.props.navigation}
-                rightElement={HeaderComponent.rightIconType.SETTINGS}
+                rightElement={'SETTINGS'}
             />
             <View style={[globalStyles.COMMON_STYLES.container,{
 

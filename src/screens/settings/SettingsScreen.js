@@ -29,7 +29,7 @@ export default class SettingsScreen extends Component {
                     title={"Settings"}
                     navigation={this.props.navigation}
                     leftElement={HeaderComponent.leftIconType.BACK}
-                    rightElement={HeaderComponent.rightIconType.EMPTY}
+                    rightElement={'EMPTY'}
                 />
                 <View style={[globalStyles.COMMON_STYLES.container,{
 

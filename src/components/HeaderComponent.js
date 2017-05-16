@@ -31,15 +31,16 @@ export default class Header extends Component {
     }
 
     renderLeftElement(elementType) {
+      if(elementType!=undefined){
         switch (elementType) {
-            case Header.leftIconType.TRACKENER_ICON:
+            case 'TRACKENER_ICON':
                 return (<View style={[globalStyles.COMMON_STYLES.verticallyAligned]}><Image
                     source={require('../../img/logo_white.png')}
                     style={globalStyles.COMMON_STYLES.headerImage}
                 />
                 </View>);
                 break;
-            case Header.leftIconType.BACK:
+            case 'BACK':
                 return (<TouchableOpacity style={[globalStyles.COMMON_STYLES.verticallyAligned,
                     ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
                                           onPress={() => this._goBack()}>
@@ -48,16 +49,17 @@ export default class Header extends Component {
                 </TouchableOpacity>)
                 break;
             default:
-            case Header.leftIconType.EMPTY:
+            case 'EMPTY':
                 return (<View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
                 </View>);
                 break;
         }
+      }
     }
 
     renderRightElement(elementType) {
         switch (elementType) {
-            case Header.rightIconType.SETTINGS:
+            case 'SETTINGS':
                 return (<TouchableOpacity style={[globalStyles.COMMON_STYLES.verticallyAligned,
                     ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
                                           onPress={() => this._navigateTo(NAV_SETTINGS)}>
@@ -68,7 +70,7 @@ export default class Header extends Component {
                 </TouchableOpacity>)
                 break;
             default:
-            case Header.rightIconType.EMPTY:
+            case 'EMPTY':
                 return (<View style={[globalStyles.COMMON_STYLES.verticallyAligned]}>
                 </View>)
                 break;
@@ -112,10 +114,10 @@ Header.propTypes = {
 
 Header.leftIconType = {
     EMPTY: "EMPTY",
-    TRACKENER_ICON: "TRACKENER_ICON",
     BACK: "BACK",
 }
-Header.rightIconType = {
+
+  Header.rightIconType = {
     EMPTY: "EMPTY",
     SETTINGS: "SETTINGS",
 }
