@@ -5,9 +5,6 @@ module.exports = require('react-native-mock');
 import * as migrateData from "../migrateData";
 import * as generateFakeData from "../generateFakeData";
 import {RIDES_COLL} from "../../localStorage/localRidesRepository";
-import * as userConfigRepository from "../../localStorage/userConfigRepository";
-import * as localRidesRepository from "../../localStorage/localRidesRepository";
-import * as localRidePositionsRepository from "../../localStorage/localRidePositionsRepository";
 import {mockStorage} from '../../localStorage/__mocks__/MockStorage';
 import FAKE_RIDES_JSON_FILE_PATH from '../../../../../resources/fakeSmall.json';
 

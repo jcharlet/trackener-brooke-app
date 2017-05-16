@@ -4,7 +4,7 @@ import * as localRidesRepository from "./localStorage/localRidesRepository";
 import * as BackgroundTimer from "react-native-background-timer";
 import * as userConfigRepository from "./localStorage/userConfigRepository";
 import * as appConfigRepository from "./localStorage/appConfigRepository";
-import * as localRidePositionsRepository from "./localStorage/localRidePositionsRepository";
+import * as localRidePositionsRepository from "./localStorage/localRidePositionsRepository2";
 import * as utils from "../../util/utils";
 import localStorage from "./localStorage/localStorage"
 

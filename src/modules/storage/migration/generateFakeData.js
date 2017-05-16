@@ -3,8 +3,8 @@ import * as localRidesRepository from "../localStorage/localRidesRepository";
 import {
     AsyncStorage
 } from 'react-native';
-import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall.json';
-// import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall5doc60minMinified.json';
+// import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall.json';
+import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall5doc60minMinified.json';
 import moment from "moment";
 import * as migrateData from "./migrateData";
 import * as utils from "../../../util/utils";

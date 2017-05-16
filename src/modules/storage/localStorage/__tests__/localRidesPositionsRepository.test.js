@@ -5,7 +5,7 @@ module.exports = require('react-native-mock');
 import {RIDE_POSITIONS_TO_ADD_V1, RIDES_V1} from "../__mocks__/fakeRides"
 import {POSITION_FIELDS} from "../../../geoloc/geolocService";
 import {mockStorage} from "../__mocks__/MockStorage";
-import * as localRidesPositionsRepository from "../localRidePositionsRepository";
+import * as localRidesPositionsRepository from "../localRidePositionsRepository2";
 
 
 
