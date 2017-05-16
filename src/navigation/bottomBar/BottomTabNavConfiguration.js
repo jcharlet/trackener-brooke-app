@@ -3,7 +3,7 @@ import {
     Image,
     View, StyleSheet, Platform
 } from 'react-native';
-import {TabNavigator} from "react-navigation";
+import {TabBarTop, TabNavigator} from "react-navigation";
 import LiveTrackerContainer from "../../screens/liveTracker/LiveTrackerContainer";
 import HistoryContainer from "../../screens/history/HistoryContainer";
 import * as globalStyles from "../../styles/global"
@@ -12,38 +12,32 @@ import TabView from "react-navigation/src/views/TabView/TabView";
 
 LiveTrackerContainer.navigationOptions = {
     title: 'Tracker',
-    tabBar: {
-        icon: ({tintColor}) => (
+    tabBarIcon: ({tintColor}) => (
             <Image
                 source={require('../../../img/tab-dashboard.png')}
                 style={[globalStyles.COMMON_STYLES.footerImage]}
             />
         ),
-    },
 };
 
 HackDetailsContainer.navigationOptions = {
     title: 'Ride details',
-    tabBar: {
-        icon: ({tintColor}) => (
+    tabBarIcon: ({tintColor}) => (
             <Image
                 source={require('../../../img/tab-exercising.png')}
                 style={[globalStyles.COMMON_STYLES.footerImage]}
             />
         ),
-    },
 };
 
 HistoryContainer.navigationOptions = {
     title: 'History',
-    tabBar: {
-        icon: ({tintColor}) => (
+    tabBarIcon: ({tintColor}) => (
             <Image
                 source={require('../../../img/tab-calendar.png')}
                 style={[globalStyles.COMMON_STYLES.footerImage]}
             />
         ),
-    },
 };
 
 export default BottomTabNavigator = TabNavigator({
@@ -51,7 +45,7 @@ export default BottomTabNavigator = TabNavigator({
     HackDetails: {screen: HackDetailsContainer},
     History: {screen: HistoryContainer},
 }, {
-    tabBarComponent:TabView.TabBarTop,
+    tabBarComponent:TabBarTop,
     tabBarPosition: 'bottom',
     tabBarOptions: {
         activeTintColor: globalStyles.WHITE,
