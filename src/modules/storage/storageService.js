@@ -6,6 +6,7 @@ import * as userConfigRepository from "./localStorage/userConfigRepository";
 import * as appConfigRepository from "./localStorage/appConfigRepository";
 import * as localRidePositionsRepository from "./localStorage/localRidePositionsRepository";
 import * as utils from "../../util/utils";
+import localStorage from "./localStorage/localStorage"
 
 export const USERNAME = 'g';
 export const DEVICE_ID = 'g';
@@ -121,7 +122,8 @@ export const sync = () => {
 
 export const emptyStorage = () => {
     localRidesRepository.saveRides([]);
-    localRidePositionsRepository.save([]);
+    localRidePositionsRepository.empty();
+    localStorage.clearMap();
     userConfigRepository.emptyUserConfigs();
     appConfigRepository.empty();
 }

@@ -74,8 +74,6 @@ describe('localRidesPositionsRepository', () => {
             })
     });
     it('save rides correctly', () => {
-        let username = 'arthur';
-        let deviceId = '003';
         return localRidesPositionsRepository.save([RIDE_POSITIONS_TO_ADD_V1])
             .then(() => {
                 return localRidesPositionsRepository.loadAllRides()

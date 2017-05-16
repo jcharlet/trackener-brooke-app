@@ -1,26 +1,41 @@
-import {
-    AsyncStorage
-} from 'react-native';
-import {storage} from "./localStorage"
+import localStorage from "./localStorage"
 export const RIDE_POSITIONS_COLL = 'ridePositions';
+import moment from "moment";
+import FAKE_POSITIONS from '../../../../resources/fake_v2_positions_light.json';
+import {POSITION_FIELDS} from "../../geoloc/geolocService";
+
 
 export const save = (rides) => {
-    let addPromises = [];
     return empty()
         .then(() => {
-            for (let ride of rides) {
-                addPromises.push(addRide(ride));
-            }
-            return Promise.all(addPromises);
+            // console.log("start adding " + moment().valueOf());
+            return pushAllRidesSequentially(rides).then(function() {
+                // console.log('all done ' + moment().valueOf());
+            });
         })
+}
+function pushAllRidesSequentially(rides) {
+    return rides.reduce(function(promise, ride) {
+        return promise.then(function() {
+            return addRide(ride)
+                .then(()=> {
+                    // console.log("ride added " + moment().valueOf());
+                    return Promise.resolve();
+                })
+                .catch((error)=>{
+                    // console.log("error happened " + error);
+                    return error;
+                });
+        });
+    }, Promise.resolve());
 }
 
 export const loadAllRides = () => {
-    return storage().getAllDataForKey(RIDE_POSITIONS_COLL)
+    return localStorage.getAllDataForKey(RIDE_POSITIONS_COLL)
 };
 
 export const loadById = (id) => {
-    return storage().load({
+    return localStorage.load({
         key: RIDE_POSITIONS_COLL,   // Note: Do not use underscore("_") in key!
         id: id,
 
@@ -43,36 +58,35 @@ export const loadById = (id) => {
         // },
     })
         .catch((reject) => {
-            if (reject.name !== 'NotFoundError') {
-                console.info(reject.name);
-            }
-            return Promise.resolve(null)
-        })
+                if (reject.name !== 'NotFoundError') {
+                    console.info(reject.name);
+                }
+                return Promise.resolve(null)
+            })
 }
 
 
 export const addRide = (ride) => {
-    return storage().save({
+    return localStorage.save({
         key: RIDE_POSITIONS_COLL,   // Note: Do not use underscore("_") in key!
         id: ride.id,   // Note: Do not use underscore("_") in key!
         data: ride,
 
         // if not specified, the defaultExpires will be applied instead.
         // if set to null, then it will never expire.
-        expires: null
     });
 }
 
 export const removeRide = (id: string) => {
-    return storage().remove({
+    return localStorage.remove({
         key: RIDE_POSITIONS_COLL,
         id: id
     });
 }
 
 export const empty = () => {
-    if (storage()._m && storage()._m.__keys__[RIDE_POSITIONS_COLL]) {
-        return storage().clearMapForKey(RIDE_POSITIONS_COLL);
+    if (localStorage._m && localStorage._m.__keys__[RIDE_POSITIONS_COLL]) {
+        return localStorage.clearMapForKey(RIDE_POSITIONS_COLL);
     }
     return Promise.resolve();
 }

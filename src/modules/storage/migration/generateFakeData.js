@@ -3,14 +3,14 @@ import * as localRidesRepository from "../localStorage/localRidesRepository";
 import {
     AsyncStorage
 } from 'react-native';
-// import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall.json';
-import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall5doc60minMinified.json';
+import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall.json';
+// import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall5doc60minMinified.json';
 import moment from "moment";
 import * as migrateData from "./migrateData";
 import * as utils from "../../../util/utils";
 import {POSITION_FIELDS} from "../../geoloc/geolocService";
 
-const NB_OF_COPIES = 3;
+const NB_OF_COPIES = 10;
 const STORAGE_VERSION = 1;
 // const STORAGE_VERSION = 0;
 const username = 'gg';
@@ -37,12 +37,12 @@ export const generateRidesFromJsonFile= (rides, nbOfCopies) =>{
         for (let i=0; i< nbOfCopies; i++){
             //add 1 day to each ride + ride position
             let date = moment(ride.date);
-            date.add(i, 'days');
+            date.add(i, 'days').add(i, 'hours').add(i, 'minutes').add(i, 'seconds');
 
             let positions = ride.positions;
             positions.map((position)=> {
                 let date = moment(position[POSITION_FIELDS.TIMESTAMP]);
-                date.add(i, 'days');
+                date.add(i, 'days').add(i, 'hours').add(i, 'minutes').add(i, 'seconds');
                 position[POSITION_FIELDS.TIMESTAMP]=date.valueOf();
                 return position;
             })
