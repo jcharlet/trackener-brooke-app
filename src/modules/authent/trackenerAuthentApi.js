@@ -1,4 +1,4 @@
-import {TRACKENER_API} from "../../config/config";
+import {TRACKENER_API,IS_TRACKENER_API_MOCKED} from "../../config/config";
 import {LOGIN_SUCCESS, LOGIN_ERROR, REGISTER_SUCCESS, REGISTER_ERROR} from "../../actions/actionTypes";
 import {
     ERROR_FORBIDDEN,
@@ -17,6 +17,12 @@ export const register = (email: string, username: string, password: string) => {
     formData.append('email', email);
     formData.append('username', username);
     formData.append('password', password);
+
+    if (IS_TRACKENER_API_MOCKED){
+      return Promise.resolve({
+        type: REGISTER_SUCCESS,
+      })
+    }
 
     return fetch(TRACKENER_API + "/register", {
             method: "post",
@@ -74,6 +80,13 @@ export const login = (username: string, password: string) => {
     let formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
+
+    if (IS_TRACKENER_API_MOCKED){
+      return Promise.resolve({
+        type: LOGIN_SUCCESS,
+        payload:username,
+      })
+    }
 
     return fetch(TRACKENER_API + "/login", {
             method: "post",
