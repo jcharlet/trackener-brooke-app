@@ -20,13 +20,13 @@ export const loginOnStartup = () => {
                     type: AUTO_LOGIN,
                     payload: storedCredentials,
                 });
-                dispatch(login(storedCredentials.username, storedCredentials.password));
+                dispatch(login(storedCredentials.username, storedCredentials.password, true));
             }
         })
     }
 };
 
-export const login = (username: string, password: string) => {
+export const login = (username: string, password: string, isAutoLogin:boolean) => {
     return (dispatch, getState) => {
         trackenerAuthentApi.login(username, password)
             .then((loginResponse) => {
@@ -37,6 +37,14 @@ export const login = (username: string, password: string) => {
                             username, password);
                         break;
                     case LOGIN_ERROR:
+                        if(isAutoLogin && loginResponse.errorType === ERROR_UNAVAILABLE){
+                            //if Service is unavailable, we still enable the user to login locally if he has correct password and use his application offline.
+                            //TODO we might need at some point to let the user know he's using the app offline
+                            loginSuccess(dispatch, getState,
+                                // loginResponse,
+                                username, password);
+                            return;
+                        }
                         loginError(dispatch, loginResponse.errorType);
                         break;
                 }
@@ -55,6 +63,7 @@ const loginSuccess = (dispatch,
                       // loginResponse,
                       username: string, password: string) => {
     credentialsRepository.saveCredentials(username, password);
+    //TODO when doing multiple horses, need to store the list of horses for one user locally so that he can uses the app locally
     let deviceId = checksum(username);
     storageService.initApp(username, deviceId);
     migrate(username,deviceId)

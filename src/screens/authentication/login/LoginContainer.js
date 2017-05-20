@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(loginOnStartup());
         },
         doLogin: (username:string, password:string) => {
-            dispatch(login(username,password));
+            dispatch(login(username,password, false));
         },
     }
 };
