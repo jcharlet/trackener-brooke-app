@@ -97,6 +97,8 @@ export default class LoginScreen extends Component {
         marginRight:8,
         color:'rgba(0,0,0,.625)',
                         }}
+                            autoCorrect={false}
+                            autoCapitalize="none"
                             placeholder='Username'
                             onChangeText={(text) => this.props.login.username=text}
                             defaultValue={this.props.login.username}
@@ -110,7 +112,8 @@ export default class LoginScreen extends Component {
         marginRight:8,
         color:'rgba(0,0,0,.625)',
                         }}
-
+                            autoCorrect={false}
+                            autoCapitalize="none"
                             secureTextEntry={true}
                             placeholder='Password'
                             onChangeText={(text) => this.props.login.password=text}

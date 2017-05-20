@@ -129,6 +129,8 @@ export default class RegisterScreen extends Component {
         marginRight:8,
         color:'rgba(0,0,0,.625)',
                         }}
+                            autoCorrect={false}
+                            autoCapitalize="none"
                             placeholder='Email'
                             onChangeText={(text) => this.props.register.email=text}
                         />
@@ -141,6 +143,8 @@ export default class RegisterScreen extends Component {
         marginRight:8,
         color:'rgba(0,0,0,.625)',
                         }}
+                            autoCorrect={false}
+                            autoCapitalize="none"
                             placeholder='Username'
                             onChangeText={(text) => this.props.register.username=text}
                         />
@@ -153,7 +157,8 @@ export default class RegisterScreen extends Component {
         marginRight:8,
         color:'rgba(0,0,0,.625)',
                         }}
-
+                            autoCorrect={false}
+                            autoCapitalize="none"
                             secureTextEntry={true}
                             placeholder='Password'
                             onChangeText={(text) => this.props.register.password=text}
@@ -167,7 +172,8 @@ export default class RegisterScreen extends Component {
         marginRight:8,
         color:'rgba(0,0,0,.625)',
                         }}
-
+                            autoCorrect={false}
+                            autoCapitalize="none"
                             secureTextEntry={true}
                             placeholder='Repeat password'
                             onChangeText={(text) => this.props.register.repeatPassword=text}
