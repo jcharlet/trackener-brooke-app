@@ -34,8 +34,8 @@ export default class HistoryScreen extends Component {
         });
     }
 
-    _navigate(index) {
-        this.props.navigateToHackDetails(index);
+    _navigate(date) {
+        this.props.navigateToHackDetails(date);
     }
 
     renderRow(rowData, ...rest) {
@@ -54,7 +54,7 @@ export default class HistoryScreen extends Component {
                 paddingRight:20,
                 backgroundColor: globalStyles.GRAY,
             }} activeOpacity={globalStyles.ACTIVE_OPACITY}
-                              onPress={() => this._navigate(index)}>
+                              onPress={() => this._navigate(rowData.date)}>
                 <View style={{
                     flex:1.1,
                     flexDirection:'row',
@@ -132,6 +132,7 @@ export default class HistoryScreen extends Component {
                             enableEmptySections
                             dataSource={this.state.dataSource}
                             renderRow={this.renderRow.bind(this)}
+                            removeClippedSubviews={false}
                         />
                     </View>
                 </View>

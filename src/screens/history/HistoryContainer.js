@@ -20,10 +20,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        navigateToHackDetails : (index) =>{
+        navigateToHackDetails : (date) =>{
             dispatch({
                 type: NAV_HACK_DETAILS,
-                payload: index,
+                payload: date,
             });
         }
     }

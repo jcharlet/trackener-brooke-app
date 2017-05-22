@@ -29,8 +29,9 @@ export default (state = initialState, action = {}) => {
     }
 };
 
-const showRide = (state, index) => {
-    if (index!=null) {
+const showRide = (state, date) => {
+    if (date!=null) {
+        let index = state.rides.findIndex(ride => ride.date === date);
         return {
             ...state,
             index: index
