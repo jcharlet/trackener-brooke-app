@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 // speed thresholds in mph
-export const SPEED_THRESHOLD = {STOP: 1, WALK: 7, TROT: 13}
+export const SPEED_THRESHOLD = {STOP: 1, WALK: 5.5, TROT: 9}
 export const GAIT = {STOP: "STOP", WALK: "WALK", TROT: "TROT", CANTER: "CANTER"}
 export const POSITION_FIELDS =
     {
