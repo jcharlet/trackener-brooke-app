@@ -1,6 +1,6 @@
 
-import {SHOW_PREVIOUS_HACK, SHOW_NEXT_HACK, REMOVE_HACK, UPDATE_TOTAL_DISTANCE} from "../../actions/actionTypes";
-import * as storageService from "../../modules/storage/storageService";
+import {SHOW_PREVIOUS_HACK, SHOW_NEXT_HACK, REMOVE_HACK, UPDATE_TOTAL_DISTANCE} from "../../../actions/actionTypes";
+import * as storageService from "../../../modules/storage/storageService";
 
 export const removeRide = (date: string, distance: number) => {
 

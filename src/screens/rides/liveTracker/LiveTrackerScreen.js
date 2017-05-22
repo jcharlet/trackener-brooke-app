@@ -7,11 +7,11 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-import * as globalStyles from '../../styles/global';
+import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
-import * as utils from "../../util/utils";
-import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
-import HeaderComponent from '../../components/HeaderComponent'
+import * as utils from "../../../util/utils";
+import {NAV_HACK_DETAILS} from "../../../actions/actionTypes";
+import HeaderComponent from '../../../components/HeaderComponent'
 
 export default class LiveTrackerScreen extends Component {
 
@@ -36,7 +36,7 @@ export default class LiveTrackerScreen extends Component {
                         justifyContent: 'flex-start',
                     }}>
                         <View>
-                            <Image source={require('../../../img/trophy.png')} style={{
+                            <Image source={require('../../../../img/trophy.png')} style={{
                             height: 40,
                             width: 40,
                             alignSelf: 'center',
@@ -58,7 +58,7 @@ export default class LiveTrackerScreen extends Component {
                         flex:0,
                         flexDirection:'row',
                         alignItems:'center'}}>
-                        <Image source={require('../../../img/ic_navigate_next_green.png')}
+                        <Image source={require('../../../../img/ic_navigate_next_green.png')}
                                style={globalStyles.COMMON_STYLES.infoBoxArrowTracker}/>
                     </View>
                 </TouchableOpacity>

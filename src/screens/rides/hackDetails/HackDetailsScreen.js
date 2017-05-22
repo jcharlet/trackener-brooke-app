@@ -7,13 +7,12 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-import * as globalStyles from '../../styles/global';
+import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
-import * as utils from "../../util/utils";
+import * as utils from "../../../util/utils";
 import Pie from './chartsComponents/Pie';
 import Theme from "./chartsComponents/theme";
-import HeaderComponent from '../../components/HeaderComponent'
-import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
+import HeaderComponent from '../../../components/HeaderComponent'
 
 
 export default class HackDetailsScreen extends Component {
@@ -40,7 +39,7 @@ export default class HackDetailsScreen extends Component {
 
                         */
                      }}>
-                            <Image source={require('../../../img/ic_navigate_prev_green.png')}
+                            <Image source={require('../../../../img/ic_navigate_prev_green.png')}
                                 //    {/*style={globalStyles.COMMON_STYLES.infoBoxArrow}*/}
                             />
                         </TouchableOpacity>);
@@ -62,7 +61,7 @@ export default class HackDetailsScreen extends Component {
 
                         */
                      }}>
-                            <Image source={require('../../../img/ic_navigate_next_green.png')}
+                            <Image source={require('../../../../img/ic_navigate_next_green.png')}
                                 //    {/*style={globalStyles.COMMON_STYLES.infoBoxArrow}*/}
                             />
                         </TouchableOpacity>);

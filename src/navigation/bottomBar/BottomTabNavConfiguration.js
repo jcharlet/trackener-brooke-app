@@ -4,10 +4,10 @@ import {
     View, StyleSheet, Platform
 } from 'react-native';
 import {TabBarTop, TabNavigator} from "react-navigation";
-import LiveTrackerContainer from "../../screens/liveTracker/LiveTrackerContainer";
-import HistoryContainer from "../../screens/history/HistoryContainer";
+import LiveTrackerContainer from "../../screens/rides/liveTracker/LiveTrackerContainer";
+import HistoryContainer from "../../screens/rides/history/HistoryContainer";
 import * as globalStyles from "../../styles/global"
-import HackDetailsContainer from "../../screens/hackDetails/HackDetailsContainer";
+import HackDetailsContainer from "../../screens/rides/hackDetails/HackDetailsContainer";
 import TabView from "react-navigation/src/views/TabView/TabView";
 
 LiveTrackerContainer.navigationOptions = {

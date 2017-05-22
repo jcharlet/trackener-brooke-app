@@ -8,11 +8,10 @@ import {
     TouchableOpacity,
     ListView
 } from 'react-native';
-import * as globalStyles from '../../styles/global';
+import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
-import * as utils from "../../util/utils";
-import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
-import HeaderComponent from '../../components/HeaderComponent'
+import * as utils from "../../../util/utils";
+import HeaderComponent from '../../../components/HeaderComponent'
 
 
 export default class HistoryScreen extends Component {
@@ -74,7 +73,7 @@ export default class HistoryScreen extends Component {
                     flexDirection:'row',
         justifyContent: 'space-between',
             }}>
-                    <Image source={require('../../../img/ic_timer_purple.png')} style={{
+                    <Image source={require('../../../../img/ic_timer_purple.png')} style={{
                         width:22,height:30,
                             alignSelf: 'center',
                             resizeMode:'contain' ,
@@ -92,7 +91,7 @@ export default class HistoryScreen extends Component {
                     flexDirection:'row',
         justifyContent: 'flex-start',
             }}>
-                    <Image source={require('../../../img/distance_blue.png')}
+                    <Image source={require('../../../../img/distance_blue.png')}
                     style={{width:25,height:30,
                     resizeMode:'contain' ,
                         alignSelf: 'center',}}/>
@@ -102,7 +101,7 @@ export default class HistoryScreen extends Component {
         textAlign: 'center',
       }]}>{utils.roundWithOneDecimals(rowData.distance * utils.ONE_METER_IN_MILES)} mi</Text>
                 </View>
-                <View><Image source={require('../../../img/ic_navigate_next_green.png')}
+                <View><Image source={require('../../../../img/ic_navigate_next_green.png')}
                              style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
                 </View>
 

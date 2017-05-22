@@ -5,10 +5,10 @@ import {
 import {
      START_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH,
     UPDATE_TOTAL_DISTANCE
-} from "../../actions/actionTypes";
+} from "../../../actions/actionTypes";
 import moment from "moment";
-import * as geolocService from "../../modules/geoloc/geolocService";
-import * as storageService from "../../modules/storage/storageService";
+import * as geolocService from "../../../modules/geoloc/geolocService";
+import * as storageService from "../../../modules/storage/storageService";
 
 
 export const startRide = () => {

@@ -10,7 +10,7 @@ import {
 import {connect} from "react-redux";
 import HistoryScreen from "./HistoryScreen";
 import {loadRides} from "./historyActions";
-import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
+import {NAV_HACK_DETAILS} from "../../../actions/actionTypes";
 
 const mapStateToProps = (state) => {
     return {

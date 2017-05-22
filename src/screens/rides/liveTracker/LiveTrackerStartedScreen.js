@@ -7,13 +7,13 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-import * as globalStyles from '../../styles/global';
+import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
-import * as utils from "../../util/utils";
+import * as utils from "../../../util/utils";
 import {STATUS} from "./liveTrackerReducer";
 import BackgroundTimer from 'react-native-background-timer';
 import moment from "moment";
-import HeaderComponent from '../../components/HeaderComponent'
+import HeaderComponent from '../../../components/HeaderComponent'
 
 export default class LiveTrackerStartedScreen extends Component {
 

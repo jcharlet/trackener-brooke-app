@@ -11,7 +11,7 @@ import {
 import HackDetailsScreen from "./HackDetailsScreen";
 import {connect} from "react-redux";
 import {showPreviousRide, showNextRide, removeRide} from "./hackDetailsActions";
-import {wait} from "../../util/utils.js";
+import {wait} from "../../../util/utils.js";
 
 const mapStateToProps = (state) => {
     return {
