@@ -69,6 +69,13 @@ class Pie extends React.Component {
 
     _label(item) { return item.name; }
 
+    _labelValue(item) {
+        if(item.labelValue){
+            return item.labelValue;
+        }
+        return this._value(item) + '%'
+    }
+
     _index(item) { return item.index; }
 
     _color(index) { return Theme.colors[index]; }
@@ -139,7 +146,7 @@ class Pie extends React.Component {
                                 <View key={index}>
                                 {/*<TouchableWithoutFeedback key={index} onPress={() => this._onPieItemSelected(index)}>*/}
                                     <View>
-                                        <Text style={[styles.label, {color: this._color(index), fontWeight: fontWeight}]}>{this._label(item)}: {this._value(item)}%</Text>
+                                        <Text style={[styles.label, {color: this._color(index), fontWeight: fontWeight}]}>{this._label(item)}: {this._labelValue(item)}</Text>
                                     </View>
                                 </View >
                             );

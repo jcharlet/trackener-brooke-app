@@ -119,6 +119,7 @@ export default class HackDetailsScreen extends Component {
             let timeSpentByGaitTable = ride.analytics.timeSpentByGait;
             timeSpentByGaitTable.map((element) => {
                 element.name = utils.capitalizeFirstLetter(element.name);
+                element.labelValue=utils.secondsToMin(element.number*(1/100)*ride.analytics.duration) + " min";
                 return element;
             })
             let distance = utils.roundWithOneDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES);
