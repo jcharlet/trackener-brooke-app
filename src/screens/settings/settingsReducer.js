@@ -19,6 +19,6 @@ export default (state = initialState, action = {}) => {
 function loadSettings(state, settings) {
 return {
     ...state,
-    isOffline:settings.isOffline
+    ...settings
 }
 }

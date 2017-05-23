@@ -63,8 +63,11 @@ export default class SettingsScreen extends Component {
                         flexDirection: 'column',
 
                     }]}>
+                        <View style={[globalStyles.COMMON_STYLES.buttonView,]}>
+                            <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal]}>logged as </Text><Text style={[globalStyles.COMMON_STYLES.fontSizeNormal, {color:globalStyles.GREEN, fontWeight:'bold'}]}>{this.props.settings.username}</Text>
+                        </View>
 
-                    {this.renderModifyPasswordButton(this.props.settings.isOffline)}
+                        {this.renderModifyPasswordButton(this.props.settings.isOffline)}
 
                         <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
                         ]} activeOpacity={globalStyles.ACTIVE_OPACITY}

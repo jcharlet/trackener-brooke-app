@@ -8,9 +8,12 @@ export const logout = () =>{
 
 export const loadSettings = () =>{
     return (dispatch) => {
-        appConfigRepository.isOffline()
-            .then((isOffline) => {
-                dispatch({type: LOAD_SETTINGS, payload: {isOffline: isOffline}})
+        appConfigRepository.load()
+            .then((appConfig) => {
+                dispatch({type: LOAD_SETTINGS, payload: {
+                    isOffline: appConfig.isOffline,
+                    username: appConfig.username,
+                }})
             })
     }
 }
