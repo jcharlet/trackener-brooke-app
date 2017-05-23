@@ -10,6 +10,7 @@ import loginReducer from "./screens/authentication/login/loginReducer";
 import registerReducer from "./screens/authentication/register/registerReducer";
 import settingsReducer from "./screens/settings/settingsReducer";
 import mainNavReducer from "./navigation/main/mainNavReducer";
+import modifyPasswordReducer from "./screens/authentication/modifyPassword/modifyPasswordReducer";
 
 
 
@@ -33,6 +34,7 @@ export default () => (
             history: historyReducer,
             register: registerReducer,
             settings: settingsReducer,
+            modifyPassword: modifyPasswordReducer,
         }),
         applyMiddleware(...middleWare)
     )

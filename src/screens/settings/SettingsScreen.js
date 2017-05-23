@@ -11,7 +11,7 @@ import {
 import * as globalStyles from '../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../util/utils";
-import {NAV_HACK_DETAILS} from "../../actions/actionTypes";
+import {NAV_RESET_PASSWORD} from "../../actions/actionTypes";
 import HeaderComponent from '../../components/HeaderComponent'
 
 
@@ -21,6 +21,9 @@ export default class SettingsScreen extends Component {
         super(props);
     }
 
+    _navigateTo(screen) {
+        this.props.navigation.navigate(screen);
+    }
 
     render() {
         return (
@@ -33,33 +36,31 @@ export default class SettingsScreen extends Component {
                 />
                 <View style={[globalStyles.COMMON_STYLES.container,{
 
-                    flex:1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
+                        flex:1,
+                        alignItems: 'center',
+                        justifyContent: 'space-around',
+                        flexDirection: 'column',
 
-            }]}>
-                    {/*<Text*/}
-                        {/*style={{*/}
-                    {/*textAlign:"center",*/}
-        {/*fontSize: 20,*/}
-        {/*padding: 20,*/}
-        {/*color: globalStyles.GREEN,*/}
-        {/*//borderStyle: 'solid',*/}
-        {/*//borderColor: 'red',*/}
-        {/*//borderWidth: 1*/}
-                {/*}}*/}
-                    {/*>Settings</Text>*/}
+                    }]}>
 
                     <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
                     ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                      onPress={() => {this.props.logout()}}>
+                                      onPress={() => {this._navigateTo(NAV_RESET_PASSWORD)}}>
 
-                        <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.redButton]}>
-                            <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Logout</Text>
+                        <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.greenButton]}>
+                            <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Modify password</Text>
                         </View>
                     </TouchableOpacity>
-                </View>
+
+                        <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
+                        ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
+                                          onPress={() => {this.props.logout()}}>
+
+                            <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.redButton]}>
+                                <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Logout</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
             </View>
         );
     }

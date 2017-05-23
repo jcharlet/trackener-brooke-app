@@ -10,6 +10,7 @@ export const NAV_AUTHENT_REGISTER = 'Register';
 export const NAV_AUTHENT_LOGIN = 'Login';
 export const NAV_TRACKER_STARTED = 'LiveTrackerStartedContainer';
 export const NAV_TRACKER = 'LiveTracker';
+export const NAV_RESET_PASSWORD = 'ModifyPassword';
 
 
 ///////////////////////
@@ -21,6 +22,9 @@ export const LOGIN_ERROR = 'login/ERROR';
 
 export const REGISTER_SUCCESS = 'register/SUCCESS';
 export const REGISTER_ERROR = 'register/ERROR';
+
+export const MODIFY_PASSWORD_SUCCESS = 'modifyPassword/SUCCESS';
+export const MODIFY_PASSWORD_ERROR = 'modifyPassword/ERROR';
 
 export const LOGOUT = 'logout/LOGOUT';
 
