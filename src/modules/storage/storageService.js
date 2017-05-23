@@ -11,8 +11,8 @@ import localStorage from "./localStorage/localStorage"
 export const USERNAME = 'g';
 export const DEVICE_ID = 'g';
 
-export const initApp = (username, deviceId) => {
-    appConfigRepository.save(username, deviceId)
+export const initApp = (username:string, deviceId:string, isOffline:boolean) => {
+    appConfigRepository.save(username, deviceId, isOffline)
 }
 
 export const loadTotalDistance = () => {

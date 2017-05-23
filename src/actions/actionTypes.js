@@ -18,12 +18,14 @@ export const NAV_RESET_PASSWORD = 'ModifyPassword';
 ///////////////////////
 export const AUTO_LOGIN = 'login/AUTO_LOGIN';
 export const LOGIN_SUCCESS = 'login/SUCCESS';
+export const LOGIN_IN_PROGRESS = 'login/LOGIN_IN_PROGRESS';
 export const LOGIN_ERROR = 'login/ERROR';
 
 export const REGISTER_SUCCESS = 'register/SUCCESS';
 export const REGISTER_ERROR = 'register/ERROR';
 
 export const LOGOUT = 'logout/LOGOUT';
+export const LOAD_SETTINGS = 'settings/LOAD_SETTINGS';
 
 export const RIDES_POST_SUCCESS = 'api/rides/SUCCESS';
 export const RIDES_POST_ERROR = 'api/rides/ERROR';

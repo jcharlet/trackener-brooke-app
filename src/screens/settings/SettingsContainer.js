@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {connect} from "react-redux";
 import SettingsScreen from "./SettingsScreen";
-import {logout} from "./settingsActions";
+import {loadSettings, logout} from "./settingsActions";
 
 const mapStateToProps = (state) => {
     return {
@@ -22,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
         logout: () => {
             dispatch(logout());
         },
+        load: () => {
+            dispatch(loadSettings());
+        }
     }
 };
 

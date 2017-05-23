@@ -1,4 +1,7 @@
-import {LOGIN_ERROR, LOGIN_SUCCESS, AUTO_LOGIN, LOGOUT, REGISTER_SUCCESS} from "../../../actions/actionTypes";
+import {
+    LOGIN_ERROR, LOGIN_SUCCESS, AUTO_LOGIN, LOGOUT, REGISTER_SUCCESS,
+    LOGIN_IN_PROGRESS
+} from "../../../actions/actionTypes";
 import {checksum} from "../../../util/utils";
 import {loginOnStartup} from "./loginActions";
 const initialState = {
@@ -13,6 +16,8 @@ export default (state = initialState, action = {}) => {
     switch (action.type) {
         case AUTO_LOGIN:
             return autoLogin(state,action.payload);
+        case LOGIN_IN_PROGRESS:
+            return updateLoginState(state, action.payload);
         case LOGIN_SUCCESS:
             return updateLoginStateOnSuccess(state, action.payload);
         case LOGIN_ERROR:
@@ -31,6 +36,12 @@ export function autoLogin(state, credentials) {
         ...state,
         username:credentials.username,
         password:credentials.password,
+    }
+}
+export function updateLoginState(state, feedback) {
+    return {
+        ...state,
+        feedback: feedback
     }
 }
 export function updateLoginStateOnSuccess(state, username) {

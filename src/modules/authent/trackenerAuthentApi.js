@@ -222,13 +222,14 @@ export const login = (username: string, password: string) => {
             }
         )
         .catch((error) => {
-            console.error('api/login ERROR ' + error.message);
             if (error.message === "Network request failed") {
+                console.warn('api/login ERROR ' + error.message);
                 return {
                     type: LOGIN_ERROR,
                     errorType: ERROR_UNAVAILABLE,
                 }
             }
+            console.error('api/login ERROR ' + error.message);
             return {
                 type: LOGIN_ERROR,
                 errorType: ERROR_UNKNOWN,

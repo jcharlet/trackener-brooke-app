@@ -19,10 +19,31 @@ export default class SettingsScreen extends Component {
 
     constructor(props) {
         super(props);
+        this.props.load();
     }
 
     _navigateTo(screen) {
         this.props.navigation.navigate(screen);
+    }
+
+    renderModifyPasswordButton(isOffline){
+        if(isOffline){
+            return (
+                <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.grayButton]}>
+                <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Modify password</Text>
+            </View>
+            );
+        }
+        return (
+            <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
+        ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
+                                  onPress={() => {this._navigateTo(NAV_RESET_PASSWORD)}}>
+
+            <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.greenButton]}>
+                <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Modify password</Text>
+            </View>
+        </TouchableOpacity>
+        )
     }
 
     render() {
@@ -43,14 +64,7 @@ export default class SettingsScreen extends Component {
 
                     }]}>
 
-                    <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
-                    ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                      onPress={() => {this._navigateTo(NAV_RESET_PASSWORD)}}>
-
-                        <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.greenButton]}>
-                            <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Modify password</Text>
-                        </View>
-                    </TouchableOpacity>
+                    {this.renderModifyPasswordButton(this.props.settings.isOffline)}
 
                         <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
                         ]} activeOpacity={globalStyles.ACTIVE_OPACITY}

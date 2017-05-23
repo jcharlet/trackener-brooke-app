@@ -15,13 +15,14 @@ export const load = () => {
         });
 }
 
-export const save = (username, deviceId) => {
+export const save = (username: string, deviceId: string, isOffline: boolean) => {
     return load()
         .then((appConfig) => {
             appConfig = {
                 ...appConfig,
                 username: username,
                 deviceId: deviceId,
+                isOffline: isOffline,
             }
             return AsyncStorage.setItem(APP_CONFIG_COLL, JSON.stringify(appConfig));
         })
@@ -41,7 +42,7 @@ export const saveStorageVersion = (storageVersion) => {
 export const getDeviceId = () => {
     return load()
         .then((appConfig) => {
-            if(appConfig){
+            if (appConfig) {
                 return appConfig.deviceId
             }
             return null
@@ -50,8 +51,17 @@ export const getDeviceId = () => {
 export const getUsername = () => {
     return load()
         .then((appConfig) => {
-            if(appConfig){
+            if (appConfig) {
                 return appConfig.username
+            }
+            return null
+        })
+}
+export const isOffline = () => {
+    return load()
+        .then((appConfig) => {
+            if (appConfig) {
+                return appConfig.isOffline
             }
             return null
         })
@@ -59,7 +69,7 @@ export const getUsername = () => {
 export const getStorageVersion = () => {
     return load()
         .then((appConfig) => {
-            if(appConfig){
+            if (appConfig) {
                 return appConfig.storageVersion
             }
             return null

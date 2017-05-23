@@ -236,6 +236,13 @@ const base ={
         borderColor: GREEN,
         backgroundColor: GREEN
     },
+    grayButton: {
+
+        borderStyle: 'solid',
+        borderWidth: 2,
+        borderColor: GRAY,
+        backgroundColor: GRAY
+    },
     buttonText: {
 
         fontSize: 15,

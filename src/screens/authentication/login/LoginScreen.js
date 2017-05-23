@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
-import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNAVAILABLE} from "./loginActions";
+import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNAVAILABLE, LOGIN_FEEDBACK} from "./loginActions";
 import {NAV_AUTHENT_REGISTER} from "../../../actions/actionTypes";
 export default class LoginScreen extends Component {
 
@@ -29,7 +29,32 @@ export default class LoginScreen extends Component {
 
 
     render() {
-        let feedback = this.getFeedbackToDisplay();
+        let feedback;
+        let feedbackColor = globalStyles.RED;
+        switch (this.props.login.feedback) {
+            case LOGIN_FEEDBACK.SUCCESS_OFFLINE:
+                feedbackColor = globalStyles.GREEN;
+                feedback = "Server unavailable, going offline...";
+                break;
+            case LOGIN_FEEDBACK.SUCCESS_ONLINE:
+                feedbackColor = globalStyles.GREEN;
+                feedback = "Authentication succeeded, loading...";
+                break;
+            case ERROR_UNKNOWN:
+                feedback = "An error occurred"
+                break;
+            case ERROR_SERVER:
+                feedback = "An error occurred"
+                break;
+            case ERROR_FORBIDDEN:
+                feedback = "Incorrect username/password"
+                break;
+            case ERROR_UNAVAILABLE:
+                feedback = "Service is unavailable"
+                break;
+            default:
+                feedback = '';
+        }
         this.state ={
             feedback:feedback,
         };
@@ -120,7 +145,7 @@ export default class LoginScreen extends Component {
                             defaultValue={this.props.login.password}
                         />
                         <Text style={{
-                                color:globalStyles.RED,
+                                color:feedbackColor,
                                 textAlign:'center',
                                 height:22,
                             }}>
@@ -165,20 +190,6 @@ export default class LoginScreen extends Component {
         );
     }
 
-    getFeedbackToDisplay() {
-        switch (this.props.login.feedback) {
-            case ERROR_UNKNOWN:
-                return "An error occurred"
-            case ERROR_SERVER:
-                return "An error occurred"
-            case ERROR_FORBIDDEN:
-                return "Incorrect username/password"
-            case ERROR_UNAVAILABLE:
-                return "Service is unavailable"
-            default:
-                return '';
-        }
-    }
 
 }
 

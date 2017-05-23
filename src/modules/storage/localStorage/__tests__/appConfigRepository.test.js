@@ -28,11 +28,11 @@ describe('appConfigRepository', () => {
         expect.assertions(1);
         let username = 'arthur';
         let deviceId = '003';
-        return appConfigRepository.save(username, deviceId)
+        return appConfigRepository.save(username, deviceId, false)
             .then(() => {
                 return appConfigRepository.load()
             }).then((value) => {
-                expect(JSON.stringify(value)).toBe(JSON.stringify({username:username,deviceId:deviceId}))
+                expect(JSON.stringify(value)).toBe(JSON.stringify({username:username,deviceId:deviceId,isOffline:false}))
                 mockStorage.clear();
             })
     });
