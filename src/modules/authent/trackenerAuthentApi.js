@@ -36,6 +36,7 @@ export const RESPONSE_OK = 'OK';
 export const RESPONSE_ERROR_USERNAME_ALREADY_USED = 'USERNAME_ALREADY_USED';
 export const RESPONSE_ERROR_EMAIL_ALREADY_USED = 'EMAIL_ALREADY_USED';
 
+//TODO refactor register and login as on modifyPassword
 export const register = (email: string, username: string, password: string) => {
     // return Promise.resolve( {
     //     type: REGISTER_SUCCESS,
@@ -109,11 +110,6 @@ export const register = (email: string, username: string, password: string) => {
 
 
 export const modifyPassword = (username: string, previousPassword: string, password: string) => {
-    //TODO what if offline?
-    // return Promise.resolve( {
-    //     type: MODIFY_PASSWORD_SUCCESS,
-    // });
-
     let formData = new FormData();
     formData.append('username', username);
     formData.append('previousPassword', previousPassword);

@@ -7,6 +7,7 @@ export const ERROR_PASSWORD_MISMATCH = 'ERROR_PASSWORD_MISMATCH';
 export const ERROR_USERNAME_MISSING = 'ERROR_USERNAME_MISSING';
 export const ERROR_EMAIL_MISSING = 'ERROR_EMAIL_MISSING';
 export const ERROR_PASSWORD_MISSING = 'ERROR_PASSWORD_MISSING';
+export const ERROR_PASSWORD_INVALID = 'ERROR_PASSWORD_INVALID';
 export const ERROR_INVALID_EMAIL = 'ERROR_INVALID_EMAIL';
 export const EMAIL_ALREADY_USED = 'EMAIL_ALREADY_USED';
 export const USERNAME_ALREADY_USED = 'USERNAME_ALREADY_USED';
@@ -39,6 +40,13 @@ export const register = (email: string, username: string, password: string, repe
             dispatch({
                 type: REGISTER_ERROR,
                 payload: ERROR_PASSWORD_MISSING,
+            });
+            return;
+        }
+        if (password.length < 6) {
+            dispatch({
+                type: REGISTER_ERROR,
+                payload: ERROR_PASSWORD_INVALID,
             });
             return;
         }

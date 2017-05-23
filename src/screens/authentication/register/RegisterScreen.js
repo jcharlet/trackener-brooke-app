@@ -15,9 +15,10 @@ import {
 import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../../util/utils";
-import {ERROR_PASSWORD_MISMATCH,
+import {
+    ERROR_PASSWORD_MISMATCH,
     ERROR_USERNAME_MISSING, ERROR_EMAIL_MISSING, ERROR_PASSWORD_MISSING, ERROR_INVALID_EMAIL, USERNAME_ALREADY_USED,
-    EMAIL_ALREADY_USED
+    EMAIL_ALREADY_USED, ERROR_PASSWORD_INVALID
 } from "./registerActions";
 import {NAV_AUTHENT_LOGIN} from "../../../actions/actionTypes";
 import {ERROR_UNKNOWN, ERROR_SERVER, ERROR_FORBIDDEN, ERROR_UNAVAILABLE} from "../login/loginActions";
@@ -44,6 +45,9 @@ export default class RegisterScreen extends Component {
                 break;
             case ERROR_PASSWORD_MISSING:
                 this.state.feedback="Please provide a password";
+                break;
+            case ERROR_PASSWORD_INVALID:
+                this.state.feedback="Please provide a valid password";
                 break;
             case ERROR_INVALID_EMAIL:
                 this.state.feedback="Your email is invalid";
@@ -148,6 +152,16 @@ export default class RegisterScreen extends Component {
                             placeholder='Username'
                             onChangeText={(text) => this.props.register.username=text}
                         />
+
+                        <Text style={[globalStyles.COMMON_STYLES.fontSizeSmall, {
+                            textAlign:'center',
+                            padding:4,
+                            paddingTop:12,
+                            paddingBottom:2,
+                        }]}>
+                            Your password must be 6 digits long and can include any character
+                        </Text>
+
                         <TextInput
                             style={{
                             height: 50,
