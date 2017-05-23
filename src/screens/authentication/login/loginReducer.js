@@ -27,7 +27,10 @@ export default (state = initialState, action = {}) => {
         case REGISTER_SUCCESS:
             return loginOnStartup();
         default:
-            return state;
+            return {
+                ...state,
+                feedback:''
+            };
     }
 };
 
