@@ -34,7 +34,7 @@ export default class LoginScreen extends Component {
         switch (this.props.login.feedback) {
             case LOGIN_FEEDBACK.ONGOING:
                 feedbackColor = globalStyles.GREEN;
-                feedback = "Contacting server, please wait";
+                feedback = "Sending request, please wait";
                 break;
             case LOGIN_FEEDBACK.SUCCESS_OFFLINE:
                 feedbackColor = globalStyles.GREEN;

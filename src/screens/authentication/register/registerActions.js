@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS, REGISTER_ERROR} from "../../../actions/actionTypes";
+import {REGISTER_SUCCESS, REGISTER_ERROR, REGISTER_ONGOING} from "../../../actions/actionTypes";
 import * as trackenerAuthentApi from "../../../modules/authent/trackenerAuthentApi";
 import * as credentialsRepository from "../../../modules/storage/localStorage/credentialsRepository";
 
@@ -11,6 +11,8 @@ export const ERROR_PASSWORD_INVALID = 'ERROR_PASSWORD_INVALID';
 export const ERROR_INVALID_EMAIL = 'ERROR_INVALID_EMAIL';
 export const EMAIL_ALREADY_USED = 'EMAIL_ALREADY_USED';
 export const USERNAME_ALREADY_USED = 'USERNAME_ALREADY_USED';
+export const FEEDBACK_REGISTER_SUCCESS = 'FEEDBACK_REGISTER_SUCCESS';
+export const FEEDBACK_REGISTER_ONGOING = 'FEEDBACK_REGISTER_ONGOING';
 
 
 export const register = (email: string, username: string, password: string, repeatPassword: string) => {
@@ -57,12 +59,20 @@ export const register = (email: string, username: string, password: string, repe
             });
             return;
         }
+        dispatch({
+            type: REGISTER_ONGOING,
+            payload: FEEDBACK_REGISTER_ONGOING,
+        });
 
         trackenerAuthentApi.register(email, username, password)
             .then((registerResponse) => {
                 switch (registerResponse.type) {
                     case REGISTER_SUCCESS:
-                        endRegistration(dispatch, username, password);
+                        credentialsRepository.saveCredentials(username,password).then(()=>{
+                            dispatch({
+                                type: REGISTER_SUCCESS,
+                            });
+                        })
                         break;
                     case REGISTER_ERROR:
                         dispatch({
@@ -74,13 +84,6 @@ export const register = (email: string, username: string, password: string, repe
             })
     }
 
-    function endRegistration(dispatch, username,password) {
-        credentialsRepository.saveCredentials(username,password).then(()=>{
-            dispatch({
-                type: REGISTER_SUCCESS,
-            });
-        })
-    }
 
     function validateEmail(email) {
         var pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

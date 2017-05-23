@@ -18,7 +18,7 @@ import * as utils from "../../../util/utils";
 import {
     ERROR_PASSWORD_MISMATCH,
     ERROR_USERNAME_MISSING, ERROR_EMAIL_MISSING, ERROR_PASSWORD_MISSING, ERROR_INVALID_EMAIL, USERNAME_ALREADY_USED,
-    EMAIL_ALREADY_USED, ERROR_PASSWORD_INVALID
+    EMAIL_ALREADY_USED, ERROR_PASSWORD_INVALID, FEEDBACK_REGISTER_SUCCESS, FEEDBACK_REGISTER_ONGOING
 } from "./registerActions";
 import {NAV_AUTHENT_LOGIN} from "../../../actions/actionTypes";
 import {ERROR_UNKNOWN, ERROR_SERVER, ERROR_FORBIDDEN, ERROR_UNAVAILABLE} from "../login/loginActions";
@@ -33,43 +33,56 @@ export default class RegisterScreen extends Component {
     }
 
     render() {
+        let feedback;
+        let feedbackColor = globalStyles.RED;
         switch (this.props.register.feedback){
+            case FEEDBACK_REGISTER_ONGOING:
+                feedbackColor = globalStyles.GREEN;
+                feedback="Sending request, please wait";
+                break;
+            case FEEDBACK_REGISTER_SUCCESS:
+                feedbackColor = globalStyles.GREEN;
+                feedback="Registration successful";
+                break;
             case ERROR_PASSWORD_MISMATCH:
-                this.state.feedback="The passwords do not match";
+                feedback="The passwords do not match";
                 break;
             case ERROR_USERNAME_MISSING:
-                this.state.feedback="Please provide a username";
+                feedback="Please provide a username";
                 break;
             case ERROR_EMAIL_MISSING:
-                this.state.feedback="Please provide your email address";
+                feedback="Please provide your email address";
                 break;
             case ERROR_PASSWORD_MISSING:
-                this.state.feedback="Please provide a password";
+                feedback="Please provide a password";
                 break;
             case ERROR_PASSWORD_INVALID:
-                this.state.feedback="Please provide a valid password";
+                feedback="Please provide a valid password";
                 break;
             case ERROR_INVALID_EMAIL:
-                this.state.feedback="Your email is invalid";
+                feedback="Your email is invalid";
                 break;
             case ERROR_UNKNOWN:
-                this.state.feedback="An error occurred"
+                feedback="An error occurred"
                 break;
             case ERROR_SERVER:
-                this.state.feedback="An error occurred"
+                feedback="An error occurred"
                 break;
             case EMAIL_ALREADY_USED:
-                this.state.feedback="This email is already used"
+                feedback="This email is already used"
                 break;
             case USERNAME_ALREADY_USED:
-                this.state.feedback="This username is already used"
+                feedback="This username is already used"
                 break;
             case ERROR_UNAVAILABLE:
-                this.state.feedback="Service is unavailable"
+                feedback="Service is unavailable"
                 break;
             default:
-                this.state.feedback='';
+                feedback='';
         }
+        this.state ={
+            feedback:feedback,
+        };
         const Dimensions = require('Dimensions');
         const window = Dimensions.get('window');
         return (
@@ -193,7 +206,7 @@ export default class RegisterScreen extends Component {
                             onChangeText={(text) => this.props.register.repeatPassword=text}
                         />
                         <Text style={{
-                                color:globalStyles.RED,
+                                color:feedbackColor,
                                 textAlign:'center',
                                 height:22,
                             }}>

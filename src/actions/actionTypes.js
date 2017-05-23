@@ -22,6 +22,7 @@ export const LOGIN_IN_PROGRESS = 'login/LOGIN_IN_PROGRESS';
 export const LOGIN_ERROR = 'login/ERROR';
 
 export const REGISTER_SUCCESS = 'register/SUCCESS';
+export const REGISTER_ONGOING = 'register/ONGOING';
 export const REGISTER_ERROR = 'register/ERROR';
 
 export const MODIFY_PASSWORD_ACTIONS = {
