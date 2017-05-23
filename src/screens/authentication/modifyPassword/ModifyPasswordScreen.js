@@ -10,15 +10,15 @@ import {
 import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../../util/utils";
-import {ERROR_PASSWORD_MISMATCH,
-    ERROR_PASSWORD_MISSING, ERROR_INVALID_PASSWORD, ERROR_PASSWORD_ALREADY_USED, ERROR_PREVIOUS_PASSWORD_MISSING
-} from "./modifyPasswordActions";
 import {ERROR_UNKNOWN, ERROR_SERVER, ERROR_FORBIDDEN, ERROR_UNAVAILABLE} from "../login/loginActions";
 import HeaderComponent from "../../../components/HeaderComponent";
+import {MODIFY_PASSWORD_FEEDBACK} from "./modifyPasswordActions";
+import {GENERIC_API_FEEDBACK} from "../../../modules/authent/trackenerAuthentApi";
 export default class ModifyPasswordScreen extends Component {
 
     state = {
         feedback: '',
+        feedbackType: '',
     };
 
     constructor(props) {
@@ -26,29 +26,36 @@ export default class ModifyPasswordScreen extends Component {
     }
 
     render() {
+        let feedbackColor = globalStyles.RED;
         switch (this.props.modifyPassword.feedback){
-            case ERROR_PASSWORD_MISMATCH:
+            case MODIFY_PASSWORD_FEEDBACK.SUCCESS:
+                this.state.feedback="Password successfully updated";
+                feedbackColor = globalStyles.GREEN;
+                break;
+            case MODIFY_PASSWORD_FEEDBACK.ERROR_PASSWORD_MISMATCH:
                 this.state.feedback="the passwords do not match";
                 break;
-            case ERROR_PREVIOUS_PASSWORD_MISSING:
+            case MODIFY_PASSWORD_FEEDBACK.ERROR_PREVIOUS_PASSWORD_MISSING:
                 this.state.feedback="please provide your previous password";
                 break;
-            case ERROR_INVALID_PASSWORD:
+            case MODIFY_PASSWORD_FEEDBACK.ERROR_INVALID_PASSWORD:
                 this.state.feedback="your new password is invalid";
                 break;
-            case ERROR_PASSWORD_MISSING:
+            case MODIFY_PASSWORD_FEEDBACK.ERROR_PASSWORD_MISSING:
                 this.state.feedback="please provide a password";
                 break;
-            case ERROR_PASSWORD_ALREADY_USED:
+            case MODIFY_PASSWORD_FEEDBACK.ERROR_PASSWORD_ALREADY_USED:
                 this.state.feedback="please provide a new password"
                 break;
-            case ERROR_UNKNOWN:
+            case MODIFY_PASSWORD_FEEDBACK.ERROR_PREV_PASSWORD_INCORRECT:
+                this.state.feedback="your previous password is incorrect"
+                break;
+            case GENERIC_API_FEEDBACK.ERROR_UNKNOWN:
+            case GENERIC_API_FEEDBACK.ERROR_FORBIDDEN:
+            case GENERIC_API_FEEDBACK.ERROR_SERVER:
                 this.state.feedback="An error occurred"
                 break;
-            case ERROR_SERVER:
-                this.state.feedback="An error occurred"
-                break;
-            case ERROR_UNAVAILABLE:
+            case GENERIC_API_FEEDBACK.ERROR_UNAVAILABLE:
                 this.state.feedback="Service is unavailable"
                 break;
             default:
@@ -126,7 +133,7 @@ export default class ModifyPasswordScreen extends Component {
                             onChangeText={(text) => this.props.modifyPassword.repeatPassword=text}
                         />
                         <Text style={{
-                                color:globalStyles.RED,
+                                color:feedbackColor,
                                 textAlign:'center',
                                 height:22,
                             }}>

@@ -6,6 +6,7 @@ import * as credentialsRepository from "../../../modules/storage/localStorage/cr
 import * as storageService from "../../../modules/storage/storageService";
 
 //FIXME JC to move in actionTypes in a enum object
+
 export const ERROR_FORBIDDEN = 'FORBIDDEN';
 export const ERROR_UNKNOWN = 'UNKNOWN_ERROR';
 export const ERROR_SERVER = 'SERVER_ERROR';

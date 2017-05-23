@@ -23,9 +23,6 @@ export const LOGIN_ERROR = 'login/ERROR';
 export const REGISTER_SUCCESS = 'register/SUCCESS';
 export const REGISTER_ERROR = 'register/ERROR';
 
-export const MODIFY_PASSWORD_SUCCESS = 'modifyPassword/SUCCESS';
-export const MODIFY_PASSWORD_ERROR = 'modifyPassword/ERROR';
-
 export const LOGOUT = 'logout/LOGOUT';
 
 export const RIDES_POST_SUCCESS = 'api/rides/SUCCESS';

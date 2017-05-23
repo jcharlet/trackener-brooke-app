@@ -1,75 +1,94 @@
-import {MODIFY_PASSWORD_SUCCESS, MODIFY_PASSWORD_ERROR} from "../../../actions/actionTypes";
 import * as trackenerAuthentApi from "../../../modules/authent/trackenerAuthentApi";
 import * as credentialsRepository from "../../../modules/storage/localStorage/credentialsRepository";
+import {MODIFY_PASSWORD_API_FEEDBACK} from "../../../modules/authent/trackenerAuthentApi";
 
 //FIXME JC to move in actionTypes in a enum object
-export const ERROR_PREVIOUS_PASSWORD_MISSING = 'ERROR_PREVIOUS_PASSWORD_MISSING';
-export const ERROR_PASSWORD_MISMATCH = 'ERROR_PASSWORD_MISMATCH';
-export const ERROR_PASSWORD_MISSING = 'ERROR_PASSWORD_MISSING';
-export const ERROR_INVALID_PASSWORD = 'ERROR_INVALID_PASSWORD';
-export const ERROR_PASSWORD_ALREADY_USED = 'ERROR_PASSWORD_ALREADY_USED';
+export const MODIFY_PASSWORD_OUTCOME = {
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR',
+}
+export const MODIFY_PASSWORD_FEEDBACK = {
+    SUCCESS: 'SUCCESS',
+    ERROR_PREVIOUS_PASSWORD_MISSING: 'ERROR_PREVIOUS_PASSWORD_MISSING',
+    ERROR_PASSWORD_MISMATCH: 'ERROR_PASSWORD_MISMATCH',
+    ERROR_PASSWORD_MISSING: 'ERROR_PASSWORD_MISSING',
+    ERROR_INVALID_PASSWORD: 'ERROR_INVALID_PASSWORD',
+    ERROR_PASSWORD_ALREADY_USED: 'ERROR_PASSWORD_ALREADY_USED',
+    ERROR_PREV_PASSWORD_INCORRECT: 'ERROR_PREV_PASSWORD_INCORRECT',
+}
 
 
 export const modifyPassword = (previousPassword: string, password: string, repeatPassword: string) => {
     return (dispatch) => {
-        if(!previousPassword || previousPassword==''){
+        if (!previousPassword || previousPassword == '') {
             dispatch({
-                type: MODIFY_PASSWORD_ERROR,
-                payload: ERROR_PREVIOUS_PASSWORD_MISSING,
+                type: MODIFY_PASSWORD_OUTCOME.ERROR,
+                payload: MODIFY_PASSWORD_FEEDBACK.ERROR_PREVIOUS_PASSWORD_MISSING,
             });
             return;
         }
-        if(!password || password==''){
+        if (!password || password == '') {
             dispatch({
-                type: MODIFY_PASSWORD_ERROR,
-                payload: ERROR_PASSWORD_MISSING,
+                type: MODIFY_PASSWORD_OUTCOME.ERROR,
+                payload: MODIFY_PASSWORD_FEEDBACK.ERROR_PASSWORD_MISSING,
             });
             return;
         }
-        if(password.length<6){
+        if (password.length < 6) {
             dispatch({
-                type: MODIFY_PASSWORD_ERROR,
-                payload: ERROR_INVALID_PASSWORD,
+                type: MODIFY_PASSWORD_OUTCOME.ERROR,
+                payload: MODIFY_PASSWORD_FEEDBACK.ERROR_INVALID_PASSWORD,
             });
             return;
         }
-        if(password==previousPassword){
+        if (password == previousPassword) {
             dispatch({
-                type: MODIFY_PASSWORD_ERROR,
-                payload: ERROR_PASSWORD_ALREADY_USED,
+                type: MODIFY_PASSWORD_OUTCOME.ERROR,
+                payload: MODIFY_PASSWORD_FEEDBACK.ERROR_PASSWORD_ALREADY_USED,
             });
             return;
         }
-        if(password!=repeatPassword){
+        if (password != repeatPassword) {
             dispatch({
-                type: MODIFY_PASSWORD_ERROR,
-                payload: ERROR_PASSWORD_MISMATCH,
+                type: MODIFY_PASSWORD_OUTCOME.ERROR,
+                payload: MODIFY_PASSWORD_FEEDBACK.ERROR_PASSWORD_MISMATCH,
             });
             return;
         }
 
-        trackenerAuthentApi.modifyPassword(email, username, previousPassword,password)
-            .then((registerResponse) => {
-                switch (registerResponse.type) {
-                    case MODIFY_PASSWORD_SUCCESS:
-                        endModifyPassword(dispatch, username, password);
-                        break;
-                    case MODIFY_PASSWORD_ERROR:
-                        dispatch({
-                            type: MODIFY_PASSWORD_ERROR,
-                            payload: registerResponse.errorType,
-                        });
-                        break;
-                }
+        return credentialsRepository.getCredentials()
+            .then((credentials) => {
+                return trackenerAuthentApi.modifyPassword(credentials.username, previousPassword, password)
+                    .then((registerResponse) => {
+                        switch (registerResponse.type) {
+                            case MODIFY_PASSWORD_OUTCOME.SUCCESS:
+                                credentialsRepository.saveCredentials(credentials.username, password).then(() => {
+                                    dispatch({
+                                        type: MODIFY_PASSWORD_OUTCOME.SUCCESS,
+                                        payload: MODIFY_PASSWORD_FEEDBACK.SUCCESS,
+                                    });
+                                })
+                                break;
+                            case MODIFY_PASSWORD_OUTCOME.ERROR:
+                                if(registerResponse.errorType===MODIFY_PASSWORD_API_FEEDBACK.ERROR_PREV_PASSWORD_INCORRECT ){
+                                    dispatch({
+                                        type: MODIFY_PASSWORD_OUTCOME.ERROR,
+                                        payload: MODIFY_PASSWORD_FEEDBACK.ERROR_PREV_PASSWORD_INCORRECT ,
+                                    });
+                                }else{
+                                    dispatch({
+                                        type: MODIFY_PASSWORD_OUTCOME.ERROR,
+                                        payload: registerResponse.errorType,
+                                    });
+                                }
+                                break;
+                        }
+                    })
             })
+
     }
 
-    function endModifyPassword(dispatch, username,password) {
-        credentialsRepository.saveCredentials(username,password).then(()=>{
-            dispatch({
-                type: MODIFY_PASSWORD_SUCCESS,
-            });
-        })
+    function endModifyPassword(dispatch, username, password) {
     }
 
     function validateEmail(email) {
