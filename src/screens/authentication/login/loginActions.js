@@ -18,6 +18,7 @@ export const ERROR_UNAVAILABLE = 'ERROR_UNAVAILABLE';
 
 export const LOGIN_FEEDBACK = {
     SUCCESS_ONLINE: 'SUCCESS_ONLINE',
+    ONGOING: 'ONGOING',
     SUCCESS_OFFLINE: 'SUCCESS_OFFLINE',
 }
 
@@ -37,6 +38,10 @@ export const loginOnStartup = () => {
 
 export const login = (username: string, password: string, isAutoLogin:boolean) => {
     return (dispatch, getState) => {
+        dispatch({
+            type: LOGIN_IN_PROGRESS,
+            payload: LOGIN_FEEDBACK.ONGOING
+        });
         trackenerAuthentApi.login(username, password)
             .then((loginResponse) => {
                 switch (loginResponse.type) {
@@ -79,7 +84,6 @@ const loginSuccess = (dispatch,
     migrate(username,deviceId)
         .then(() => {
         initApplication(dispatch);
-            util.wait(500)
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: username,
