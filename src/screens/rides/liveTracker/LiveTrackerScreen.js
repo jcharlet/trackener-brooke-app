@@ -83,7 +83,7 @@ export default class LiveTrackerScreen extends Component {
         return (
             <View style={{flex: 1,alignItems: 'flex-start',}}>
                 <HeaderComponent
-                    title={"My Hackathon"}
+                    title={"Trackener Rides"}
                     leftElement={'TRACKENER_ICON'}
                     rightElement={'SETTINGS'}
                     navigation={this.props.navigation}/>

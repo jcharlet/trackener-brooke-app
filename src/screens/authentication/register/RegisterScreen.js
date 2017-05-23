@@ -121,7 +121,7 @@ export default class RegisterScreen extends Component {
                         <Text style={{
                     fontSize:35,
                     textAlign:'center',
-            }}>My Hackathon</Text>
+            }}>Trackener Rides</Text>
                         <View style={{
                     flexDirection:'row',
                     alignItems:'center',
