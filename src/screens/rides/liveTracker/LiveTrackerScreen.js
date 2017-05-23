@@ -13,7 +13,16 @@ import * as utils from "../../../util/utils";
 import {NAV_HACK_DETAILS} from "../../../actions/actionTypes";
 import HeaderComponent from '../../../components/HeaderComponent'
 
+
+import {ViewPropTypes} from 'react-native'
+
 export default class LiveTrackerScreen extends Component {
+
+    static propTypes = {
+        ...ViewPropTypes,
+        liveTracker: PropTypes.any,
+        startTracking: PropTypes.func,
+    };
 
     constructor(props) {
         super(props);
@@ -92,8 +101,3 @@ export default class LiveTrackerScreen extends Component {
         )
     }
 }
-
-LiveTrackerScreen.propTypes = {
-    liveTracker: PropTypes.any,
-    startTracking: PropTypes.func,
-};

@@ -15,6 +15,7 @@ import {
 import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../../util/utils";
+import { ViewPropTypes } from 'react-native'
 import {
     ERROR_PASSWORD_MISMATCH,
     ERROR_USERNAME_MISSING, ERROR_EMAIL_MISSING, ERROR_PASSWORD_MISSING, ERROR_INVALID_EMAIL, USERNAME_ALREADY_USED,
@@ -23,6 +24,12 @@ import {
 import {NAV_AUTHENT_LOGIN} from "../../../actions/actionTypes";
 import {ERROR_UNKNOWN, ERROR_SERVER, ERROR_FORBIDDEN, ERROR_UNAVAILABLE} from "../login/loginActions";
 export default class RegisterScreen extends Component {
+
+    static propTypes = {
+        ...ViewPropTypes,
+        Login: PropTypes.any,
+        doRegister: PropTypes.func,
+    };
 
     state = {
         feedback: '',
@@ -252,7 +259,3 @@ export default class RegisterScreen extends Component {
     }
 }
 
-RegisterScreen.propTypes = {
-    Login: PropTypes.any,
-    doRegister: PropTypes.func,
-};

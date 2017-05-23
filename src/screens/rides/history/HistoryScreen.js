@@ -13,8 +13,14 @@ import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../../util/utils";
 import HeaderComponent from '../../../components/HeaderComponent'
 
+import {ViewPropTypes} from 'react-native'
 
 export default class HistoryScreen extends Component {
+    static propTypes = {
+        ...ViewPropTypes,
+        history: PropTypes.any,
+        navigateToHackDetails: PropTypes.func,
+    };
 
     state = {
         dataSource: {},
@@ -39,67 +45,69 @@ export default class HistoryScreen extends Component {
 
     renderRow(rowData, ...rest) {
         let index = parseInt(rest[1], 10);
-        index = this.props.history.rides.length-index-1;
+        index = this.props.history.rides.length - index - 1;
         return (
             <TouchableOpacity style={{
-                flex:1,
-                flexDirection:'row',
+                flex: 1,
+                flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginTop:5,
-                marginBottom:5,
-                paddingTop:5,
-                paddingBottom:5,
-                paddingLeft:20,
-                paddingRight:20,
+                marginTop: 5,
+                marginBottom: 5,
+                paddingTop: 5,
+                paddingBottom: 5,
+                paddingLeft: 20,
+                paddingRight: 20,
                 backgroundColor: globalStyles.GRAY,
             }} activeOpacity={globalStyles.ACTIVE_OPACITY}
                               onPress={() => this._navigate(rowData.date)}>
                 <View style={{
-                    flex:1.1,
-                    flexDirection:'row',
-        justifyContent: 'space-between',
-        marginRight:20,
-            }}>
-                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal,{
-                        alignSelf:'center',
+                    flex: 1.1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginRight: 20,
+                }}>
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal, {
+                        alignSelf: 'center',
                     }]}>{utils.formatDateToDisplay(rowData.date)}</Text>
-                    <Text style={[globalStyles.COMMON_STYLES.fontSizeSmall,{
-                        alignSelf:'flex-end',
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeSmall, {
+                        alignSelf: 'flex-end',
                     }]}>{utils.formatTimeToDisplay(rowData.date)}</Text>
                 </View>
 
                 <View style={{
-                    flex:1,
-                    flexDirection:'row',
-        justifyContent: 'space-between',
-            }}>
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}>
                     <Image source={require('../../../../img/ic_timer_purple.png')} style={{
-                        width:22,height:30,
-                            alignSelf: 'center',
-                            resizeMode:'contain' ,
+                        width: 22, height: 30,
+                        alignSelf: 'center',
+                        resizeMode: 'contain',
                     }}/>
 
-                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal,{
-                        alignSelf:'center',
-                    flex:1,
-        textAlign: 'center',
-      }]}>{utils.secondsToMin(rowData.duration)} min</Text>
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal, {
+                        alignSelf: 'center',
+                        flex: 1,
+                        textAlign: 'center',
+                    }]}>{utils.secondsToMin(rowData.duration)} min</Text>
                 </View>
 
                 <View style={{
-                    flex:1,
-                    flexDirection:'row',
-        justifyContent: 'flex-start',
-            }}>
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                }}>
                     <Image source={require('../../../../img/distance_blue.png')}
-                    style={{width:25,height:30,
-                    resizeMode:'contain' ,
-                        alignSelf: 'center',}}/>
-                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal,{
-                        alignSelf:'center',
-                    flex:1,
-        textAlign: 'center',
-      }]}>{utils.roundWithOneDecimals(rowData.distance * utils.ONE_METER_IN_MILES)} mi</Text>
+                           style={{
+                               width: 25, height: 30,
+                               resizeMode: 'contain',
+                               alignSelf: 'center',
+                           }}/>
+                    <Text style={[globalStyles.COMMON_STYLES.fontSizeNormal, {
+                        alignSelf: 'center',
+                        flex: 1,
+                        textAlign: 'center',
+                    }]}>{utils.roundWithOneDecimals(rowData.distance * utils.ONE_METER_IN_MILES)} mi</Text>
                 </View>
                 <View><Image source={require('../../../../img/ic_navigate_next_green.png')}
                              style={globalStyles.COMMON_STYLES.infoBoxArrow}/>
@@ -114,18 +122,18 @@ export default class HistoryScreen extends Component {
         if (this.props.history.rides && this.props.history.rides.length > 0) {
             return (
 
-                <View style={{flex: 1,alignItems: 'stretch',}}>
+                <View style={{flex: 1, alignItems: 'stretch',}}>
                     <HeaderComponent
                         title={"History"}
-                         navigation={this.props.navigation}
-                         rightElement={'SETTINGS'}
+                        navigation={this.props.navigation}
+                        rightElement={'SETTINGS'}
                     />
-                    <View style={[globalStyles.COMMON_STYLES.container,{
+                    <View style={[globalStyles.COMMON_STYLES.container, {
                         alignItems: 'stretch',
-                        flex:1,
-                        marginTop:5,
-                        marginBottom:5,
-                        }]}>
+                        flex: 1,
+                        marginTop: 5,
+                        marginBottom: 5,
+                    }]}>
 
                         <ListView
                             enableEmptySections
@@ -138,32 +146,32 @@ export default class HistoryScreen extends Component {
             );
         }
         return (
-        <View style={{flex: 1,alignItems: 'stretch',}}>
-            <HeaderComponent
-                title={"History"}
-                 navigation={this.props.navigation}
-                 rightElement={'SETTINGS'}
-            />
-            <View style={[globalStyles.COMMON_STYLES.container,{
+            <View style={{flex: 1, alignItems: 'stretch',}}>
+                <HeaderComponent
+                    title={"History"}
+                    navigation={this.props.navigation}
+                    rightElement={'SETTINGS'}
+                />
+                <View style={[globalStyles.COMMON_STYLES.container, {
 
-                    flex:1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
 
-            }]}>
-                <Text
-                    style={[globalStyles.COMMON_STYLES.fontSizeLarge,{
-                    textAlign:"center",
-        padding: 20,
-        color: globalStyles.GREEN,
-        //borderStyle: 'solid',
-        //borderColor: 'red',
-        //borderWidth: 1
-      }]}
-                >No hack recorded</Text>
+                }]}>
+                    <Text
+                        style={[globalStyles.COMMON_STYLES.fontSizeLarge, {
+                            textAlign: "center",
+                            padding: 20,
+                            color: globalStyles.GREEN,
+                            //borderStyle: 'solid',
+                            //borderColor: 'red',
+                            //borderWidth: 1
+                        }]}
+                    >No hack recorded</Text>
+                </View>
             </View>
-        </View>
         );
     }
 
@@ -172,7 +180,5 @@ export default class HistoryScreen extends Component {
 HistoryScreen.navigationOptions = {
     title: 'History',
 };
-HistoryScreen.propTypes = {
-    history: PropTypes.any,
-    navigateToHackDetails: PropTypes.func,
-};
+
+

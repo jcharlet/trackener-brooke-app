@@ -14,6 +14,7 @@ export default class App extends Component {
 
     constructor(props) {
         super(props);
+        console.ignoredYellowBox = ['Warning: View.propTypes'];
         // storageService.sync();
         // storageService.emptyStorage();
         // generateFakeData()

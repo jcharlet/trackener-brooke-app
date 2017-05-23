@@ -15,7 +15,16 @@ import BackgroundTimer from 'react-native-background-timer';
 import moment from "moment";
 import HeaderComponent from '../../../components/HeaderComponent'
 
+import {ViewPropTypes} from 'react-native'
+
 export default class LiveTrackerStartedScreen extends Component {
+    static propTypes = {
+        ...ViewPropTypes,
+        liveTracker: PropTypes.any,
+        stopTracking: PropTypes.func,
+        pauseTracking: PropTypes.func,
+        restartTracking: PropTypes.func,
+    };
 
     initialState = {
         timerIntervalId: null,
@@ -25,11 +34,11 @@ export default class LiveTrackerStartedScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state= this.initialState;
+        this.state = this.initialState;
     }
 
-    componentDidMount(){
-      this.startTimer();
+    componentDidMount() {
+        this.startTimer();
     }
 
     startTimer() {
@@ -73,7 +82,7 @@ export default class LiveTrackerStartedScreen extends Component {
                 return (
                     <TouchableOpacity style={[globalStyles.COMMON_STYLES.secondRideButton]}
                                       activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                      onPress={()=>{
+                                      onPress={() => {
                                           this.props.pauseTracking();
                                           this.pauseTimer();
                                       }}>
@@ -84,7 +93,7 @@ export default class LiveTrackerStartedScreen extends Component {
                 return (
                     <TouchableOpacity style={[globalStyles.COMMON_STYLES.secondRideButton]}
                                       activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                      onPress={()=>{
+                                      onPress={() => {
                                           this.props.restartTracking();
                                           this.startTimer();
                                       }}>
@@ -111,7 +120,7 @@ export default class LiveTrackerStartedScreen extends Component {
                 {/*</Text>*/}
                 <View style={globalStyles.COMMON_STYLES.infoBox}>
                     <View
-                        style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
+                        style={[globalStyles.COMMON_STYLES.infoBoxView, globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
                         <Text
                             style={[globalStyles.COMMON_STYLES.infoBoxText]}>Time {"\n"} {duration}</Text>
                     </View>
@@ -125,12 +134,12 @@ export default class LiveTrackerStartedScreen extends Component {
                 <View style={[globalStyles.COMMON_STYLES.rideButtonsView]}>
                     {this.renderSecondButton()}
                     <TouchableOpacity
-                        style={[globalStyles.COMMON_STYLES.startRideButton,globalStyles.COMMON_STYLES.withSecondRideButton]}
+                        style={[globalStyles.COMMON_STYLES.startRideButton, globalStyles.COMMON_STYLES.withSecondRideButton]}
                         activeOpacity={globalStyles.ACTIVE_OPACITY}
                         onPress={() => {
-                                      this.props.stopTracking(this.props.liveTracker.ride.analytics.distance);
-                                      this.stopTimer();
-                                  }}>
+                            this.props.stopTracking(this.props.liveTracker.ride.analytics.distance);
+                            this.stopTimer();
+                        }}>
                         <Text
                             style={[globalStyles.COMMON_STYLES.startRideButtonText, globalStyles.COMMON_STYLES.withSecondRideButtonText]}>Stop</Text>
                     </TouchableOpacity>
@@ -150,10 +159,10 @@ export default class LiveTrackerStartedScreen extends Component {
     render() {
         switch (this.props.liveTracker.status) {
             case STATUS.START:
-                // this.startTimer();
+            // this.startTimer();
             case STATUS.PAUSE:
                 return (
-                    <View style={{flex: 1,alignItems: 'flex-start',}}>
+                    <View style={{flex: 1, alignItems: 'flex-start',}}>
                         <HeaderComponent
                             title={"Tracker"}
                             navigation={this.props.navigation}
@@ -168,9 +177,3 @@ export default class LiveTrackerStartedScreen extends Component {
     }
 }
 
-LiveTrackerStartedScreen.propTypes = {
-    liveTracker:PropTypes.any,
-    stopTracking: PropTypes.func,
-    pauseTracking: PropTypes.func,
-    restartTracking: PropTypes.func,
-};

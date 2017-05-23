@@ -14,8 +14,19 @@ import Pie from './chartsComponents/Pie';
 import Theme from "./chartsComponents/theme";
 import HeaderComponent from '../../../components/HeaderComponent'
 
+import {ViewPropTypes} from 'react-native'
+
 
 export default class HackDetailsScreen extends Component {
+    static propTypes = {
+        ...ViewPropTypes,
+        hackDetails: PropTypes.any,
+        showPreviousRide: PropTypes.func,
+        showNextRide: PropTypes.func,
+        hasPreviousRide: PropTypes.func,
+        hasNextRide: PropTypes.func,
+        remove: PropTypes.func,
+    };
 
     constructor(props) {
         super(props);
@@ -30,15 +41,15 @@ export default class HackDetailsScreen extends Component {
                                           onPress={this.props.showPreviousRide}
 
                                           style={{
-                                  width:50
-                        /*
-                        borderStyle: 'solid',
-                        borderColor: 'red',
-                        borderWidth: 1,
-                        height:50,
+                                              width: 50
+                                              /*
+                                               borderStyle: 'solid',
+                                               borderColor: 'red',
+                                               borderWidth: 1,
+                                               height:50,
 
-                        */
-                     }}>
+                                               */
+                                          }}>
                             <Image source={require('../../../../img/ic_navigate_prev_green.png')}
                                 //    {/*style={globalStyles.COMMON_STYLES.infoBoxArrow}*/}
                             />
@@ -52,22 +63,22 @@ export default class HackDetailsScreen extends Component {
                                           onPress={this.props.showNextRide}
 
                                           style={{
-                                  width:50
-                        /*
-                        borderStyle: 'solid',
-                        borderColor: 'red',
-                        borderWidth: 1,
-                        height:50,
+                                              width: 50
+                                              /*
+                                               borderStyle: 'solid',
+                                               borderColor: 'red',
+                                               borderWidth: 1,
+                                               height:50,
 
-                        */
-                     }}>
+                                               */
+                                          }}>
                             <Image source={require('../../../../img/ic_navigate_next_green.png')}
                                 //    {/*style={globalStyles.COMMON_STYLES.infoBoxArrow}*/}
                             />
                         </TouchableOpacity>);
                 }
         }
-        return <View style={{width:50}}><Text> </Text></View>;
+        return <View style={{width: 50}}><Text> </Text></View>;
     }
 
     renderHackBrowserTopBar() {
@@ -76,35 +87,35 @@ export default class HackDetailsScreen extends Component {
         let time = utils.formatTimeToDisplay(ride.date);
         return (
             <View style={{
-                flex:0,
-                flexDirection:"row",
+                flex: 0,
+                flexDirection: "row",
                 justifyContent: 'space-between',
                 alignItems: 'flex-start',
             }}>
                 {this.renderBrowsingButton("LEFT")}
                 <View style={{
-                    flexGrow:2,
-                    flex:1,
-                flexDirection:"column",
-                        height:50,
-                        margin:5
+                    flexGrow: 2,
+                    flex: 1,
+                    flexDirection: "column",
+                    height: 50,
+                    margin: 5
                 }}>
                     <Text style={{
                         textAlign: 'center',
                         textAlignVertical: 'center',
-        fontSize: 22,
-        fontWeight:'500',
-        fontVariant: ['small-caps'],
-        color: globalStyles.GREEN,
-                     }}>
+                        fontSize: 22,
+                        fontWeight: '500',
+                        fontVariant: ['small-caps'],
+                        color: globalStyles.GREEN,
+                    }}>
                         {date}
                     </Text>
                     <Text style={{
                         textAlign: 'center',
                         textAlignVertical: 'center',
-        fontSize: 16,
-        color: globalStyles.GREEN,
-                     }}>
+                        fontSize: 16,
+                        color: globalStyles.GREEN,
+                    }}>
                         {time}
                     </Text>
                 </View>
@@ -119,7 +130,7 @@ export default class HackDetailsScreen extends Component {
             let timeSpentByGaitTable = ride.analytics.timeSpentByGait;
             timeSpentByGaitTable.map((element) => {
                 element.name = utils.capitalizeFirstLetter(element.name);
-                element.labelValue=utils.secondsToMin(element.number*(1/100)*ride.analytics.duration) + " min";
+                element.labelValue = utils.secondsToMin(element.number * (1 / 100) * ride.analytics.duration) + " min";
                 return element;
             })
             let distance = utils.roundWithOneDecimals(ride.analytics.distance * utils.ONE_METER_IN_MILES);
@@ -127,7 +138,7 @@ export default class HackDetailsScreen extends Component {
             let avgSpeed = utils.roundWithOneDecimals(utils.convertMeterPerSecondToMilesPerHour(ride.analytics.avgSpeed));
             let duration = utils.secondsToHourMinSec(Math.round(ride.analytics.duration));
             return (
-                <View style={{flex: 1,alignItems: 'stretch'}}>
+                <View style={{flex: 1, alignItems: 'stretch'}}>
                     <HeaderComponent
                         title={"Ride Details"}
                         navigation={this.props.navigation}
@@ -137,7 +148,7 @@ export default class HackDetailsScreen extends Component {
                     <View style={globalStyles.COMMON_STYLES.container}>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
                             <View
-                                style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
+                                style={[globalStyles.COMMON_STYLES.infoBoxView, globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
                                 <Text
                                     style={[globalStyles.COMMON_STYLES.infoBoxText]}>Time {"\n"} {duration}</Text>
                             </View>
@@ -151,7 +162,7 @@ export default class HackDetailsScreen extends Component {
                         </View>
                         <View style={globalStyles.COMMON_STYLES.infoBox}>
                             <View
-                                style={[globalStyles.COMMON_STYLES.infoBoxView,globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
+                                style={[globalStyles.COMMON_STYLES.infoBoxView, globalStyles.COMMON_STYLES.infoBoxBorderRight]}>
                                 <Text style={[globalStyles.COMMON_STYLES.infoBoxText]}>
                                     Max speed {"\n"} {maxSpeed} mph
                                 </Text>
@@ -176,10 +187,12 @@ export default class HackDetailsScreen extends Component {
                         </View>
 
                         <TouchableOpacity style={[globalStyles.COMMON_STYLES.centeredElement,
-                    ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                          onPress={() => {this.props.remove(this.props.hackDetails.rides[this.props.hackDetails.index].date,this.props.hackDetails.rides[this.props.hackDetails.index].analytics.distance)}}>
+                        ]} activeOpacity={globalStyles.ACTIVE_OPACITY}
+                                          onPress={() => {
+                                              this.props.remove(this.props.hackDetails.rides[this.props.hackDetails.index].date, this.props.hackDetails.rides[this.props.hackDetails.index].analytics.distance)
+                                          }}>
 
-                            <View style={[globalStyles.COMMON_STYLES.buttonView,globalStyles.COMMON_STYLES.redButton]}>
+                            <View style={[globalStyles.COMMON_STYLES.buttonView, globalStyles.COMMON_STYLES.redButton]}>
                                 <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Remove</Text>
                             </View>
                         </TouchableOpacity>
@@ -189,41 +202,33 @@ export default class HackDetailsScreen extends Component {
             );
         }
         return (
-        <View style={{flex: 1,alignItems: 'stretch'}}>
-            <HeaderComponent
-                title={"Ride Details"}
-                navigation={this.props.navigation}
-                rightElement={'SETTINGS'}
-            />
-            <View style={[globalStyles.COMMON_STYLES.container,{
+            <View style={{flex: 1, alignItems: 'stretch'}}>
+                <HeaderComponent
+                    title={"Ride Details"}
+                    navigation={this.props.navigation}
+                    rightElement={'SETTINGS'}
+                />
+                <View style={[globalStyles.COMMON_STYLES.container, {
 
-                    flex:1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
 
-            }]}>
-                <Text
-                    style={[globalStyles.COMMON_STYLES.fontSizeLarge,{
-                    textAlign:"center",
-        padding: 20,
-        color: globalStyles.GREEN,
-        //borderStyle: 'solid',
-        //borderColor: 'red',
-        //borderWidth: 1
-      }]}
-                >No hack recorded</Text>
+                }]}>
+                    <Text
+                        style={[globalStyles.COMMON_STYLES.fontSizeLarge, {
+                            textAlign: "center",
+                            padding: 20,
+                            color: globalStyles.GREEN,
+                            //borderStyle: 'solid',
+                            //borderColor: 'red',
+                            //borderWidth: 1
+                        }]}
+                    >No hack recorded</Text>
+                </View>
             </View>
-        </View>
         );
     }
 }
 
-HackDetailsScreen.propTypes = {
-    hackDetails: PropTypes.any,
-    showPreviousRide: PropTypes.func,
-    showNextRide: PropTypes.func,
-    hasPreviousRide: PropTypes.func,
-    hasNextRide: PropTypes.func,
-    remove: PropTypes.func,
-};
