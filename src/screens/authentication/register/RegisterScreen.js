@@ -34,19 +34,19 @@ export default class RegisterScreen extends Component {
     render() {
         switch (this.props.register.feedback){
             case ERROR_PASSWORD_MISMATCH:
-                this.state.feedback="the passwords do not match";
+                this.state.feedback="The passwords do not match";
                 break;
             case ERROR_USERNAME_MISSING:
-                this.state.feedback="please provide a username";
+                this.state.feedback="Please provide a username";
                 break;
             case ERROR_EMAIL_MISSING:
-                this.state.feedback="please provide your email address";
+                this.state.feedback="Please provide your email address";
                 break;
             case ERROR_PASSWORD_MISSING:
-                this.state.feedback="please provide a password";
+                this.state.feedback="Please provide a password";
                 break;
             case ERROR_INVALID_EMAIL:
-                this.state.feedback="your email is invalid";
+                this.state.feedback="Your email is invalid";
                 break;
             case ERROR_UNKNOWN:
                 this.state.feedback="An error occurred"

@@ -10,7 +10,6 @@ import {
 import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../../util/utils";
-import {ERROR_UNKNOWN, ERROR_SERVER, ERROR_FORBIDDEN, ERROR_UNAVAILABLE} from "../login/loginActions";
 import HeaderComponent from "../../../components/HeaderComponent";
 import {MODIFY_PASSWORD_FEEDBACK} from "./modifyPasswordActions";
 import {GENERIC_API_FEEDBACK} from "../../../modules/authent/trackenerAuthentApi";
@@ -28,27 +27,31 @@ export default class ModifyPasswordScreen extends Component {
     render() {
         let feedbackColor = globalStyles.RED;
         switch (this.props.modifyPassword.feedback){
+            case MODIFY_PASSWORD_FEEDBACK.SENDING_REQUEST:
+                this.state.feedback="Sending request, please wait";
+                feedbackColor = globalStyles.GREEN;
+                break;
             case MODIFY_PASSWORD_FEEDBACK.SUCCESS:
                 this.state.feedback="Password successfully updated";
                 feedbackColor = globalStyles.GREEN;
                 break;
             case MODIFY_PASSWORD_FEEDBACK.ERROR_PASSWORD_MISMATCH:
-                this.state.feedback="the passwords do not match";
+                this.state.feedback="The passwords do not match";
                 break;
             case MODIFY_PASSWORD_FEEDBACK.ERROR_PREVIOUS_PASSWORD_MISSING:
-                this.state.feedback="please provide your previous password";
+                this.state.feedback="Please provide your previous password";
                 break;
             case MODIFY_PASSWORD_FEEDBACK.ERROR_INVALID_PASSWORD:
-                this.state.feedback="your new password is invalid";
+                this.state.feedback="Your new password is invalid";
                 break;
             case MODIFY_PASSWORD_FEEDBACK.ERROR_PASSWORD_MISSING:
-                this.state.feedback="please provide a password";
+                this.state.feedback="Please provide a password";
                 break;
             case MODIFY_PASSWORD_FEEDBACK.ERROR_PASSWORD_ALREADY_USED:
-                this.state.feedback="please provide a new password"
+                this.state.feedback="Please provide a new password"
                 break;
             case MODIFY_PASSWORD_FEEDBACK.ERROR_PREV_PASSWORD_INCORRECT:
-                this.state.feedback="your previous password is incorrect"
+                this.state.feedback="Your previous password is incorrect"
                 break;
             case GENERIC_API_FEEDBACK.ERROR_UNKNOWN:
             case GENERIC_API_FEEDBACK.ERROR_FORBIDDEN:

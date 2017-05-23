@@ -24,6 +24,12 @@ export const LOGIN_ERROR = 'login/ERROR';
 export const REGISTER_SUCCESS = 'register/SUCCESS';
 export const REGISTER_ERROR = 'register/ERROR';
 
+export const MODIFY_PASSWORD_ACTIONS = {
+    SUCCESS: 'modifyPassword/SUCCESS',
+    ONGOING: 'modifyPassword/ONGOING',
+    ERROR: 'modifyPassword/ERROR',
+}
+
 export const LOGOUT = 'logout/LOGOUT';
 export const LOAD_SETTINGS = 'settings/LOAD_SETTINGS';
 
