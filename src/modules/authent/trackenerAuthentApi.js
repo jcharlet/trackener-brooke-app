@@ -54,7 +54,7 @@ export const register = (email: string, username: string, password: string) => {
 
     return fetch(TRACKENER_API + "/register", {
             method: "post",
-            body: formData
+            body: formData,
         }
     )
         .then((response) => {
@@ -123,7 +123,8 @@ export const modifyPassword = (username: string, previousPassword: string, passw
 
     return fetch(TRACKENER_API + "/modifyPassword", {
             method: "post",
-            body: formData
+            body: formData,
+            credentials: 'include',
         }
     )
         .then((response) => {
@@ -186,7 +187,8 @@ export const login = (username: string, password: string) => {
 
     return fetch(TRACKENER_API + "/login", {
             method: "post",
-            body: formData
+            body: formData,
+            credentials: 'include',
         }
     )
         .then((response) => {
