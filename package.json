@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "art": "^0.10.1",
+    "bugsnag-react-native": "^2.2.3",
     "d3": "^4.7.4",
     "d3-shape": "^1.0.6",
     "moment": "^2.18.1",

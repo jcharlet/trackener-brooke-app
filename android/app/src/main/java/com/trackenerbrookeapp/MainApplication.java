@@ -3,6 +3,7 @@ package com.trackenerbrookeapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.bugsnag.BugsnagReactNative;
 import com.oblador.keychain.KeychainPackage;
 import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
 import com.ocetnik.timer.BackgroundTimerPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            BugsnagReactNative.getPackage(),
             new KeychainPackage(),
             new LocationServicesDialogBoxPackage(),
             new BackgroundTimerPackage()

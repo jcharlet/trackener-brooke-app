@@ -9,8 +9,12 @@ import * as storageService from "./modules/storage/storageService";
 import {generateFakeData} from "./modules/storage/migration/generateFakeData";
 
 
+import { Client } from 'bugsnag-react-native';
+
 export default class App extends Component {
     store = createStore();
+
+    bugsnag = new Client();
 
     constructor(props) {
         super(props);

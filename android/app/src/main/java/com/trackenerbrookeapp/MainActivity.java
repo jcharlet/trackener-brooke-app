@@ -1,8 +1,19 @@
 package com.trackenerbrookeapp;
-
+import com.bugsnag.BugsnagReactNative;
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 
 public class MainActivity extends ReactActivity {
+
+    /*
+    *   Enable BugSnag in android
+    *
+    */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    BugsnagReactNative.start(this);
+    }
 
     /**
      * Returns the name of the main component registered from JavaScript.
