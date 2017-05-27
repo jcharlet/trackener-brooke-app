@@ -9,16 +9,20 @@ import * as storageService from "./modules/storage/storageService";
 import {generateFakeData} from "./modules/storage/migration/generateFakeData";
 
 
-import { Client } from 'bugsnag-react-native';
+import { Client, Configuration} from 'bugsnag-react-native';
 
 export default class App extends Component {
     store = createStore();
 
-    bugsnag = new Client();
+    bugsnag;
 
     constructor(props) {
         super(props);
         console.ignoredYellowBox = ['Warning: View.propTypes'];
+
+            configuration = new Configuration();
+            configuration.apiKey = "3ca64084491704d2c480c102a315ceb9";
+            this.bugsnag=  new Client(configuration);
         // storageService.sync();
         // storageService.emptyStorage();
         // generateFakeData()
