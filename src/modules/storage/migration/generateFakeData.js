@@ -3,17 +3,17 @@ import * as localRidesRepository from "../localStorage/localRidesRepository";
 import {
     AsyncStorage
 } from 'react-native';
-// import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall.json';
-import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall5doc60minMinified.json';
+import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall.json';
+// import FAKE_RIDES_JSON_FILE_PATH from '../../../../resources/fakeSmall5doc60minMinified.json';
 import moment from "moment";
 import * as migrateData from "./migrateData";
 import * as utils from "../../../util/utils";
 import {POSITION_FIELDS} from "../../geoloc/geolocService";
 
-const NB_OF_COPIES = 10;
+const NB_OF_COPIES = 1;
 const STORAGE_VERSION = 1;
 // const STORAGE_VERSION = 0;
-const username = 'gg';
+const username = 'g';
 
 
 export const generateFakeData = () => {
