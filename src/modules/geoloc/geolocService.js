@@ -15,6 +15,7 @@ import {RNLocation as Location} from 'NativeModules'
 import {
     DeviceEventEmitter
 } from 'react-native';
+import * as reportingService from "../reporting/reportingService";
 
 // speed thresholds in mph
 export const SPEED_THRESHOLD = {STOP: 1, WALK: 5.5, TROT: 9}
@@ -94,6 +95,7 @@ export const watchGPSPositionsAtInterval = function (dispatchNewPositionFunction
                 if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY) {
                     let position = createPositionArrayFromGeoPosition(geoPosition);
                     dispatchNewPositionFunction(position, dispatch);
+                    //reportingService.logBreadcrumb("get current position", {x:geoPosition.coords.longitude, y:geoPosition.coords.latitude})
                 }
             }
             , (error) => {

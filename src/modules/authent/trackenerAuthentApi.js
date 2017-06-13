@@ -11,6 +11,7 @@ import {
 import {
     EMAIL_ALREADY_USED, USERNAME_ALREADY_USED
 } from "../../screens/authentication/register/registerActions";
+import * as reportingService from "../reporting/reportingService";
 
 const MODIFY_PASSWORD_API_RESPONSE = {
     RESPONSE_OK: 'OK',
@@ -194,6 +195,7 @@ export const login = (username: string, password: string) => {
         .then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     console.log('api/login success');
+                    reportingService.setUser(username);
                     return {
                         type: LOGIN_SUCCESS,
                         payload: username,
