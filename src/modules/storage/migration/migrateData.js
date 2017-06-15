@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import * as appConfigRepository from "../localStorage/appConfigRepository";
 import * as userConfigRepository from "../localStorage/userConfigRepository";
-import * as localRidePositionsRepository from "../localStorage/localRidePositionsRepository2";
+import * as localRidePositionsRepository from "../localStorage/localRidePositionsRepositoryAS";
 import * as utils from "../../../util/utils";
 
 export const migrate = (username, deviceId) => {

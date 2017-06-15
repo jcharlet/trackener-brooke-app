@@ -8,7 +8,7 @@ import MockBackgroundTimer from "../__mocks__/MockBackgroundTimer";
 import {RIDES_COLL} from "../../localStorage/localRidesRepository";
 import * as userConfigRepository from "../../localStorage/userConfigRepository";
 import * as localRidesRepository from "../../localStorage/localRidesRepository";
-import * as localRidePositionsRepository from "../../localStorage/localRidePositionsRepository2";
+import * as localRidePositionsRepository from "../../localStorage/localRidePositionsRepositoryAS";
 import RIDES from '../../../../../resources/fakeSmall.json';
 import {mockStorage} from '../../localStorage/__mocks__/MockStorage';
 
