@@ -1,4 +1,4 @@
-import { Client, Configuration} from 'bugsnag-react-native';
+import { Client, Configuration} from "bugsnag-react-native";
 
 var bugsnag;
 
