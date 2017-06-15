@@ -3,8 +3,8 @@ import {
     DeviceEventEmitter
 } from 'react-native';
 import {
-     START_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH,
-    UPDATE_TOTAL_DISTANCE
+    START_RIDE, GPS_UPDATE_LOC, GPS_INIT_WATCH,
+    UPDATE_TOTAL_DISTANCE, GPS_ADD_LOC
 } from "../../../actions/actionTypes";
 import moment from "moment";
 import * as geolocService from "../../../modules/geoloc/geolocService";
@@ -28,7 +28,7 @@ const dispatchNewPosition = function (position, dispatch) {
     // if (global.__DEV__) {
     //     console.log(geoPosition);
     // }
-    dispatch({type: GPS_UPDATE_LOC, payload: position})
+    dispatch({type: GPS_ADD_LOC, payload: position})
 };
 
 export const watchGPS = () => {

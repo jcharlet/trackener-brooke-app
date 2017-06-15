@@ -11,7 +11,6 @@ import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../../util/utils";
 import {STATUS} from "./liveTrackerReducer";
-import BackgroundTimer from 'react-native-background-timer';
 import moment from "moment";
 import HeaderComponent from '../../../components/HeaderComponent'
 
@@ -24,6 +23,7 @@ export default class LiveTrackerStartedScreen extends Component {
         stopTracking: PropTypes.func,
         pauseTracking: PropTypes.func,
         restartTracking: PropTypes.func,
+        updateLocation: PropTypes.func,
     };
 
     initialState = {
@@ -42,8 +42,9 @@ export default class LiveTrackerStartedScreen extends Component {
     }
 
     startTimer() {
-        let timerIntervalId = BackgroundTimer.setInterval(() => {
+        let timerIntervalId = setInterval(() => {
             this.incrementTimer();
+            this.props.updateLocation();
         }, 100);
         this.setState({
             ...this.state,
@@ -63,7 +64,7 @@ export default class LiveTrackerStartedScreen extends Component {
     }
 
     pauseTimer() {
-        BackgroundTimer.clearInterval(this.state.timerIntervalId);
+        clearInterval(this.state.timerIntervalId);
         this.setState({
             ...this.state,
             timerIntervalId: null,
@@ -71,7 +72,7 @@ export default class LiveTrackerStartedScreen extends Component {
     }
 
     stopTimer() {
-        BackgroundTimer.clearInterval(this.state.timerIntervalId);
+        clearInterval(this.state.timerIntervalId);
         this.setState(this.initialState)
     }
 

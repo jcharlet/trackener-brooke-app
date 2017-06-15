@@ -2,8 +2,9 @@
 import {
     Platform,
 } from 'react-native';
-import {PAUSE_RIDE, STOP_RIDE, RESTART_RIDE, ADD_RIDE,
-    UPDATE_TOTAL_DISTANCE
+import {
+    PAUSE_RIDE, STOP_RIDE, RESTART_RIDE, ADD_RIDE,
+    UPDATE_TOTAL_DISTANCE, GPS_UPDATE_LOC
 } from "../../../actions/actionTypes";
 import * as geolocService from "../../../modules/geoloc/geolocService";
 import * as storageService from "../../../modules/storage/storageService";
@@ -17,6 +18,9 @@ export const pauseRide = () =>{
 }
 export const restartRide = () =>{
     return {type: RESTART_RIDE}
+}
+export const updateLocation = () =>{
+    return {type: GPS_UPDATE_LOC}
 }
 
 export const clearWatchGps = () => {

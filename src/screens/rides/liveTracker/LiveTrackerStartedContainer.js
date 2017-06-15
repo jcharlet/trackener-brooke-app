@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {connect} from "react-redux";
-import {stopRide, pauseRide, restartRide, clearWatchGps, updateTotalDistance, addRide
+import {stopRide, pauseRide, restartRide, clearWatchGps, updateTotalDistance, addRide, updateLocation
 } from "./liveTrackerStartedActions";
 import {sync} from "../../../modules/storage/storageService";
 import LiveTrackerStartedScreen from "./LiveTrackerStartedScreen";
@@ -36,6 +36,9 @@ const mapDispatchToProps = (dispatch) => {
         restartTracking: () => {
             dispatch(restartRide());
             dispatch(watchGPS());
+        },
+        updateLocation: () => {
+            dispatch(updateLocation());
         },
     }
 };

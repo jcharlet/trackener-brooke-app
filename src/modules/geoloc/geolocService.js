@@ -115,7 +115,7 @@ export const watchGPSPositionsAtInterval = function (dispatchNewPositionFunction
 const createPositionArrayFromGeoPosition = function (geoPosition) {
     let speed = undefined;
     let gait = undefined;
-    if (geoPosition.coords.speed != undefined && geoPosition.coords.speed != "NaN") {
+    if (geoPosition.coords.speed != undefined && !Number.isNaN(geoPosition.coords.speed)) {
         speed = geoPosition.coords.speed;
         gait = getGaitFromSpeed(speed);
     }
