@@ -54,3 +54,7 @@ fastlane/Preview.html
 fastlane/screenshots
 
 .tmp/
+
+realm-object-server/
+default.realm
+default.realm.lock
