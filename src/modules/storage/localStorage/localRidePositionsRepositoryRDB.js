@@ -78,3 +78,8 @@ export const addPosition = (position, rideId) => {
         })
     )
 }
+
+export const getLastPosition = () => {
+    let allPositions = realm.objects('Position');
+    return allPositions.sorted('date')[allPositions.length-1];
+}

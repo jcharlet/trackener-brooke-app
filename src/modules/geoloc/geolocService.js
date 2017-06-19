@@ -89,12 +89,12 @@ export const clearWatchGps = function (platform, geoIds) {
 }
 
 
-export const watchGPSPositionsAtInterval = function (dispatchNewPositionFunction, dispatch) {
+export const watchGPSPositionsAtInterval = function (saveNewPosition, dispatch, rideId) {
     let intervalId = BackgroundTimer.setInterval(() => {
         navigator.geolocation.getCurrentPosition((geoPosition) => {
                 if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY) {
                     let position = createPositionArrayFromGeoPosition(geoPosition);
-                    dispatchNewPositionFunction(position, dispatch);
+                    saveNewPosition(position, dispatch, rideId);
                     //reportingService.logBreadcrumb("get current position", {x:geoPosition.coords.longitude, y:geoPosition.coords.latitude})
                 }
             }

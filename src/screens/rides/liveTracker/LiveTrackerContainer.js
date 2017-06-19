@@ -13,6 +13,7 @@ import {
     startRide, watchGPS,
     checkLocationServicesIsEnabled
 } from "./liveTrackerActions";
+import moment from "moment";
 
 
 const mapStateToProps = (state) => {
@@ -28,8 +29,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         startTracking: () => {
             checkLocationServicesIsEnabled().then(() => {
-                dispatch(startRide());
-                dispatch(watchGPS());
+                let startDate = moment().format();
+                dispatch(startRide(startDate));
+                dispatch(watchGPS(startDate));
             })
         },
     }

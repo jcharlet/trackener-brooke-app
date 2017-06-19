@@ -9,13 +9,19 @@ import {
 import moment from "moment";
 import * as geolocService from "../../../modules/geoloc/geolocService";
 import * as storageService from "../../../modules/storage/storageService";
+import * as appConfigRepository from "../../../modules/storage/localStorage/appConfigRepository";
+import * as utils from "../../../util/utils";
+import * as localRidesPositionsRepositoryRDB from "../../../modules/storage/localStorage/localRidePositionsRepositoryRDB";
 
 
-export const startRide = () => {
+export const startRide = (startDate) => {
     return (dispatch, getState) => {
         dispatch({
             type: START_RIDE,
-            payload: getState().login.deviceId
+            payload: {
+                deviceId:getState().login.deviceId,
+                startDate:startDate
+            }
         });
     }
 }
@@ -24,29 +30,36 @@ export const checkLocationServicesIsEnabled = () => {
     return geolocService.checkLocationServicesIsEnabled(Platform.OS);
 };
 
-const dispatchNewPosition = function (position, dispatch) {
+const saveNewPosition = function (position, dispatch, rideId) {
     // if (global.__DEV__) {
     //     console.log(geoPosition);
     // }
-    dispatch({type: GPS_ADD_LOC, payload: position})
+    // dispatch({type: GPS_ADD_LOC, payload: position})
+    localRidesPositionsRepositoryRDB.addPosition(position,rideId);
 };
 
-export const watchGPS = () => {
+export const watchGPS = (startDate) => {
+    if(!startDate){
+        startDate=localRidesPositionsRepositoryRDB.getLastPosition().date;
+    }
     return (dispatch) => {
+        return appConfigRepository.load()
+            .then((appConfig) => {
+                let rideId = utils.createRideId(appConfig.username, appConfig.deviceId, startDate);
+                let watchId = geolocService.startGPS(Platform.OS);
 
-        let watchId = geolocService.startGPS(Platform.OS);
+                //check GPS every X milliseconds)
+                let intervalId = geolocService.watchGPSPositionsAtInterval(saveNewPosition, dispatch, rideId);
 
-        //check GPS every X milliseconds)
-        let intervalId = geolocService.watchGPSPositionsAtInterval(dispatchNewPosition, dispatch);
-
-        dispatch({
-            type: GPS_INIT_WATCH,
-            payload: {
-                intervalId: intervalId,
-                watchId: watchId,
-                startTime: moment().valueOf(),
-            }
-        });
+                dispatch({
+                    type: GPS_INIT_WATCH,
+                    payload: {
+                        intervalId: intervalId,
+                        watchId: watchId,
+                        startTime: moment().valueOf(),
+                    }
+                });
+            })
     }
 };
 

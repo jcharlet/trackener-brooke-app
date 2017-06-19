@@ -96,5 +96,9 @@ describe('localRidesPositionsRepository', () => {
                 expect(positions[0].rideId).toBe(RIDE_POSITIONS_TO_ADD_V1.id)
             })
     });
+    it('returns last position correctly', () => {
+        let position = localRidesPositionsRepository.getLastPosition();
+        expect(position.date.getTime()).toBe(RIDES_V1[0].positions[1][POSITION_FIELDS.TIMESTAMP])
+    });
 
 });

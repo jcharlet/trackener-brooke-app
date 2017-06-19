@@ -5,6 +5,7 @@ import {
 import moment from "moment";
 import {GPS_TIME_INTERVAL} from "../../../config/config";
 import {POSITION_FIELDS} from "../../../modules/geoloc/geolocService";
+import * as localRidesPositionsRepositoryRDB from "../../../modules/storage/localStorage/localRidePositionsRepositoryRDB";
 
 export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 
@@ -61,13 +62,13 @@ export default (state = initialState, action = {}) => {
     }
 };
 
-const startRide = (state, deviceId) => {
+const startRide = (state, startContainer) => {
     return {
         ...state,
         status: STATUS.START,
         ride: {
-            date: moment().format(),
-            deviceId: deviceId,
+            date: startContainer.startDate,
+            deviceId: startContainer.deviceId,
             geoIds: null,
             pastDuration: 0,
             positions: [],
@@ -121,33 +122,34 @@ const initWatch = (state, geoIds) => {
     };
 };
 
-const addLocation = (state, newPosition) => {
-    if (!state.ride.geoIds) {
-        return state;
-    }
-
-    if(state.ride.positions.length>=1){
-        let lastPosition = state.ride.positions[state.ride.positions.length - 1];
-        if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] < GPS_TIME_INTERVAL) {
-            return state;
-        }
-    }
-
-    return {
-        ...state,
-        ride: {
-            ...state.ride,
-            positions: [
-                ...state.ride.positions,
-                newPosition,
-            ],
-        },
-    }
-}
+// const addLocation = (state, newPosition) => {
+//     if (!state.ride.geoIds) {
+//         return state;
+//     }
+//
+//     if(state.ride.positions.length>=1){
+//         let lastPosition = state.ride.positions[state.ride.positions.length - 1];
+//         if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] < GPS_TIME_INTERVAL) {
+//             return state;
+//         }
+//     }
+//
+//     return {
+//         ...state,
+//         ride: {
+//             ...state.ride,
+//             positions: [
+//                 ...state.ride.positions,
+//                 newPosition,
+//             ],
+//         },
+//     }
+// }
 
 export const updateLocation = (state) => {
 
-    if(!state.ride.positions || state.ride.positions.length<2 || state.ride.lastIndexProcessed === state.ride.positions.length-1){
+    let positions = localRidesPositionsRepositoryRDB.loadById(state.ride.id);
+    if(positions.length===0 || positions.length<2 || state.ride.lastIndexProcessed === positions.length-1){
         return state;
     }
 
@@ -158,10 +160,10 @@ export const updateLocation = (state) => {
     let distance;
     let avgSpeed;
     let maxSpeed;
-    for (let i=lastIndexProcessed;i<state.ride.positions.length;i++){
+    for (let i=lastIndexProcessed;i<positions.length;i++){
 
-        let lastPosition = state.ride.positions[lastIndexProcessed - 1];
-        let newPosition = state.ride.positions[lastIndexProcessed];
+        let lastPosition = positions[lastIndexProcessed - 1];
+        let newPosition = positions[lastIndexProcessed];
         if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] > GPS_TIME_INTERVAL + 5 * 1000) {
             continue;
         }
@@ -204,9 +206,6 @@ export const updateLocation = (state) => {
                 avgSpeed: avgSpeed,
                 maxSpeed: maxSpeed,
             },
-            positions: [
-                ...state.ride.positions,
-            ],
             lastIndexProcessed:lastIndexProcessed
         },
         totalDistance: totalDistance,
