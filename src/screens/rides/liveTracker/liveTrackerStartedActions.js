@@ -9,8 +9,10 @@ import {
 import * as geolocService from "../../../modules/geoloc/geolocService";
 import * as storageService from "../../../modules/storage/storageService";
 import {POSITION_FIELDS} from "../../../modules/geoloc/geolocService";
+import * as localRidesPositionsRepository from "../../../modules/storage/localStorage/localRidePositionsRepositoryAS";
 
 export const stopRide = () =>{
+    localRidesPositionsRepository.emptyCurrent();
     return {type: STOP_RIDE}
 }
 export const pauseRide = () =>{
@@ -20,7 +22,12 @@ export const restartRide = () =>{
     return {type: RESTART_RIDE}
 }
 export const updateLocation = () =>{
-    return {type: GPS_UPDATE_LOC}
+    return (dispatch) =>{
+        localRidesPositionsRepository.loadCurrent()
+            .then((positions)=>{
+                dispatch({type: GPS_UPDATE_LOC,payload:positions})
+            })
+    }
 }
 
 export const clearWatchGps = () => {
@@ -52,6 +59,7 @@ export const addRide = () =>{
                 timeSpentByGait,
             }
         };
+
 
         storageService.addRide(ride);
         dispatch({type: ADD_RIDE, payload: ride});

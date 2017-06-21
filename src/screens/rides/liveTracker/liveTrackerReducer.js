@@ -5,7 +5,6 @@ import {
 import moment from "moment";
 import {GPS_TIME_INTERVAL} from "../../../config/config";
 import {POSITION_FIELDS} from "../../../modules/geoloc/geolocService";
-import * as localRidesPositionsRepositoryRDB from "../../../modules/storage/localStorage/localRidePositionsRepositoryRDB";
 
 export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
 
@@ -56,7 +55,7 @@ export default (state = initialState, action = {}) => {
         // case GPS_ADD_LOC:
         //     return addLocation(state, action.payload);
         case GPS_UPDATE_LOC:
-            return updateLocation(state);
+            return updateLocation(state, action.payload);
         default:
             return state;
     }
@@ -79,7 +78,7 @@ const startRide = (state, startContainer) => {
                 avgSpeed: 0,
                 maxSpeed: 0,
             },
-            lastIndexProcessed:0,
+            lastIndexProcessed: 0,
         },
     };
 };
@@ -146,38 +145,39 @@ const initWatch = (state, geoIds) => {
 //     }
 // }
 
-export const updateLocation = (state) => {
-
-    let positions = localRidesPositionsRepositoryRDB.loadById(state.ride.geoIds.rideId)
-    if(positions.length===0 || positions.length<2 || state.ride.lastIndexProcessed === positions.length-1){
+export const updateLocation = (state, positions) => {
+    if (positions.length === 0 || positions.length < 2 || state.ride.lastIndexProcessed === positions.length - 1) {
         return state;
     }
 
-    let lastIndexProcessed=state.ride.lastIndexProcessed+1;
+    let lastIndexProcessed = state.ride.lastIndexProcessed + 1;
 
     let speed;
-    let totalDistance;
-    let distance;
+    let totalDistance = state.totalDistance;
+    let distance = state.ride.analytics.distance;
     let avgSpeed;
-    let maxSpeed;
-    for (let i=lastIndexProcessed;i<positions.length;i++){
+    let maxSpeed = state.ride.analytics.maxSpeed;
+    for (let i = lastIndexProcessed; i < positions.length; i++) {
 
-        let lastPosition = positions[lastIndexProcessed - 1];
-        let newPosition = positions[lastIndexProcessed];
-        if (newPosition.date.getTime() - lastPosition.date.getTime() > GPS_TIME_INTERVAL + 5 * 1000) {
+        let lastPosition = positions[i - 1];
+        let newPosition = positions[i];
+        lastIndexProcessed = i;
+
+
+        if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] > GPS_TIME_INTERVAL + 5 * 1000) {
             continue;
         }
 
-        let from = {lat: lastPosition.latitude, lon: lastPosition.longitude};
-        let to = {lat: newPosition.latitude, lon: newPosition.longitude};
+        let from = {lat: lastPosition[POSITION_FIELDS.LATITUDE], lon: lastPosition[POSITION_FIELDS.LONGITUDE]};
+        let to = {lat: newPosition[POSITION_FIELDS.LATITUDE], lon: newPosition[POSITION_FIELDS.LONGITUDE]};
         let distanceSinceLastPos = calculateDistance(from, to);
-        distance = state.ride.analytics.distance + distanceSinceLastPos;
-        totalDistance = state.totalDistance + distanceSinceLastPos;
-        let durationSinceLastPos = (newPosition.date.getTime() - lastPosition.date.getTime() ) / 1000;
-        let duration = state.ride.pastDuration + (newPosition.date.getTime() - state.ride.geoIds.startTime) / 1000;
+        distance += distanceSinceLastPos;
+        totalDistance += distanceSinceLastPos;
+        let durationSinceLastPos = (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] ) / 1000;
+        let duration = state.ride.pastDuration + (newPosition[POSITION_FIELDS.TIMESTAMP] - state.ride.geoIds.startTime) / 1000;
 
         avgSpeed = distance / duration;
-        speed = newPosition.speed;
+        speed = newPosition[POSITION_FIELDS.SPEED];
         if (speed < 0 || speed == undefined || Number.isNaN(speed)
         // || (speed === 0 && distanceSinceLastPos !== 0 && durationSinceLastPos!== 0 )
         ) {
@@ -191,9 +191,18 @@ export const updateLocation = (state) => {
             duration: durationSinceLastPos,
             speed: speed
         }
-        maxSpeed = speed > state.ride.analytics.maxSpeed ? speed : state.ride.analytics.maxSpeed;
+        maxSpeed = speed > maxSpeed ? speed : maxSpeed;
     }
 
+    if (!distance) {
+        return {
+            ...state,
+            ride: {
+                ...state.ride,
+                lastIndexProcessed: lastIndexProcessed
+            },
+        };
+    }
     return {
         ...state,
         ride: {
@@ -206,11 +215,11 @@ export const updateLocation = (state) => {
                 avgSpeed: avgSpeed,
                 maxSpeed: maxSpeed,
             },
-            lastIndexProcessed:lastIndexProcessed
+            lastIndexProcessed: lastIndexProcessed
         },
         totalDistance: totalDistance,
     };
-};
+}
 
 export const updateTotalDistance = (state, totalDistance) => {
     return {

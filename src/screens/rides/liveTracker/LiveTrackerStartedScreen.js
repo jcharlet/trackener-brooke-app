@@ -44,8 +44,11 @@ export default class LiveTrackerStartedScreen extends Component {
     startTimer() {
         let timerIntervalId = setInterval(() => {
             this.incrementTimer();
-            this.props.updateLocation();
-        }, 100);
+            let timestampRemainder = Date.now()%1000;
+            if(timestampRemainder>150 || timestampRemainder<150){
+                this.props.updateLocation();
+            }
+        }, 250);
         this.setState({
             ...this.state,
             timerIntervalId: timerIntervalId,
@@ -53,7 +56,7 @@ export default class LiveTrackerStartedScreen extends Component {
     }
 
     incrementTimer() {
-        if (!this.props.liveTracker.ride) {
+        if (!this.props.liveTracker.ride ||  !this.props.liveTracker.ride.geoIds) {
             return;
         }
         let timer = this.props.liveTracker.ride.pastDuration + (moment().valueOf() - this.props.liveTracker.ride.geoIds.startTime) / 1000;

@@ -10,7 +10,10 @@ import * as localRidesPositionsRepository from "../localRidePositionsRepositoryA
 
 
 beforeEach(() => {
-    return localRidesPositionsRepository.save(RIDES_V1)
+    return Promise.all(
+        localRidesPositionsRepository.save(RIDES_V1),
+        localRidesPositionsRepository.saveCurrent(RIDES_V1[0].positions)
+    )
 });
 
 describe('localRidesPositionsRepository', () => {
@@ -83,5 +86,26 @@ describe('localRidesPositionsRepository', () => {
                     .toBe(JSON.stringify([RIDE_POSITIONS_TO_ADD_V1]))
             })
     });
+
+    it('load current positions correctly', () => {
+        return localRidesPositionsRepository.loadCurrent()
+            .then((positions) => {
+                expect(positions[0][0]).toBe(RIDES_V1[0].positions[0][0])
+            })
+    });
+    it('add positions correctly', () => {
+        return localRidesPositionsRepository.addPosition(RIDE_POSITIONS_TO_ADD_V1.positions[0], RIDE_POSITIONS_TO_ADD_V1.id)
+            .then(() => {
+                return localRidesPositionsRepository.loadCurrent()
+            }).then((positions) => {
+                expect(positions.length).toBe(3)
+            })
+    });
+    it('returns last position correctly', () => {
+        localRidesPositionsRepository.getLastPosition()
+            .then((position) => {
+                expect(position[POSITION_FIELDS.TIMESTAMP]).toBe(RIDES_V1[0].positions[1][POSITION_FIELDS.TIMESTAMP])
+            })
+    })
 
 });

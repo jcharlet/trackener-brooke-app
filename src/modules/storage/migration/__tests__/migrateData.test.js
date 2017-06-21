@@ -35,7 +35,6 @@ describe('migrateData', () => {
                     })
             })
 
-                //FIXME still borken on localRidePositionsRepository
             // then I should get 2 rides with all their positions
             .then(() => {
                 return localRidePositionsRepository.loadAllRides()

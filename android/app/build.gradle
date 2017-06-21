@@ -137,7 +137,6 @@ android {
 }
 
 dependencies {
-    compile project(':realm')
     compile project(':bugsnag-react-native')
     compile project(':react-native-keychain')
     compile project(':react-native-android-location-services-dialog-box')

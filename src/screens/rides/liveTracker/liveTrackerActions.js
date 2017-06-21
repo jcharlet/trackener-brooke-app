@@ -11,16 +11,17 @@ import * as geolocService from "../../../modules/geoloc/geolocService";
 import * as storageService from "../../../modules/storage/storageService";
 import * as appConfigRepository from "../../../modules/storage/localStorage/appConfigRepository";
 import * as utils from "../../../util/utils";
-import * as localRidesPositionsRepositoryRDB from "../../../modules/storage/localStorage/localRidePositionsRepositoryRDB";
+import * as localRidesPositionsRepository from "../../../modules/storage/localStorage/localRidePositionsRepositoryAS";
 
 
 export const startRide = (startDate) => {
     return (dispatch, getState) => {
+        localRidesPositionsRepository.emptyCurrent();
         dispatch({
             type: START_RIDE,
             payload: {
-                deviceId:getState().login.deviceId,
-                startDate:startDate
+                deviceId: getState().login.deviceId,
+                startDate: startDate
             }
         });
     }
@@ -35,33 +36,44 @@ const saveNewPosition = function (position, dispatch, rideId) {
     //     console.log(geoPosition);
     // }
     // dispatch({type: GPS_ADD_LOC, payload: position})
-    localRidesPositionsRepositoryRDB.addPosition(position,rideId);
+    localRidesPositionsRepository.addPosition(position, rideId);
 };
 
 export const watchGPS = (startDate) => {
-    if(!startDate){
-        startDate=localRidesPositionsRepositoryRDB.getLastPosition().date;
-    }
     return (dispatch) => {
-        return appConfigRepository.load()
-            .then((appConfig) => {
-                let rideId = utils.createRideId(appConfig.username, appConfig.deviceId, startDate);
-                let watchId = geolocService.startGPS(Platform.OS);
-
-                //check GPS every X milliseconds)
-                let intervalId = geolocService.watchGPSPositionsAtInterval(saveNewPosition, dispatch, rideId);
-
-                dispatch({
-                    type: GPS_INIT_WATCH,
-                    payload: {
-                        intervalId: intervalId,
-                        watchId: watchId,
-                        startTime: moment().valueOf(),
-                        rideId:rideId,
-                    }
-                });
+        Promise.resolve(startDate)
+            .then((startDate) => {
+                if (!startDate) {
+                    return localRidesPositionsRepository.getLastPosition()
+                        .then((position) => {
+                            return position.date
+                        });
+                }
+                return startDate
             })
+            .then((startDate) => {
+                return appConfigRepository.load()
+                    .then((appConfig) => {
+                        let rideId = utils.createRideId(appConfig.username, appConfig.deviceId, startDate);
+                        let watchId = geolocService.startGPS(Platform.OS);
+
+                        //check GPS every X milliseconds)
+                        let intervalId = geolocService.watchGPSPositionsAtInterval(saveNewPosition, dispatch, rideId);
+
+                        dispatch({
+                            type: GPS_INIT_WATCH,
+                            payload: {
+                                intervalId: intervalId,
+                                watchId: watchId,
+                                startTime: moment().valueOf(),
+                                rideId: rideId,
+                            }
+                        });
+                    })
+            })
+
     }
+
 };
 
 

@@ -64,7 +64,6 @@ class Pie extends React.Component {
     }
 
     // methods used to tranform data into piechart:
-    // TODO: Expose them as part of the interface
     _value(item) { return item.number; }
 
     _label(item) { return item.name; }

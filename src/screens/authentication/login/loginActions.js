@@ -78,7 +78,7 @@ const loginSuccess = (dispatch,
     });
 
     credentialsRepository.saveCredentials(username, password);
-    //TODO when doing multiple horses, need to store the list of horses for one user locally so that he can uses the app locally
+    //when doing multiple horses, need to store the list of horses for one user locally so that he can uses the app locally
     let deviceId = checksum(username);
     storageService.initApp(username, deviceId, isOffline);
     migrate(username,deviceId)
