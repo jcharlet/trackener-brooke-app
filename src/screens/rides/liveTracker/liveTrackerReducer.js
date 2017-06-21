@@ -53,8 +53,8 @@ export default (state = initialState, action = {}) => {
         //     return startGpsWatch(state);
         case GPS_INIT_WATCH:
             return initWatch(state, action.payload);
-        case GPS_ADD_LOC:
-            return addLocation(state, action.payload);
+        // case GPS_ADD_LOC:
+        //     return addLocation(state, action.payload);
         case GPS_UPDATE_LOC:
             return updateLocation(state);
         default:
@@ -148,7 +148,7 @@ const initWatch = (state, geoIds) => {
 
 export const updateLocation = (state) => {
 
-    let positions = localRidesPositionsRepositoryRDB.loadById(state.ride.id);
+    let positions = localRidesPositionsRepositoryRDB.loadById(state.ride.geoIds.rideId)
     if(positions.length===0 || positions.length<2 || state.ride.lastIndexProcessed === positions.length-1){
         return state;
     }
@@ -164,20 +164,20 @@ export const updateLocation = (state) => {
 
         let lastPosition = positions[lastIndexProcessed - 1];
         let newPosition = positions[lastIndexProcessed];
-        if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] > GPS_TIME_INTERVAL + 5 * 1000) {
+        if (newPosition.date.getTime() - lastPosition.date.getTime() > GPS_TIME_INTERVAL + 5 * 1000) {
             continue;
         }
 
-        let from = {lat: lastPosition[POSITION_FIELDS.LATITUDE], lon: lastPosition[POSITION_FIELDS.LONGITUDE]};
-        let to = {lat: newPosition[POSITION_FIELDS.LATITUDE], lon: newPosition[POSITION_FIELDS.LONGITUDE]};
+        let from = {lat: lastPosition.latitude, lon: lastPosition.longitude};
+        let to = {lat: newPosition.latitude, lon: newPosition.longitude};
         let distanceSinceLastPos = calculateDistance(from, to);
         distance = state.ride.analytics.distance + distanceSinceLastPos;
         totalDistance = state.totalDistance + distanceSinceLastPos;
-        let durationSinceLastPos = (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] ) / 1000;
-        let duration = state.ride.pastDuration + (newPosition[POSITION_FIELDS.TIMESTAMP] - state.ride.geoIds.startTime) / 1000;
+        let durationSinceLastPos = (newPosition.date.getTime() - lastPosition.date.getTime() ) / 1000;
+        let duration = state.ride.pastDuration + (newPosition.date.getTime() - state.ride.geoIds.startTime) / 1000;
 
         avgSpeed = distance / duration;
-        speed = newPosition[POSITION_FIELDS.SPEED];
+        speed = newPosition.speed;
         if (speed < 0 || speed == undefined || Number.isNaN(speed)
         // || (speed === 0 && distanceSinceLastPos !== 0 && durationSinceLastPos!== 0 )
         ) {

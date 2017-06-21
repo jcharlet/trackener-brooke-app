@@ -17,12 +17,16 @@ export const loadAllPositions = () => {
     return Promise.resolve(realm.objects('Position'))
 };
 
+export const loadAll = () => {
+    return realm.objects('Position')
+};
+
 /**
  * load by ride id
  * @param id the ride id
  */
 export const loadById = (id) => {
-    return Promise.resolve(realm.objects('Position').filtered('rideId = "' + id + '"'));
+    return realm.objects('Position').filtered('rideId = "' + id + '"');
 };
 
 export const addRide = (ride) => {
@@ -44,13 +48,11 @@ export const addRide = (ride) => {
 }
 
 export const removeRide = (id: string) => {
+    let positions =  this.loadById(id);
     return Promise.resolve(
-        this.loadById(id)
-            .then((positions) => {
                 realm.write(() => {
                     realm.delete(positions);
                 })
-            })
     )
 }
 

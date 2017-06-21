@@ -28,14 +28,12 @@ describe('localRidesPositionsRepository', () => {
             })
     });
     it('loads ride positions by id', () => {
-        return localRidesPositionsRepository.loadById(RIDES_V1[0].id)
+        let ridePosition= localRidesPositionsRepository.loadById(RIDES_V1[0].id)
         /*
          Then I find 2 positions for 007
          */
-            .then((ridePosition) => {
                 expect(ridePosition.length).toBe(2)
                 expect(ridePosition[0].rideId).toBe(RIDES_V1[0].id)
-            })
     });
     it('add ride correctly', () => {
         return localRidesPositionsRepository.addRide(RIDE_POSITIONS_TO_ADD_V1)
@@ -51,8 +49,7 @@ describe('localRidesPositionsRepository', () => {
              Then I can find this ride by its deviceId
              */
             .then(() => {
-                return localRidesPositionsRepository.loadById(RIDE_POSITIONS_TO_ADD_V1.id)
-            }).then((ridePosition) => {
+                let ridePosition=  localRidesPositionsRepository.loadById(RIDE_POSITIONS_TO_ADD_V1.id)
                 expect(ridePosition[0].rideId).toBe(RIDE_POSITIONS_TO_ADD_V1.id)
                 expect(ridePosition[0].date.getTime())
                     .toBe(RIDE_POSITIONS_TO_ADD_V1['positions'][0][POSITION_FIELDS.TIMESTAMP])
@@ -73,8 +70,7 @@ describe('localRidesPositionsRepository', () => {
              Then I have no more ride for that deviceId
              */
             .then(() => {
-                return localRidesPositionsRepository.loadById(RIDES_V1[0].id)
-            }).then((ridePosition) => {
+                let ridePosition=  localRidesPositionsRepository.loadById(RIDES_V1[0].id)
                 expect(ridePosition.length).toBe(0)
             })
     });
@@ -90,8 +86,7 @@ describe('localRidesPositionsRepository', () => {
     it('add positions correctly', () => {
         return localRidesPositionsRepository.addPosition(RIDE_POSITIONS_TO_ADD_V1.positions[0], RIDE_POSITIONS_TO_ADD_V1.id)
             .then(() => {
-                return localRidesPositionsRepository.loadById(RIDE_POSITIONS_TO_ADD_V1.id)
-            }).then((positions) => {
+                let positions=  localRidesPositionsRepository.loadById(RIDE_POSITIONS_TO_ADD_V1.id)
                 expect(positions.length).toBe(1)
                 expect(positions[0].rideId).toBe(RIDE_POSITIONS_TO_ADD_V1.id)
             })

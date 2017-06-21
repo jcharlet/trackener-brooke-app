@@ -57,6 +57,7 @@ export const watchGPS = (startDate) => {
                         intervalId: intervalId,
                         watchId: watchId,
                         startTime: moment().valueOf(),
+                        rideId:rideId,
                     }
                 });
             })
