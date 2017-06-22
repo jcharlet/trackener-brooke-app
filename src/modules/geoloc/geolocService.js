@@ -94,7 +94,7 @@ export const watchGPSPositionsAtInterval = function (saveNewPosition, dispatch, 
         navigator.geolocation.getCurrentPosition((geoPosition) => {
                 if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY) {
                     let position = createPositionArrayFromGeoPosition(geoPosition);
-                    saveNewPosition(position, dispatch, rideId);
+                    saveNewPosition(position, rideId);
                     //reportingService.logBreadcrumb("get current position", {x:geoPosition.coords.longitude, y:geoPosition.coords.latitude})
                 }
             }

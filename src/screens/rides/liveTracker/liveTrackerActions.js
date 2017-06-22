@@ -11,12 +11,11 @@ import * as geolocService from "../../../modules/geoloc/geolocService";
 import * as storageService from "../../../modules/storage/storageService";
 import * as appConfigRepository from "../../../modules/storage/localStorage/appConfigRepository";
 import * as utils from "../../../util/utils";
-import * as localRidesPositionsRepository from "../../../modules/storage/localStorage/localRidePositionsRepositoryAS";
 
 
 export const startRide = (startDate) => {
     return (dispatch, getState) => {
-        localRidesPositionsRepository.emptyCurrent();
+        storageService.emptyCurrentRidePositions();
         dispatch({
             type: START_RIDE,
             payload: {
@@ -31,8 +30,8 @@ export const checkLocationServicesIsEnabled = () => {
     return geolocService.checkLocationServicesIsEnabled(Platform.OS);
 };
 
-const saveNewPosition = function (position, dispatch, rideId) {
-    localRidesPositionsRepository.addPosition(position, rideId);
+const saveNewPosition = function (position, rideId) {
+    storageService.addPosition(position);
 };
 
 export const watchGPS = (startDate) => {
@@ -40,7 +39,7 @@ export const watchGPS = (startDate) => {
         Promise.resolve(startDate)
             .then((startDate) => {
                 if (!startDate) {
-                    return localRidesPositionsRepository.getLastPosition()
+                    return storageService.getLastPosition()
                         .then((position) => {
                             return position.date
                         });

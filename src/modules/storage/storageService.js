@@ -81,6 +81,27 @@ export const removeRide = (date: string) => {
         })
 }
 
+
+export const loadCurrentRidePositions = () => {
+    return localRidePositionsRepository.loadCurrentRidePositions()
+}
+export const loadCurrentRidePositionsFromIndex = (lastIndexProcessed) => {
+    return localRidePositionsRepository.loadCurrentRidePositionsFromIndex(lastIndexProcessed)
+}
+
+export const emptyCurrentRidePositions = () => {
+    return localRidePositionsRepository.emptyCurrentRidePositions()
+}
+
+export const addPosition = (position) => {
+    return localRidePositionsRepository.addPosition(position)
+}
+
+
+export const getLastPosition = () => {
+    return localRidePositionsRepository.getLastPosition()
+}
+
 export const sync = () => {
     // TODO syncing to complete and improve (without timer)
     BackgroundTimer.setTimeout(() => {

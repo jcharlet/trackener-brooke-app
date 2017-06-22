@@ -9,10 +9,9 @@ import {
 import * as geolocService from "../../../modules/geoloc/geolocService";
 import * as storageService from "../../../modules/storage/storageService";
 import {POSITION_FIELDS} from "../../../modules/geoloc/geolocService";
-import * as localRidesPositionsRepository from "../../../modules/storage/localStorage/localRidePositionsRepositoryAS";
 
 export const stopRide = () =>{
-    localRidesPositionsRepository.emptyCurrent();
+    storageService.emptyCurrentRidePositions();
     return {type: STOP_RIDE}
 }
 export const pauseRide = () =>{
@@ -22,11 +21,10 @@ export const restartRide = () =>{
     return {type: RESTART_RIDE}
 }
 
-//FIXME do not send all positions but only the new ones
 export const updateLocation = () =>{
     return (dispatch, getState) =>{
         let lastIndexProcessed = getState().liveTracker.ride.lastIndexProcessed;
-        localRidesPositionsRepository.loadCurrentFromIndex(lastIndexProcessed)
+        storageService.loadCurrentRidePositionsFromIndex(lastIndexProcessed)
             .then((positions)=>{
                 dispatch({type: GPS_UPDATE_LOC,payload:positions})
             })
@@ -53,7 +51,7 @@ export const updateTotalDistance = (rideDistance) =>{
 
 export const addRide = () =>{
     return (dispatch,getState)=>{
-        localRidesPositionsRepository.loadCurrent()
+        storageService.loadCurrentRidePositions()
             .then((positions)=>{
                 let ride = getState().liveTracker.ride;
                 let timeSpentByGait = createTimeSpentByGaitAnalytics(positions);

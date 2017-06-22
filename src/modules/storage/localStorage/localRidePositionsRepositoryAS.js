@@ -1,7 +1,6 @@
 import {
     AsyncStorage
 } from 'react-native';
-//FIXME fix 3 layers archi: should use service and not repo directly
 //TODO profile ride on ios simulator: check no memory leak
 export const RIDE_POSITIONS_COLL='ridePositions';
 export const RIDE_POSITIONS_CURRENT_COLL='ridePositionsCurrent';
@@ -24,7 +23,7 @@ export const loadById = (id) => {
     return loadAllRides()
         .then((rides) => {
             return rides.map(ride => {
-                if (ride.id==id) {
+                if (ride.id===id) {
                     return ride
                 }
             })
@@ -61,7 +60,7 @@ export const empty = () => {
     return save([])
 }
 
-export const loadCurrent = () => {
+export const loadCurrentRidePositions = () => {
     return AsyncStorage.getItem(RIDE_POSITIONS_CURRENT_COLL)
         .then((rides) => {
             if (rides) {
@@ -71,7 +70,7 @@ export const loadCurrent = () => {
         });
 }
 
-export const loadCurrentFromIndex = (lastIndexProcessed) => {
+export const loadCurrentRidePositionsFromIndex = (lastIndexProcessed) => {
     return AsyncStorage.getItem(RIDE_POSITIONS_CURRENT_COLL)
         .then((rides) => {
             if (rides) {
@@ -84,7 +83,7 @@ export const loadCurrentFromIndex = (lastIndexProcessed) => {
         })
 }
 
-export const emptyCurrent = () => {
+export const emptyCurrentRidePositions = () => {
     return saveCurrent([]);
 }
 
@@ -92,8 +91,8 @@ export const saveCurrent = (positions) => {
     return AsyncStorage.setItem(RIDE_POSITIONS_CURRENT_COLL, JSON.stringify(positions));
 }
 
-export const addPosition = (position, rideId) => {
-    return loadCurrent()
+export const addPosition = (position) => {
+    return loadCurrentRidePositions()
         .then((positions)=>{
             positions.push(position);
             return saveCurrent(positions);
@@ -102,7 +101,7 @@ export const addPosition = (position, rideId) => {
 
 
 export const getLastPosition = () => {
-    return loadCurrent()
+    return loadCurrentRidePositions()
         .then((positions)=>{
             return positions[positions.length-1]
         })
