@@ -48,7 +48,7 @@ export const loadRidesByDeviceId = () => {
             return localRidesRepository.loadRidesByDeviceId(deviceId);
         })
 }
-export const addRide = (ride) => {
+export const addRide = (ride, positions) => {
     return appConfigRepository.load()
         .then((appConfig) => {
             let id = utils.createRideId(appConfig.username ,appConfig.deviceId ,ride.date);
@@ -61,7 +61,7 @@ export const addRide = (ride) => {
 
             let addRidePositionsPromise = localRidePositionsRepository.addRide({
                 id: id,
-                positions: ride.positions,
+                positions: positions,
             });
 
             return Promise.all([addRidePromise,addRidePositionsPromise])

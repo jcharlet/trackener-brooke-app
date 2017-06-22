@@ -1,5 +1,5 @@
 import {
-    START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC, GPS_ADD_LOC,
+    START_RIDE, STOP_RIDE, PAUSE_RIDE, RESTART_RIDE, GPS_UPDATE_LOC,
     GPS_INIT_WATCH, UPDATE_TOTAL_DISTANCE
 } from '../../../actions/actionTypes';
 import moment from "moment";
@@ -48,12 +48,8 @@ export default (state = initialState, action = {}) => {
         case RESTART_RIDE:
             return restartRide(state);
 
-        // case START_GPS_WATCH:
-        //     return startGpsWatch(state);
         case GPS_INIT_WATCH:
             return initWatch(state, action.payload);
-        // case GPS_ADD_LOC:
-        //     return addLocation(state, action.payload);
         case GPS_UPDATE_LOC:
             return updateLocation(state, action.payload);
         default:
@@ -121,47 +117,20 @@ const initWatch = (state, geoIds) => {
     };
 };
 
-// const addLocation = (state, newPosition) => {
-//     if (!state.ride.geoIds) {
-//         return state;
-//     }
-//
-//     if(state.ride.positions.length>=1){
-//         let lastPosition = state.ride.positions[state.ride.positions.length - 1];
-//         if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] < GPS_TIME_INTERVAL) {
-//             return state;
-//         }
-//     }
-//
-//     return {
-//         ...state,
-//         ride: {
-//             ...state.ride,
-//             positions: [
-//                 ...state.ride.positions,
-//                 newPosition,
-//             ],
-//         },
-//     }
-// }
-
 export const updateLocation = (state, positions) => {
-    if (positions.length === 0 || positions.length < 2 || state.ride.lastIndexProcessed === positions.length - 1) {
+    if (positions.length === 0 || positions.length < 2) {
         return state;
     }
-
-    let lastIndexProcessed = state.ride.lastIndexProcessed + 1;
 
     let speed;
     let totalDistance = state.totalDistance;
     let distance = state.ride.analytics.distance;
     let avgSpeed;
     let maxSpeed = state.ride.analytics.maxSpeed;
-    for (let i = lastIndexProcessed; i < positions.length; i++) {
+    for (let i = 1; i < positions.length; i++) {
 
         let lastPosition = positions[i - 1];
         let newPosition = positions[i];
-        lastIndexProcessed = i;
 
 
         if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] > GPS_TIME_INTERVAL + 5 * 1000) {
@@ -178,7 +147,7 @@ export const updateLocation = (state, positions) => {
 
         avgSpeed = distance / duration;
         speed = newPosition[POSITION_FIELDS.SPEED];
-        if (speed < 0 || speed == undefined || Number.isNaN(speed)
+        if (speed < 0 || speed === undefined || Number.isNaN(speed)
         // || (speed === 0 && distanceSinceLastPos !== 0 && durationSinceLastPos!== 0 )
         ) {
             speed = distanceSinceLastPos / durationSinceLastPos;
@@ -193,6 +162,8 @@ export const updateLocation = (state, positions) => {
         }
         maxSpeed = speed > maxSpeed ? speed : maxSpeed;
     }
+
+    let lastIndexProcessed =state.ride.lastIndexProcessed + positions.length-1;
 
     if (!distance) {
         return {

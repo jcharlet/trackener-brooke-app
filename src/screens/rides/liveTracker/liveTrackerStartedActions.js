@@ -21,9 +21,12 @@ export const pauseRide = () =>{
 export const restartRide = () =>{
     return {type: RESTART_RIDE}
 }
+
+//FIXME do not send all positions but only the new ones
 export const updateLocation = () =>{
-    return (dispatch) =>{
-        localRidesPositionsRepository.loadCurrent()
+    return (dispatch, getState) =>{
+        let lastIndexProcessed = getState().liveTracker.ride.lastIndexProcessed;
+        localRidesPositionsRepository.loadCurrentFromIndex(lastIndexProcessed)
             .then((positions)=>{
                 dispatch({type: GPS_UPDATE_LOC,payload:positions})
             })
@@ -50,19 +53,21 @@ export const updateTotalDistance = (rideDistance) =>{
 
 export const addRide = () =>{
     return (dispatch,getState)=>{
-        let ride = getState().liveTracker.ride;
-        let timeSpentByGait = createTimeSpentByGaitAnalytics(ride.positions);
-        ride = {
-            ...ride,
-            analytics:{
-                ...ride.analytics,
-                timeSpentByGait,
-            }
-        };
+        localRidesPositionsRepository.loadCurrent()
+            .then((positions)=>{
+                let ride = getState().liveTracker.ride;
+                let timeSpentByGait = createTimeSpentByGaitAnalytics(positions);
+                ride = {
+                    ...ride,
+                    analytics:{
+                        ...ride.analytics,
+                        timeSpentByGait,
+                    },
+                };
 
-
-        storageService.addRide(ride);
-        dispatch({type: ADD_RIDE, payload: ride});
+                storageService.addRide(ride, positions);
+                dispatch({type: ADD_RIDE, payload: ride});
+            })
     }
 };
 

@@ -71,6 +71,19 @@ export const loadCurrent = () => {
         });
 }
 
+export const loadCurrentFromIndex = (lastIndexProcessed) => {
+    return AsyncStorage.getItem(RIDE_POSITIONS_CURRENT_COLL)
+        .then((rides) => {
+            if (rides) {
+                return JSON.parse(rides);
+            }
+            return [];
+        })
+        .then((positions)=>{
+            return positions.slice(lastIndexProcessed);
+        })
+}
+
 export const emptyCurrent = () => {
     return saveCurrent([]);
 }

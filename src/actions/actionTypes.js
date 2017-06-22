@@ -51,7 +51,6 @@ export const ADD_RIDE = 'tracker/ADD_RIDE';
 
 export const GPS_INIT_WATCH = 'gps/GPS_INIT_WATCH';
 export const GPS_UPDATE_LOC = 'gps/GPS_UPDATE_LOC';
-export const GPS_ADD_LOC = 'gps/GPS_ADD_LOC';
 
 ///////////////////////
 // Hack details actions
