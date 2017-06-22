@@ -11,7 +11,6 @@ import * as storageService from "../../../modules/storage/storageService";
 import {POSITION_FIELDS} from "../../../modules/geoloc/geolocService";
 
 export const stopRide = () =>{
-    storageService.emptyCurrentRidePositions();
     return {type: STOP_RIDE}
 }
 export const pauseRide = () =>{
@@ -65,6 +64,8 @@ export const addRide = () =>{
 
                 storageService.addRide(ride, positions);
                 dispatch({type: ADD_RIDE, payload: ride});
+
+                storageService.emptyCurrentRidePositions();
             })
     }
 };
