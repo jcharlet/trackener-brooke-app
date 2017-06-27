@@ -28,10 +28,12 @@ const mapDispatchToProps = (dispatch) => {
             checkLocationServicesIsEnabled();
         },
         startTracking: () => {
-            checkLocationServicesIsEnabled().then(() => {
-                let startDate = moment().format();
-                dispatch(watchGPS(startDate));
-                dispatch(startRide(startDate));
+            checkLocationServicesIsEnabled().then((isAuthorized) => {
+                if(isAuthorized){
+                    let startDate = moment().format();
+                    dispatch(watchGPS(startDate));
+                    dispatch(startRide(startDate));
+                }
             })
         },
     }

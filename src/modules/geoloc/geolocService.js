@@ -41,10 +41,19 @@ export const checkLocationServicesIsEnabled = (platform: string) => {
                             <p>Your location is used to track your position during a ride and get feedback (distance ridden, duration, speed, etc) in real time and afterwards.</p>",
             ok: "YES",
             cancel: "NO"
-        })
+        }).then(function(success) {
+            return true;
+        }).catch((error) => {
+            return false;
+        });
     } else {
-        Location.requestAlwaysAuthorization();
-        return Promise.resolve();
+        Location.getAuthorizationStatus(function(authorization) {
+            if(authorization!=="authorizedAlways"){
+                Location.requestAlwaysAuthorization();
+                return Promise.resolve(false);
+            }
+            return Promise.resolve(true);
+        });
     }
 };
 
