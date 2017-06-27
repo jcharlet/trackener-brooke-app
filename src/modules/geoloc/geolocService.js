@@ -7,10 +7,15 @@ import {
     GPS_TIMEOUT_GET,
     GPS_MIN_ACCURACY
 } from "../../config/config";
+import {
+    Alert,
+    Platform,
+} from 'react-native';
 import moment from "moment";
 import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../../util/utils'
 import {RNLocation as Location} from 'NativeModules'
+const Permissions = require('react-native-permissions');
 
 import {
     DeviceEventEmitter
@@ -47,13 +52,24 @@ export const checkLocationServicesIsEnabled = (platform: string) => {
             return false;
         });
     } else {
-        Location.getAuthorizationStatus(function(authorization) {
-            if(authorization!=="authorizedAlways"){
-                Location.requestAlwaysAuthorization();
-                return Promise.resolve(false);
-            }
-            return Promise.resolve(true);
-        });
+      return Permissions.getPermissionStatus('location', 'always')
+          .then(response => {
+                if (response!='authorized') {
+                  Alert.alert(
+                    'Can we use your location always in background?',
+                    'We need access so you can run the app in background',
+                    [
+                      {text: 'No way', onPress: () => console.log('permission denied'), style: 'cancel'},
+                      response == 'undetermined'?
+                        {text: 'OK', onPress: this._requestPermission.bind(this)}
+                        : {text: 'Open Settings', onPress: Permissions.openSettings}
+                    ]
+                  )
+                  return false;
+                }else{
+                  return true;
+                }
+          })
     }
 };
 

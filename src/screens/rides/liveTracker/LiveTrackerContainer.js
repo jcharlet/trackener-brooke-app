@@ -25,10 +25,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         checkLocationServicesIsEnabled: () => {
-            checkLocationServicesIsEnabled();
+            return checkLocationServicesIsEnabled();
         },
         startTracking: () => {
-            checkLocationServicesIsEnabled().then((isAuthorized) => {
+            return checkLocationServicesIsEnabled().then((isAuthorized) => {
                 if(isAuthorized){
                     let startDate = moment().format();
                     dispatch(watchGPS(startDate));

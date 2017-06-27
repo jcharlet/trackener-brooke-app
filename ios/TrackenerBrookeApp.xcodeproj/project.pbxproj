@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -39,6 +40,7 @@
 		8600B8CFACF24F8497D05A9E /* libRNBackgroundTimer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC753FD52264B13A0B17D95 /* libRNBackgroundTimer.a */; };
 		954340CB56F347CDA3197B0F /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 835D89FB656244A487DF4128 /* libRNKeychain.a */; };
 		A3EAA9BD2A334B719497CE8D /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE661158A9549DE9DA8D4DA /* libRNLocation.a */; };
+		CB3D95601F0297F700466920 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB3D955C1F0297E000466920 /* libReactNativePermissions.a */; };
 		CB41D8C41E9BEA0100ABE3EF /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB41D8C21E9BE9BB00ABE3EF /* libART.a */; };
 		CB9666581EB0DE9B00581A7D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB9666571EB0DE9B00581A7D /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
@@ -240,6 +242,13 @@
 			remoteGlobalIDString = 5D82366F1B0CE05B005A9EF3;
 			remoteInfo = RNKeychain;
 		};
+		CB3D955B1F0297E000466920 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB3D953C1F0297E000466920 /* ReactNativePermissions.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D23B34F1C767B80008B4819;
+			remoteInfo = ReactNativePermissions;
+		};
 		CB41D8BB1E9972CF00ABE3EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 873FBC50AB4945479F34C102 /* RNBackgroundTimer.xcodeproj */;
@@ -301,6 +310,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		835D89FB656244A487DF4128 /* libRNKeychain.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNKeychain.a; sourceTree = "<group>"; };
 		873FBC50AB4945479F34C102 /* RNBackgroundTimer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundTimer.xcodeproj; path = "../node_modules/react-native-background-timer/ios/RNBackgroundTimer.xcodeproj"; sourceTree = "<group>"; };
+		CB3D953C1F0297E000466920 /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		CB41D8BD1E9BE9BB00ABE3EF /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		CB9666571EB0DE9B00581A7D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		EDAB062B6C7149F782D4C4D2 /* BugsnagReactNative.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BugsnagReactNative.xcodeproj; path = "../node_modules/bugsnag-react-native/cocoa/BugsnagReactNative.xcodeproj"; sourceTree = "<group>"; };
@@ -337,6 +347,7 @@
 				A3EAA9BD2A334B719497CE8D /* libRNLocation.a in Frameworks */,
 				954340CB56F347CDA3197B0F /* libRNKeychain.a in Frameworks */,
 				684E1F9D0B0445FEA9F81F44 /* libBugsnagReactNative.a in Frameworks */,
+				CB3D95601F0297F700466920 /* libReactNativePermissions.a in Frameworks */,
 				07CC0E9049BF481197A7EC4C /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,6 +503,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				CB3D953C1F0297E000466920 /* ReactNativePermissions.xcodeproj */,
 				CB41D8BD1E9BE9BB00ABE3EF /* ART.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -549,6 +561,14 @@
 			isa = PBXGroup;
 			children = (
 				CB33BAE01EB5C40E00FEBAFF /* libRNKeychain.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CB3D953D1F0297E000466920 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB3D955C1F0297E000466920 /* libReactNativePermissions.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -763,6 +783,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = CB3D953D1F0297E000466920 /* Products */;
+					ProjectRef = CB3D953C1F0297E000466920 /* ReactNativePermissions.xcodeproj */;
+				},
+				{
 					ProductGroup = CB41D89F1E9972CF00ABE3EF /* Products */;
 					ProjectRef = 873FBC50AB4945479F34C102 /* RNBackgroundTimer.xcodeproj */;
 				},
@@ -968,6 +992,13 @@
 			remoteRef = CB33BADF1EB5C40E00FEBAFF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		CB3D955C1F0297E000466920 /* libReactNativePermissions.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativePermissions.a;
+			remoteRef = CB3D955B1F0297E000466920 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		CB41D8BC1E9972CF00ABE3EF /* libRNBackgroundTimer.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1132,9 +1163,7 @@
 				INFOPLIST_FILE = TrackenerBrookeAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1160,9 +1189,7 @@
 				INFOPLIST_FILE = TrackenerBrookeAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1256,9 +1283,7 @@
 				);
 				INFOPLIST_FILE = "TrackenerBrookeApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1292,9 +1317,7 @@
 				);
 				INFOPLIST_FILE = "TrackenerBrookeApp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1320,9 +1343,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "TrackenerBrookeApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TrackenerBrookeApp-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -1344,9 +1365,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "TrackenerBrookeApp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TrackenerBrookeApp-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;

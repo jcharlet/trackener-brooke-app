@@ -2,6 +2,7 @@ package com.trackenerbrookeapp;
 import com.bugsnag.BugsnagReactNative;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
+import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 
 public class MainActivity extends ReactActivity {
 
