@@ -37,6 +37,10 @@ export const POSITION_FIELDS =
         EXTRA_DISTANCE: 7
     };
 
+export const _requestPermission = () => {
+  return Permissions.requestPermission('location','always')
+}
+
 export const checkLocationServicesIsEnabled = (platform: string) => {
     if (platform === 'android') {
         return LocationServicesDialogBox.checkLocationServicesIsEnabled({
@@ -54,14 +58,14 @@ export const checkLocationServicesIsEnabled = (platform: string) => {
     } else {
       return Permissions.getPermissionStatus('location', 'always')
           .then(response => {
-                if (response!='authorized') {
+                if (response!=='authorized') {
                   Alert.alert(
                     'Can we use your location always in background?',
                     'We need access so you can run the app in background',
                     [
                       {text: 'No way', onPress: () => console.log('permission denied'), style: 'cancel'},
-                      response == 'undetermined'?
-                        {text: 'OK', onPress: this._requestPermission.bind(this)}
+                      response === 'undetermined'?
+                        {text: 'OK', onPress: _requestPermission}
                         : {text: 'Open Settings', onPress: Permissions.openSettings}
                     ]
                   )
