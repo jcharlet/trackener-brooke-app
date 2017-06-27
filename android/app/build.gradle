@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-permissions')
     compile project(':bugsnag-react-native')
     compile project(':react-native-keychain')
     compile project(':react-native-android-location-services-dialog-box')

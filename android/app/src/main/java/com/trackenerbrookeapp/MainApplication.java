@@ -3,6 +3,7 @@ package com.trackenerbrookeapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.oblador.keychain.KeychainPackage;
 import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativePermissionsPackage(),
             BugsnagReactNative.getPackage(),
             new KeychainPackage(),
             new LocationServicesDialogBoxPackage(),
