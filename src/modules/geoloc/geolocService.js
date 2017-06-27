@@ -27,7 +27,9 @@ export const POSITION_FIELDS =
         TIMESTAMP: 2,
         SPEED: 3,
         GAIT: 4,
-        ACCURACY: 5
+        ACCURACY: 5,
+        EXTRA_DURATION: 6,
+        EXTRA_DISTANCE: 7
     };
 
 export const checkLocationServicesIsEnabled = (platform: string) => {
@@ -129,7 +131,7 @@ const createPositionArrayFromGeoPosition = function (geoPosition) {
     ];
 };
 
-const getGaitFromSpeed = (speedKmh) => {
+export const getGaitFromSpeed = (speedKmh) => {
     let speed = utils.convertMeterPerSecondToMilesPerHour(speedKmh);
     let gaitType;
     if (speed < SPEED_THRESHOLD.STOP) {
@@ -143,3 +145,28 @@ const getGaitFromSpeed = (speedKmh) => {
     }
     return gaitType;
 }
+
+
+/**
+ *
+ var from = {lat: this.lastPosition[POSITION_FIELDS.LATITUDE], lon: this.lastPosition[POSITION_FIELDS.LONGITUDE]};
+ var to = {lat: latitude, lon: longitude};
+ this.distance += this.calculateDistance(from, to);
+ * @param a
+ * @param b
+ */
+export const calculateDistance = (a, b) => {
+
+    // (mean) radius of Earth (meters)
+    let R = 6378137;
+    let PI_360 = Math.PI / 360;
+
+    const cLat = Math.cos((a.lat + b.lat) * PI_360);
+    const dLat = (b.lat - a.lat) * PI_360;
+    const dLon = (b.lon - a.lon) * PI_360;
+
+    const f = dLat * dLat + cLat * cLat * dLon * dLon;
+    const c = 2 * Math.atan2(Math.sqrt(f), Math.sqrt(1 - f));
+
+    return R * c;
+};

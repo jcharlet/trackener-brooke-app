@@ -5,8 +5,10 @@ import {
 import moment from "moment";
 import {GPS_TIME_INTERVAL} from "../../../config/config";
 import {POSITION_FIELDS} from "../../../modules/geoloc/geolocService";
+import * as geolocService from "../../../modules/geoloc/geolocService";
 
-export const STATUS = {STOP: 0, START: 1, PAUSE: 2};
+export const STATUS = {STOP: 0, START: 1, PAUSE: 2, RESTARTING:3};
+
 
 const initialState = {
     status: STATUS.STOP,
@@ -14,6 +16,7 @@ const initialState = {
     // ride:{
     //     date:null,
     //     geoIds: null,
+    //     restartTimes:[],
     //     positions:[
     //         {
     //             longitude:0,
@@ -65,8 +68,8 @@ const startRide = (state, startContainer) => {
             date: startContainer.startDate,
             deviceId: startContainer.deviceId,
             geoIds: null,
+            restartTimes:[],
             pastDuration: 0,
-            positions: [],
             analytics: {
                 distance: 0,
                 duration: 0,
@@ -103,7 +106,11 @@ const pauseRide = (state) => {
 const restartRide = (state) => {
     return {
         ...state,
-        status: STATUS.START,
+        status: STATUS.RESTARTING,
+        ride:{
+            ...state.ride,
+            restartTimes:[...state.ride.restartTimes, moment().valueOf()],
+        }
     };
 };
 
@@ -127,19 +134,23 @@ export const updateLocation = (state, positions) => {
     let distance = state.ride.analytics.distance;
     let avgSpeed;
     let maxSpeed = state.ride.analytics.maxSpeed;
+    let status = state.status;
     for (let i = 1; i < positions.length; i++) {
 
         let lastPosition = positions[i - 1];
         let newPosition = positions[i];
 
-
-        if (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] > GPS_TIME_INTERVAL + 5 * 1000) {
+        if (status===STATUS.RESTARTING){
+            status=STATUS.START;
+            //ignore 1 position so that we don't try to calculate distance between before and after time.
             continue;
         }
 
+
+
         let from = {lat: lastPosition[POSITION_FIELDS.LATITUDE], lon: lastPosition[POSITION_FIELDS.LONGITUDE]};
         let to = {lat: newPosition[POSITION_FIELDS.LATITUDE], lon: newPosition[POSITION_FIELDS.LONGITUDE]};
-        let distanceSinceLastPos = calculateDistance(from, to);
+        let distanceSinceLastPos = geolocService.calculateDistance(from, to);
         distance += distanceSinceLastPos;
         totalDistance += distanceSinceLastPos;
         let durationSinceLastPos = (newPosition[POSITION_FIELDS.TIMESTAMP] - lastPosition[POSITION_FIELDS.TIMESTAMP] ) / 1000;
@@ -151,8 +162,10 @@ export const updateLocation = (state, positions) => {
         // || (speed === 0 && distanceSinceLastPos !== 0 && durationSinceLastPos!== 0 )
         ) {
             speed = distanceSinceLastPos / durationSinceLastPos;
+        }else{
+            //dont calculate maxSpeed if speed was not retrieved directly from gps (too inaccurate)
+            maxSpeed = speed > maxSpeed ? speed : maxSpeed;
         }
-
 
         newPosition = {
             ...newPosition,
@@ -160,7 +173,6 @@ export const updateLocation = (state, positions) => {
             duration: durationSinceLastPos,
             speed: speed
         }
-        maxSpeed = speed > maxSpeed ? speed : maxSpeed;
     }
 
     let lastIndexProcessed =state.ride.lastIndexProcessed + positions.length-1;
@@ -188,6 +200,7 @@ export const updateLocation = (state, positions) => {
             },
             lastIndexProcessed: lastIndexProcessed
         },
+        status:status,
         totalDistance: totalDistance,
     };
 }
@@ -198,32 +211,6 @@ export const updateTotalDistance = (state, totalDistance) => {
         totalDistance: totalDistance,
     }
 }
-
-
-/**
- *
- var from = {lat: this.lastPosition[POSITION_FIELDS.LATITUDE], lon: this.lastPosition[POSITION_FIELDS.LONGITUDE]};
- var to = {lat: latitude, lon: longitude};
- this.distance += this.calculateDistance(from, to);
- * @param a
- * @param b
- */
-export const calculateDistance = (a, b) => {
-
-    // (mean) radius of Earth (meters)
-    let R = 6378137;
-    let PI_360 = Math.PI / 360;
-
-    const cLat = Math.cos((a.lat + b.lat) * PI_360);
-    const dLat = (b.lat - a.lat) * PI_360;
-    const dLon = (b.lon - a.lon) * PI_360;
-
-    const f = dLat * dLat + cLat * cLat * dLon * dLon;
-    const c = 2 * Math.atan2(Math.sqrt(f), Math.sqrt(1 - f));
-
-    return R * c;
-};
-
 
 export function updateRideAnalytics(ride) {
     let duration = ride.analytics.duration;

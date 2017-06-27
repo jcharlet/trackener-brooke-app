@@ -1,7 +1,6 @@
 import {
     AsyncStorage
 } from 'react-native';
-//TODO profile ride on ios simulator: check no memory leak
 export const RIDE_POSITIONS_COLL='ridePositions';
 export const RIDE_POSITIONS_CURRENT_COLL='ridePositionsCurrent';
 

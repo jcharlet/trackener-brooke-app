@@ -11,6 +11,7 @@ import * as geolocService from "../../../modules/geoloc/geolocService";
 import * as storageService from "../../../modules/storage/storageService";
 import * as appConfigRepository from "../../../modules/storage/localStorage/appConfigRepository";
 import * as utils from "../../../util/utils";
+import {POSITION_FIELDS} from "../../../modules/geoloc/geolocService";
 
 
 export const startRide = (startDate) => {
@@ -41,7 +42,10 @@ export const watchGPS = (startDate) => {
                 if (!startDate) {
                     return storageService.getLastPosition()
                         .then((position) => {
-                            return position.date
+                            if(position){
+                                return position[POSITION_FIELDS.TIMESTAMP]
+                            }
+                            return startDate;
                         });
                 }
                 return startDate
@@ -69,14 +73,4 @@ export const watchGPS = (startDate) => {
 
     }
 
-};
-
-
-export const updateTotalDistance = (rideDistance) => {
-    return (dispatch) => {
-        storageService.addToTotalDistanceAndSave(rideDistance)
-            .then((totalDistance) => {
-                dispatch({type: UPDATE_TOTAL_DISTANCE, payload: totalDistance});
-            });
-    }
 };
