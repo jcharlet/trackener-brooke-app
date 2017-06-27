@@ -45,7 +45,7 @@ export default class LiveTrackerStartedScreen extends Component {
         let timerIntervalId = setInterval(() => {
             this.incrementTimer();
             let timestampRemainder = Date.now()%1000;
-            if(timestampRemainder>150 || timestampRemainder<150){
+            if(timestampRemainder>850 || timestampRemainder<100){
                 this.props.updateLocation();
             }
         }, 250);
@@ -83,6 +83,7 @@ export default class LiveTrackerStartedScreen extends Component {
         switch (this.props.liveTracker.status) {
             default:
             case STATUS.START:
+            case STATUS.RESTARTING:
                 return (
                     <TouchableOpacity style={[globalStyles.COMMON_STYLES.secondRideButton]}
                                       activeOpacity={globalStyles.ACTIVE_OPACITY}
@@ -163,6 +164,7 @@ export default class LiveTrackerStartedScreen extends Component {
     render() {
         switch (this.props.liveTracker.status) {
             case STATUS.START:
+            case STATUS.RESTARTING:
             // this.startTimer();
             case STATUS.PAUSE:
                 return (
