@@ -23,7 +23,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.4.2</string>
+	<string>1.4.4</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -63,5 +63,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>A library we use requires Bluetooth access to build but we will never ask for this permission.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>A library we use requires Calendar access to build but we will never ask for this permission.</string>
 </dict>
 </plist>
