@@ -8,7 +8,7 @@ import {
     Keyboard,
 } from 'react-native';
 import * as globalStyles from '../../../styles/global';
-import * as PropTypes from "react/lib/ReactPropTypes";
+import * as PropTypes from "prop-types";
 import * as utils from "../../../util/utils";
 import HeaderComponent from "../../../components/HeaderComponent";
 import {MODIFY_PASSWORD_FEEDBACK} from "./modifyPasswordActions";

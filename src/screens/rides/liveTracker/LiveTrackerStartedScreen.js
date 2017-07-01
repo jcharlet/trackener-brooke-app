@@ -8,13 +8,13 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import * as globalStyles from '../../../styles/global';
-import * as PropTypes from "react/lib/ReactPropTypes";
 import * as utils from "../../../util/utils";
 import {STATUS} from "./liveTrackerReducer";
 import moment from "moment";
 import HeaderComponent from '../../../components/HeaderComponent'
 
 import {ViewPropTypes} from 'react-native'
+import * as PropTypes from "prop-types";
 
 export default class LiveTrackerStartedScreen extends Component {
     static propTypes = {

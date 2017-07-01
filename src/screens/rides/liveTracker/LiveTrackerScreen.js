@@ -6,15 +6,14 @@ import {
     View,
     Image,
     TouchableOpacity,
+    ViewPropTypes
 } from 'react-native';
 import * as globalStyles from '../../../styles/global';
-import * as PropTypes from "react/lib/ReactPropTypes";
+import * as PropTypes from "prop-types";
 import * as utils from "../../../util/utils";
 import {NAV_HACK_DETAILS} from "../../../actions/actionTypes";
 import HeaderComponent from '../../../components/HeaderComponent'
 
-
-import {ViewPropTypes} from 'react-native'
 
 export default class LiveTrackerScreen extends Component {
 
