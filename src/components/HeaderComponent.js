@@ -11,12 +11,12 @@ import {
     Text,
     View,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ViewPropTypes
 } from 'react-native';
 import * as globalStyles from '../styles/global';
 import {NAV_SETTINGS} from "../actions/actionTypes";
-import * as PropTypes from "react/lib/ReactPropTypes";
-import {ViewPropTypes} from 'react-native'
+import * as PropTypes from "prop-types";
 
 export default class Header extends Component {
     static propTypes = {

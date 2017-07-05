@@ -13,7 +13,7 @@ import {
     Keyboard,
 } from 'react-native';
 import * as globalStyles from '../../../styles/global';
-import * as PropTypes from "react/lib/ReactPropTypes";
+import * as PropTypes from "prop-types";
 import {ERROR_UNKNOWN, ERROR_FORBIDDEN, ERROR_SERVER, ERROR_UNAVAILABLE, LOGIN_FEEDBACK} from "./loginActions";
 import {NAV_AUTHENT_REGISTER} from "../../../actions/actionTypes";
 

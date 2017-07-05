@@ -58,3 +58,7 @@ fastlane/screenshots
 realm-object-server/
 default.realm
 default.realm.lock
+
+
+android/keystores/
+gradle.properties
