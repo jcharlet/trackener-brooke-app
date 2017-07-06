@@ -91,12 +91,12 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.trackenerbrookeapp"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 104
         versionName "1.0.4"
         ndk {
@@ -150,7 +150,7 @@ dependencies {
     compile project(':react-native-android-location-services-dialog-box')
     compile project(':react-native-background-timer')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.facebook.react:react-native:+'
     // From node_modules
 }
