@@ -6,7 +6,7 @@ import {
     GPS_DISTANCE_FILTER,
     GPS_TIMEOUT_GET,
     GPS_MIN_ACCURACY
-} from "../../config/config";
+} from "../../config/configGeoloc";
 import {
     Alert,
     Platform,
@@ -97,7 +97,7 @@ export const startGPS = (platform: string) => {
     } else {
         Location.requestAlwaysAuthorization();
         Location.startUpdatingLocation();
-        Location.setDistanceFilter(0);
+        Location.setDistanceFilter(GPS_DISTANCE_FILTER);
         //Location.setDesiredAccuracy(distanceInMeters);
 
         var subscription = DeviceEventEmitter.addListener(

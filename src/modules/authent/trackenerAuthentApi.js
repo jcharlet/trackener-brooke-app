@@ -1,4 +1,4 @@
-import {TRACKENER_API, IS_TRACKENER_API_MOCKED} from "../../config/config";
+import {TRACKENER_API, IS_TRACKENER_API_MOCKED} from "../../config/configApi";
 import {
     LOGIN_SUCCESS, LOGIN_ERROR, REGISTER_SUCCESS, REGISTER_ERROR,
 } from "../../actions/actionTypes";

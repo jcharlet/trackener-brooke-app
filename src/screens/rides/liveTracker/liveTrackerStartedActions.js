@@ -8,7 +8,7 @@ import {
 import * as geolocService from "../../../modules/geoloc/geolocService";
 import * as storageService from "../../../modules/storage/storageService";
 import {POSITION_FIELDS} from "../../../modules/geoloc/geolocService";
-import {GPS_TIME_INTERVAL} from '../../../config/config'
+import {GPS_TIME_INTERVAL} from '../../../config/configGeoloc'
 export const stopRide = () => {
     return {type: STOP_RIDE}
 }

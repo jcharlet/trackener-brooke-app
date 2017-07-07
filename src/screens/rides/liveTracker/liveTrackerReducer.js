@@ -3,7 +3,6 @@ import {
     GPS_INIT_WATCH, UPDATE_TOTAL_DISTANCE
 } from '../../../actions/actionTypes';
 import moment from "moment";
-import {GPS_TIME_INTERVAL} from "../../../config/config";
 import {POSITION_FIELDS} from "../../../modules/geoloc/geolocService";
 import * as geolocService from "../../../modules/geoloc/geolocService";
 
