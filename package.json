@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "packageAndroid":"cd android && ./gradlew assembleRelease;cd ..",
+    "runAndroid":"react-native run-android",
+    "runAndroidRelease":"react-native run-android --variant=release"
   },
   "dependencies": {
     "art": "^0.10.1",
