@@ -11,7 +11,7 @@ import {
 import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "prop-types";
 import * as utils from "../../../util/utils";
-import {NAV_HACK_DETAILS} from "../../../actions/actionTypes";
+import {NAV_HISTORY} from "../../../actions/actionTypes";
 import HeaderComponent from '../../../components/HeaderComponent'
 
 
@@ -37,7 +37,7 @@ export default class LiveTrackerScreen extends Component {
             <View style={[globalStyles.COMMON_STYLES.container]}>
                 <TouchableOpacity style={globalStyles.COMMON_STYLES.infoBox}
                                   activeOpacity={globalStyles.ACTIVE_OPACITY}
-                                  onPress={() => this.props.navigation.navigate(NAV_HACK_DETAILS)}>
+                                  onPress={() => this.props.navigation.navigate(NAV_HISTORY)}>
                     <View style={{
                         flex:1,
                         flexDirection:'row',
