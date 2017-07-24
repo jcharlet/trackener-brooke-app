@@ -8,6 +8,9 @@ import MainNavContainer from "./navigation/main/MainNavContainer";
 import * as storageService from "./modules/storage/storageService";
 import {generateFakeData} from "./modules/storage/migration/generateFakeData";
 
+import { Text } from 'react-native';
+
+Text.defaultProps.allowFontScaling = false;
 
 import * as reportingService from "./modules/reporting/reportingService";
 
