@@ -40,6 +40,14 @@ export default class LoginScreen extends Component {
         let feedback;
         let feedbackColor = globalStyles.RED;
         switch (this.props.login.feedback) {
+            case LOGIN_FEEDBACK.MISSING_USERNAME:
+                feedbackColor = globalStyles.GREEN;
+                feedback="Please provide a username";
+                break;
+            case LOGIN_FEEDBACK.MISSING_PASSWORD:
+                feedbackColor = globalStyles.GREEN;
+                feedback="Please provide a password";
+                break;
             case LOGIN_FEEDBACK.ONGOING:
                 feedbackColor = globalStyles.GREEN;
                 feedback = "Sending request, please wait";

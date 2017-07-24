@@ -17,6 +17,8 @@ export const ERROR_SERVER = 'SERVER_ERROR';
 export const ERROR_UNAVAILABLE = 'ERROR_UNAVAILABLE';
 
 export const LOGIN_FEEDBACK = {
+    MISSING_USERNAME: 'MISSING_USERNAME',
+    MISSING_PASSWORD: 'MISSING_PASSWORD',
     SUCCESS_ONLINE: 'SUCCESS_ONLINE',
     ONGOING: 'ONGOING',
     SUCCESS_OFFLINE: 'SUCCESS_OFFLINE',
@@ -38,6 +40,16 @@ export const loginOnStartup = () => {
 
 export const login = (username: string, password: string, isAutoLogin:boolean) => {
     return (dispatch, getState) => {
+        if(username.length===0){
+            return loginError(dispatch, LOGIN_FEEDBACK.MISSING_USERNAME);
+        }
+
+        if(password.length===0){
+            return loginError(dispatch, LOGIN_FEEDBACK.MISSING_PASSWORD);
+        }
+
+        username=username.trim();
+
         dispatch({
             type: LOGIN_IN_PROGRESS,
             payload: LOGIN_FEEDBACK.ONGOING

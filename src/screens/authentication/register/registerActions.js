@@ -17,13 +17,14 @@ export const FEEDBACK_REGISTER_ONGOING = 'FEEDBACK_REGISTER_ONGOING';
 
 export const register = (email: string, username: string, password: string, repeatPassword: string) => {
     return (dispatch) => {
-        if(email==''){
+        if(!email){
             dispatch({
                 type: REGISTER_ERROR,
                 payload: ERROR_EMAIL_MISSING,
             });
             return;
         }
+        email=email.trim();
         if(!validateEmail(email)){
             dispatch({
                 type: REGISTER_ERROR,
@@ -31,14 +32,14 @@ export const register = (email: string, username: string, password: string, repe
             });
             return;
         }
-        if(username==''){
+        if(!username){
             dispatch({
                 type: REGISTER_ERROR,
                 payload: ERROR_USERNAME_MISSING,
             });
             return;
         }
-        if(password==''){
+        if(!password){
             dispatch({
                 type: REGISTER_ERROR,
                 payload: ERROR_PASSWORD_MISSING,
@@ -52,7 +53,7 @@ export const register = (email: string, username: string, password: string, repe
             });
             return;
         }
-        if(password!=repeatPassword){
+        if(password!==repeatPassword){
             dispatch({
                 type: REGISTER_ERROR,
                 payload: ERROR_PASSWORD_MISMATCH,
@@ -63,6 +64,8 @@ export const register = (email: string, username: string, password: string, repe
             type: REGISTER_ONGOING,
             payload: FEEDBACK_REGISTER_ONGOING,
         });
+
+        username=username.trim();
 
         trackenerAuthentApi.register(email, username, password)
             .then((registerResponse) => {
