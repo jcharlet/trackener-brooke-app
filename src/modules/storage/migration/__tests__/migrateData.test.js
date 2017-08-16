@@ -27,19 +27,19 @@ describe('migrateData', () => {
         //when I migrate data
         return migrateData.migrate('gg', '009')
 
-        // then I should get 2 rides
+        // then I should get 3 rides
             .then(() => {
                 return localRidesRepository.loadAllRides()
                     .then((rides) => {
-                        expect(rides.length).toBe(2)
+                        expect(rides.length).toBe(3)
                     })
             })
 
-            // then I should get 2 rides with all their positions
+            // then I should get 3 rides with all their positions
             .then(() => {
                 return localRidePositionsRepository.loadAllRides()
                     .then((rides) => {
-                        expect(rides.length).toBe(2)
+                        expect(rides.length).toBe(3)
                     })
             })
 

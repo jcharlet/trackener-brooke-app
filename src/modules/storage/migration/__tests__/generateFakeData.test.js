@@ -20,7 +20,7 @@ describe('generateFakeData', () => {
         let rides = generateFakeData.generateRidesFromJsonFile(FAKE_RIDES_JSON_FILE_PATH, 2);
 
         // then I should get as many more rides as there was initially
-        expect(rides.length).toBe(4)
+        expect(rides.length).toBe(6)
         expect.assertions(1);
     })
 })
