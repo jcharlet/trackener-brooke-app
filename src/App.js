@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {AppRegistry,View, AsyncStorage} from 'react-native';
+import {AppRegistry,View, BackHandler, Platform} from 'react-native';
 import {
     Provider,
 } from 'react-redux';
@@ -16,15 +16,22 @@ import * as reportingService from "./modules/reporting/reportingService";
 
 export default class App extends Component {
     store = createStore();
-
+    
     constructor(props) {
         super(props);
         console.ignoredYellowBox = ['Warning: View.propTypes'];
-
+        
         reportingService.initBugsnag();
         // storageService.sync();
         // storageService.emptyStorage();
         // generateFakeData()
+    }
+
+    componentDidMount() {
+        if (Platform.OS === "android" && this.backButtonListener === null) {
+            this.backButtonListener = BackHandler.addEventListener('hardwareBackPress', () => true);
+        }
+        
     }
 
     render() {
