@@ -5,9 +5,9 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "packageAndroid":"cd android && ./gradlew assembleRelease;cd ..",
-    "runAndroid":"react-native run-android",
-    "runAndroidRelease":"react-native run-android --variant=release"
+    "packageAndroid": "cd android && ./gradlew assembleRelease;cd ..",
+    "runAndroid": "react-native run-android",
+    "runAndroidRelease": "react-native run-android --variant=release"
   },
   "dependencies": {
     "art": "^0.10.1",
@@ -16,12 +16,13 @@
     "d3-shape": "^1.0.6",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
-    "react": "^16.0.0-alpha.12",
+    "react": "16.0.0-alpha.12",
     "react-native": "^0.45.1",
     "react-native-android-location-services-dialog-box": "^1.2.1",
     "react-native-background-timer": "^1.0.0",
     "react-native-keychain": "^1.2.0",
     "react-native-location": "^0.27.0",
+    "react-native-logentries": "^1.0.0",
     "react-native-media-queries": "^0.3.0",
     "react-native-permissions": "^0.2.7",
     "react-navigation": "^1.0.0-beta.9",
