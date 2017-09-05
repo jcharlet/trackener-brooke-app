@@ -14,7 +14,7 @@ import {
     checkLocationServicesIsEnabled
 } from "./liveTrackerActions";
 import moment from "moment";
-
+import Logentries from 'react-native-logentries';
 
 const mapStateToProps = (state) => {
     return {
@@ -29,8 +29,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         startTracking: () => {
             return checkLocationServicesIsEnabled().then((isAuthorized) => {
-                if(isAuthorized){
+                if(isAuthorized){                  
                     let startDate = moment().format();
+                    Logentries.log('-----start--------' + startDate + '-----start--------');
                     dispatch(watchGPS(startDate));
                     dispatch(startRide(startDate));
                 }

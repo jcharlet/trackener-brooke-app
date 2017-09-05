@@ -16,7 +16,7 @@ import BackgroundTimer from 'react-native-background-timer';
 import * as utils from '../../util/utils'
 import {RNLocation as Location} from 'NativeModules'
 const Permissions = require('react-native-permissions');
-
+import Logentries from 'react-native-logentries';
 import {
     DeviceEventEmitter
 } from 'react-native';
@@ -121,22 +121,27 @@ export const clearWatchGps = function (platform, geoIds) {
 
 
 export const watchGPSPositionsAtInterval = function (saveNewPosition, dispatch, rideId) {
+    let result = null;
     let intervalId = BackgroundTimer.setInterval(() => {
-        navigator.geolocation.getCurrentPosition((geoPosition) => {
-                if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY) {
+        navigator.geolocation.getCurrentPosition((geoPosition) => { 
+            if (geoPosition.coords.accuracy <= GPS_MIN_ACCURACY) {
                     let position = createPositionArrayFromGeoPosition(geoPosition);
                     saveNewPosition(position, rideId);
-                    //reportingService.logBreadcrumb("get current position", {x:geoPosition.coords.longitude, y:geoPosition.coords.latitude})
+                    result = position
+                    // reportingService.logBreadcrumb("get current position", {x:geoPosition.coords.longitude, y:geoPosition.coords.latitude})
                 }
             }
             , (error) => {
-                console.log(error);
+                console.log('getCurrentPosition error:', error);
+                result = error
+                
             }
             , {
                 enableHighAccuracy: true,
                 timeout: GPS_TIMEOUT_GET,
-                maximumAge: GPS_MAX_AGE
+                maximumAge: 0
             });
+            // Logentries.log(JSON.stringify(result));
     }, GPS_TIME_INTERVAL);
     return intervalId;
 };
