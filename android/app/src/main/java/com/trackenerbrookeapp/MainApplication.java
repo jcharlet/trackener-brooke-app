@@ -3,6 +3,7 @@ package com.trackenerbrookeapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.sadcoat.logentries.LogentriesReactPackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.oblador.keychain.KeychainPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new LogentriesReactPackage(),
             new ReactNativePermissionsPackage(),
             BugsnagReactNative.getPackage(),
             new KeychainPackage(),
@@ -45,6 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    BugsnagReactNative.start(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }

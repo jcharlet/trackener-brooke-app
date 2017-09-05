@@ -92,6 +92,9 @@ export default class SettingsScreen extends Component {
                             <Text style={[globalStyles.COMMON_STYLES.buttonText]}>Logout</Text>
                         </View>
                     </TouchableOpacity>
+                    <View style={{position: 'absolute', bottom: 0}}>
+                        <Text>v1.0.1</Text>
+                    </View>
                 </View>
             </View>
         );

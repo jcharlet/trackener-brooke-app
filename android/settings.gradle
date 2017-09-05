@@ -1,4 +1,6 @@
 rootProject.name = 'TrackenerBrookeApp'
+include ':react-native-logentries'
+project(':react-native-logentries').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-logentries/android')
 include ':react-native-permissions'
 project(':react-native-permissions').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-permissions/android')
 include ':bugsnag-react-native'
