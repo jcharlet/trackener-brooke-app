@@ -54,8 +54,7 @@ export const watchGPS = (startDate) => {
                 return appConfigRepository.load()
                     .then((appConfig) => {
                         let rideId = utils.createRideId(appConfig.username, appConfig.deviceId, startDate);
-                        let watchId = geolocService.startGPS(Platform.OS);
-
+                       
                         //check GPS every X milliseconds)
                         let intervalId = geolocService.watchGPSPositionsAtInterval(saveNewPosition, dispatch, rideId);
 
@@ -63,7 +62,7 @@ export const watchGPS = (startDate) => {
                             type: GPS_INIT_WATCH,
                             payload: {
                                 intervalId: intervalId,
-                                watchId: watchId,
+                                watchId: 0,
                                 startTime: moment().valueOf(),
                                 rideId: rideId,
                             }

@@ -80,15 +80,10 @@ export const checkLocationServicesIsEnabled = (platform: string) => {
 export const startGPS = (platform: string) => {
     if (platform === 'android') {
         //start the GPS into full time watching. Drains battery but brings best accuracy (required for our needs)
-        return navigator.geolocation.watchPosition((position) => {
-                // if (global.__DEV__) {
-                //     console.log(position);
-                // }
-            }
-            , (error) => {
-                console.log(error);
-            }
-            , {
+        return navigator.geolocation.watchPosition(
+            (position) => {},
+            (error) => {console.log(error)}, 
+            {
                 enableHighAccuracy: true,
                 timeout: GPS_TIMEOUT_WATCH,
                 maximumAge: GPS_MAX_AGE,
@@ -111,11 +106,6 @@ export const startGPS = (platform: string) => {
 
 
 export const clearWatchGps = function (platform, geoIds) {
-    if (platform === 'android') {
-        navigator.geolocation.clearWatch(geoIds.watchId);
-    } else {
-        Location.stopUpdatingLocation();
-    }
     BackgroundTimer.clearInterval(geoIds.intervalId);
 }
 

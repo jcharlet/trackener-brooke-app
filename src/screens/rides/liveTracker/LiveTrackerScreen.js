@@ -5,6 +5,7 @@ import {
     Text,
     View,
     Image,
+    Platform,
     TouchableOpacity,
     ViewPropTypes
 } from 'react-native';
@@ -12,7 +13,8 @@ import * as globalStyles from '../../../styles/global';
 import * as PropTypes from "prop-types";
 import * as utils from "../../../util/utils";
 import {NAV_HISTORY} from "../../../actions/actionTypes";
-import HeaderComponent from '../../../components/HeaderComponent'
+import HeaderComponent from '../../../components/HeaderComponent';
+import * as geolocService from "../../../modules/geoloc/geolocService";
 
 
 export default class LiveTrackerScreen extends Component {
@@ -29,6 +31,7 @@ export default class LiveTrackerScreen extends Component {
 
     componentDidMount() {
         this.props.checkLocationServicesIsEnabled();
+        geolocService.startGPS(Platform.OS);
     }
 
     renderDefaultScreen() {
