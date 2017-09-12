@@ -2,9 +2,9 @@ import { Client, Configuration} from "bugsnag-react-native";
 
 var bugsnag;
 
-export const initBugsnag = () => {
+export const initBugsnag = (apiKey: string) => {
     var configuration = new Configuration();
-    configuration.apiKey = "3ca64084491704d2c480c102a315ceb9";
+    configuration.apiKey = apiKey;
     bugsnag=  new Client(configuration);
 }
 

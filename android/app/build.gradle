@@ -1,5 +1,15 @@
 apply plugin: "com.android.application"
 
+/* react-native-config configuration */
+project.ext.envConfigFiles = [
+    localDebug: ".env.localDevelopment",
+    debug: ".env.development",
+    release: ".env.production"
+]
+
+apply from: "../../node_modules/react-native-config/android/dotenv.gradle"
+//apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 import com.android.build.OutputFile
 
 /**
@@ -102,6 +112,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        resValue "string", "build_config_package", "com.trackenerbrookeapp"
     }
     splits {
         abi {
@@ -153,6 +164,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.facebook.react:react-native:+'
+    compile project(':react-native-config')
     // From node_modules
 }
 

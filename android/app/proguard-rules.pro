@@ -64,3 +64,7 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+
+# exception for react-native-config
+-keep class com.trackenerbrookeapp.BuildConfig { *; }

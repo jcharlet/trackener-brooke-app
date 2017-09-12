@@ -9,7 +9,7 @@ import * as storageService from "./modules/storage/storageService";
 import {generateFakeData} from "./modules/storage/migration/generateFakeData";
 import Logentries from 'react-native-logentries';
 import { Text } from 'react-native';
-import {LOGENTRIES_TOKEN} from './config/configApi';
+import Config from 'react-native-config'
 
 Text.defaultProps.allowFontScaling = false;
 
@@ -22,8 +22,12 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         console.ignoredYellowBox = ['Warning: View.propTypes'];
-        Logentries.setToken(LOGENTRIES_TOKEN);
-        reportingService.initBugsnag();
+        if(Config.BUGSNAG_APIKEY!==""){
+            reportingService.initBugsnag(Config.BUGSNAG_APIKEY);
+        }
+        if(Config.LOGENTRIES_TOKEN!==""){
+            Logentries.setToken(Config.LOGENTRIES_TOKEN);
+        }
         // storageService.sync();
         // storageService.emptyStorage();
         // generateFakeData()

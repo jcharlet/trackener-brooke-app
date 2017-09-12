@@ -1,4 +1,4 @@
-import {TRACKENER_API, IS_TRACKENER_API_MOCKED} from "../../config/configApi";
+import Config from 'react-native-config'
 import {
     LOGIN_SUCCESS, LOGIN_ERROR, REGISTER_SUCCESS, REGISTER_ERROR,
 } from "../../actions/actionTypes";
@@ -47,13 +47,13 @@ export const register = (email: string, username: string, password: string) => {
     formData.append('username', username);
     formData.append('password', password);
 
-    if (IS_TRACKENER_API_MOCKED) {
+    if (Config.IS_TRACKENER_API_MOCKED) {
         return Promise.resolve({
             type: REGISTER_SUCCESS,
         })
     }
 
-    return fetch(TRACKENER_API + "/register", {
+    return fetch(Config.TRACKENER_API + "/register", {
             method: "post",
             body: formData,
         }
@@ -116,13 +116,13 @@ export const modifyPassword = (username: string, previousPassword: string, passw
     formData.append('previousPassword', previousPassword);
     formData.append('password', password);
 
-    if (IS_TRACKENER_API_MOCKED) {
+    if (Config.IS_TRACKENER_API_MOCKED) {
         return Promise.resolve({
             type: GENERIC_API_OUTCOME.SUCCESS,
         })
     }
 
-    return fetch(TRACKENER_API + "/modifyPassword", {
+    return fetch(Config.TRACKENER_API + "/modifyPassword", {
             method: "post",
             body: formData,
             credentials: 'include',
@@ -179,14 +179,14 @@ export const login = (username: string, password: string) => {
     formData.append('username', username);
     formData.append('password', password);
 
-    if (IS_TRACKENER_API_MOCKED) {
+    if (Config.IS_TRACKENER_API_MOCKED) {
         return Promise.resolve({
             type: LOGIN_SUCCESS,
             payload: username,
         })
     }
 
-    return fetch(TRACKENER_API + "/login", {
+    return fetch(Config.TRACKENER_API + "/login", {
             method: "post",
             body: formData,
             credentials: 'include',
