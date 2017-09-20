@@ -27,10 +27,6 @@ export const startRide = (startDate) => {
     }
 }
 
-export const checkLocationServicesIsEnabled = () => {
-    return geolocService.checkLocationServicesIsEnabled(Platform.OS);
-};
-
 const saveNewPosition = function (position, rideId) {
     storageService.addPosition(position);
 };
@@ -54,7 +50,7 @@ export const watchGPS = (startDate) => {
                 return appConfigRepository.load()
                     .then((appConfig) => {
                         let rideId = utils.createRideId(appConfig.username, appConfig.deviceId, startDate);
-                        geolocService.startGPS(Platform.OS);
+                        geolocService.startGPS();
 
                         //check GPS every X milliseconds)
                         let intervalId = geolocService.watchGPSPositionsAtInterval(saveNewPosition, dispatch, rideId);

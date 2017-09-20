@@ -14,7 +14,6 @@ import * as PropTypes from "prop-types";
 import * as utils from "../../../util/utils";
 import {NAV_HISTORY} from "../../../actions/actionTypes";
 import HeaderComponent from '../../../components/HeaderComponent';
-import * as geolocService from "../../../modules/geoloc/geolocService";
 
 
 export default class LiveTrackerScreen extends Component {
@@ -23,6 +22,7 @@ export default class LiveTrackerScreen extends Component {
         ...ViewPropTypes,
         liveTracker: PropTypes.any,
         startTracking: PropTypes.func,
+        hotStartGPS: PropTypes.func,
     };
 
     constructor(props) {
@@ -30,12 +30,7 @@ export default class LiveTrackerScreen extends Component {
     }
 
     componentDidMount() {
-        this.props.checkLocationServicesIsEnabled()
-            .then(isEnabled => {
-                if(isEnabled){
-                    geolocService.startGPS(Platform.OS);
-                }
-            });
+        this.props.hotStartGPS();
     }
 
     renderDefaultScreen() {

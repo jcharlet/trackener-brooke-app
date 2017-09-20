@@ -1,18 +1,10 @@
 import React, {Component} from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    TouchableOpacity,
-} from 'react-native';
 import LiveTrackerScreen from "./LiveTrackerScreen";
 import {connect} from "react-redux";
 import {
-    startRide, watchGPS,
-    checkLocationServicesIsEnabled
+    startRide, watchGPS
 } from "./liveTrackerActions";
+import * as geolocService from "../../../modules/geoloc/geolocService";
 import moment from "moment";
 import Logentries from 'react-native-logentries';
 
@@ -24,11 +16,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkLocationServicesIsEnabled: () => {
-            return checkLocationServicesIsEnabled();
+        hotStartGPS: () => {
+            return geolocService.checkLocationServicesIsEnabled()
+                .then(isEnabled => {
+                    if(isEnabled){
+                        geolocService.startGPS();
+                    }
+                });
         },
         startTracking: () => {
-            return checkLocationServicesIsEnabled().then((isAuthorized) => {
+            return geolocService.checkLocationServicesIsEnabled().then((isAuthorized) => {
                 if(isAuthorized){                  
                     let startDate = moment().format();
                     Logentries.log('-----start--------' + startDate + '-----start--------');

@@ -41,8 +41,8 @@ export const _requestPermission = () => {
   return Permissions.requestPermission('location','always')
 }
 
-export const checkLocationServicesIsEnabled = (platform: string) => {
-    if (platform === 'android') {
+export const checkLocationServicesIsEnabled = () => {
+    if (Platform.OS === 'android') {
         return LocationServicesDialogBox.checkLocationServicesIsEnabled({
             message: "<h2>Use Location?</h2> \
                             This app wants to change your device settings:<br/><br/>\
@@ -77,8 +77,8 @@ export const checkLocationServicesIsEnabled = (platform: string) => {
     }
 };
 
-export const startGPS = (platform: string) => {
-    if (platform === 'android') {
+export const startGPS = () => {
+    if (Platform.OS === 'android') {
         //start the GPS into full time watching. Drains battery but brings best accuracy (required for our needs)
         return navigator.geolocation.watchPosition(
             (position) => {},
@@ -105,7 +105,7 @@ export const startGPS = (platform: string) => {
 }
 
 
-export const clearWatchGps = function (platform, geoIds) {
+export const clearWatchGps = function (geoIds) {
     BackgroundTimer.clearInterval(geoIds.intervalId);
 }
 

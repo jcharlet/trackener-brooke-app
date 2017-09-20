@@ -33,7 +33,7 @@ export const clearWatchGps = () => {
     return (dispatch, getState) => {
         if (getState().liveTracker.ride.geoIds) {
             let geoIds = getState().liveTracker.ride.geoIds;
-            geolocService.clearWatchGps(Platform.OS, geoIds);
+            geolocService.clearWatchGps(geoIds);
         }
     }
 };
