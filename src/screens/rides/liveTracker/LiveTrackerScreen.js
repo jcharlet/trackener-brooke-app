@@ -30,8 +30,12 @@ export default class LiveTrackerScreen extends Component {
     }
 
     componentDidMount() {
-        this.props.checkLocationServicesIsEnabled();
-        geolocService.startGPS(Platform.OS);
+        this.props.checkLocationServicesIsEnabled()
+            .then(isEnabled => {
+                if(isEnabled){
+                    geolocService.startGPS(Platform.OS);
+                }
+            });
     }
 
     renderDefaultScreen() {
